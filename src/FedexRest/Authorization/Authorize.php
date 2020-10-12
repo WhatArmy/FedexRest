@@ -38,6 +38,8 @@ class Authorize
 
     /**
      * @return mixed|string
+     * @throws MissingAuthCredentialsException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function authorize()
     {
