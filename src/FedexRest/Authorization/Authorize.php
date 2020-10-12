@@ -4,9 +4,9 @@
 namespace FedexRest\Authorization;
 
 
+use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Traits\switchableEnv;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 
 class Authorize
 {
@@ -16,36 +16,52 @@ class Authorize
     private string $clientSecret;
 
     /**
-     * Authorize constructor.
-     * @param  string  $userId
-     * @param  string  $userSecret
+     * @param  string  $clientId
+     * @return Authorize
      */
-    public function __construct(string $userId, string $userSecret)
+    public function setClientId(string $clientId): Authorize
     {
-        $this->clientId = $userId;
-        $this->clientSecret = $userSecret;
+        $this->clientId = $clientId;
+        return $this;
+    }
+
+    /**
+     * @param  string  $clientSecret
+     * @return Authorize
+     */
+    public function setClientSecret(string $clientSecret): Authorize
+    {
+        $this->clientSecret = $clientSecret;
+        return $this;
     }
 
 
+    /**
+     * @return mixed|string
+     */
     public function authorize()
     {
         $httpClient = new Client();
-        try {
-            $query = $httpClient->request('POST', $this->getUri().'/oauth/token', [
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ],
-                'form_params' => [
-                    'grant_type' => 'client_credentials',
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                ]
-            ]);
-            if ($query->getStatusCode() === 200) {
-                return json_decode($query->getBody()->getContents());
+        if (isset($this->clientId) && isset($this->clientSecret)) {
+            try {
+                $query = $httpClient->request('POST', $this->getUri().'/oauth/token', [
+                    'headers' => [
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                    ],
+                    'form_params' => [
+                        'grant_type' => 'client_credentials',
+                        'client_id' => $this->clientId,
+                        'client_secret' => $this->clientSecret,
+                    ]
+                ]);
+                if ($query->getStatusCode() === 200) {
+                    return json_decode($query->getBody()->getContents());
+                }
+            } catch (\Exception $e) {
+                return $e->getMessage();
             }
-        } catch (GuzzleException $e) {
-            return $e->getMessage();
+        } else {
+            throw new MissingAuthCredentialsException('Please provide auth credentials');
         }
     }
 }

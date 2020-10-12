@@ -11,9 +11,6 @@ abstract class AbstractRequest implements RequestInterface
     use switchableEnv;
 
     public string $apiEndpoint = '';
-    public bool $productionMode = false;
-    private string $clientId = '';
-    private string $clientSecret = '';
 
     /**
      * AbstractRequest constructor.
@@ -40,15 +37,6 @@ abstract class AbstractRequest implements RequestInterface
     public function setClientSecret($clientSecret)
     {
         $this->clientSecret = $clientSecret;
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function useProduction()
-    {
-        $this->productionMode = true;
         return $this;
     }
 }
