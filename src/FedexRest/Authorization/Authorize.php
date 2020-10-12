@@ -7,6 +7,7 @@ namespace FedexRest\Authorization;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Traits\switchableEnv;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Authorize
 {
@@ -39,7 +40,7 @@ class Authorize
     /**
      * @return mixed|string
      * @throws MissingAuthCredentialsException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function authorize()
     {

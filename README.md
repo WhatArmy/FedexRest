@@ -6,7 +6,6 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ## Todo
 ### Services
 - [ ] Ship API
-- [ ] Ship API
 - [ ] Track API
 - [ ] Address Validation API 
 - [ ] FedEx Locations Search API 
