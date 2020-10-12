@@ -1,9 +1,9 @@
-#General Information
+# General Information
 Fedex has offered a new Rest API that will replace the already obsolete WSDL and SOAP-based Web Services in the future. The goal of this library is to offer a convenient and easy to use wrapper to this service.
 
 FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.html
 
-##Todo
+## Todo
 - [ ] Ship API
 - [ ] Track API
 - [ ] Address Validation API 
@@ -14,5 +14,5 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Rate Quotes API
 - [ ] Service Availability API
 
-##Contribution
+## Contribution
 Any help will be useful :) Currently I'm working on Ship,Track and Address Validation API because that's all I need for my own purposes. 
