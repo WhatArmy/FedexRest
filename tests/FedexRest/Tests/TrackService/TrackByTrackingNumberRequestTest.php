@@ -15,7 +15,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
     {
         $request = new TrackByTrackingNumberRequest();
 
-        $this->assertObjectHasAttribute('apiEndpoint', $request);
+        $this->assertObjectHasAttribute('api_endpoint', $request);
         $this->assertEquals('/track/v1/trackingnumbers', $request->api_endpoint);
     }
 

@@ -14,7 +14,7 @@ trait switchableEnv
      * @param $endpoint
      * @return string
      */
-    public function getApiUri($endpoint)
+    public function getApiUri($endpoint = '')
     {
         return (($this->productionMode === false) ? $this->testing_url : $this->production_url).$endpoint;
     }
