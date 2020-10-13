@@ -9,17 +9,7 @@ use FedexRest\Services\AbstractRequest;
 
 class CreateTagRequest extends AbstractRequest
 {
-    protected string $account_number;
-
-    /**
-     * @param  string  $account_number
-     * @return CreateTagRequest
-     */
-    public function setAccountNumber(string $account_number): CreateTagRequest
-    {
-        $this->account_number = $account_number;
-        return $this;
-    }
+    protected int $account_number;
 
     /**
      * @inheritDoc
@@ -29,6 +19,15 @@ class CreateTagRequest extends AbstractRequest
         return '/ship/v1/shipments/tag';
     }
 
+    /**
+     * @param  int  $account_number
+     * @return $this
+     */
+    public function setAccountNumber(int $account_number): CreateTagRequest
+    {
+        $this->account_number = $account_number;
+        return $this;
+    }
 
     public function response()
     {
@@ -36,7 +35,29 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), []);
+        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), [
+            'json' => [
+                'accountNumber' => $this->account_number,
+                'requestedShipment' => [
+                    'shipper' => [],
+                    'recipients' => [],
+                    'pickupType' => '',
+                    'serviceType' => '',
+                    'packagingType' => '',
+                    'shippingChargesPayment' => [
+                        'paymentType' => '',
+                        'payor' => [
+                            'responsibleParty' => [
+                                'accountNumber' => '',
+                            ]
+                        ],
+                    ],
+                    'labelSpecification' => [],
+                    'requestedPackageLineItems' => [],
+                    'pickupDetail' => [],
+                ],
+            ]
+        ]);
     }
 
 }

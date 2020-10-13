@@ -19,7 +19,7 @@ class CreateTagRequestTest extends TestCase
                 ->setClientId('l76ac1844c563048e582a791871f51f1f5')
                 ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
 
-            $request = (new CreateTagRequest())
+            $request = (new CreateTagRequest)
                 ->setAccessToken($auth->authorize()->access_token)
                 ->response();
 
@@ -30,6 +30,13 @@ class CreateTagRequestTest extends TestCase
 
     public function testSome()
     {
+        $auth = (new Authorize)
+            ->setClientId('l76ac1844c563048e582a791871f51f1f5')
+            ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
 
+        $request = (new CreateTagRequest)
+            ->setAccessToken($auth->authorize()->access_token)
+            ->setAccountNumber(740561073)
+            ->response();
     }
 }
