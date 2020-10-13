@@ -6,6 +6,10 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ## Todo
 ### Services
 - [ ] Ship API
+   - [ ] Create Shipment
+   - [ ] Cancel Shipment
+   - [ ] Create Tag
+   - [ ] Cancel Tag
 - [ ] Track API
    - [x] by tracking number
    - [ ] Track Document
