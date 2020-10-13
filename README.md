@@ -38,7 +38,7 @@ object(stdClass)#85 (4) {
 }
 ```
 > **_NOTE:_**  
-> t is good practice to save/cache an access token for future use. A token is valid for one hour. You don't need to generate a new one for every request. The token must be renewed before it expires or after it has expired. Generating a new access token for each request will slow down the library.
+> It is good practice to save/cache an access token for future use. A token is valid for one hour. You don't need to generate a new one for every request. The token must be renewed before it expires or after it has expired. Generating a new access token for each request will slow down the library.
 #### Track API
 ##### Track by Tracking Number
 
