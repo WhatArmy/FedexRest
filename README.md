@@ -7,7 +7,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ### Services
 - [ ] Ship API
    - [ ] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Create%20Shipment))
-   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Cancel%20Shipment)
+   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Cancel%20Shipment))
    - [ ] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Create%20Tag))
    - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/CancelTag))
 - [ ] Track API
