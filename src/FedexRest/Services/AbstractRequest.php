@@ -5,12 +5,13 @@ namespace FedexRest\Services;
 
 
 use FedexRest\Exceptions\MissingAccessTokenException;
+use FedexRest\Traits\rawable;
 use FedexRest\Traits\switchableEnv;
 
 
 abstract class AbstractRequest implements RequestInterface
 {
-    use switchableEnv;
+    use switchableEnv, rawable;
 
     public string $api_endpoint = '';
     protected string $access_token;
@@ -56,7 +57,7 @@ abstract class AbstractRequest implements RequestInterface
 
     public function response()
     {
-        if(empty($this->access_token)){
+        if (empty($this->access_token)) {
             throw new MissingAccessTokenException('Authorization token is missing. Make sure it is included');
         }
     }

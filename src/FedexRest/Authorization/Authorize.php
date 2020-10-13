@@ -5,13 +5,14 @@ namespace FedexRest\Authorization;
 
 
 use FedexRest\Exceptions\MissingAuthCredentialsException;
+use FedexRest\Traits\rawable;
 use FedexRest\Traits\switchableEnv;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Authorize
 {
-    use switchableEnv;
+    use switchableEnv, rawable;
 
     private string $clientId;
     private string $clientSecret;
@@ -58,7 +59,7 @@ class Authorize
                     ]
                 ]);
                 if ($query->getStatusCode() === 200) {
-                    return json_decode($query->getBody()->getContents());
+                    return json_decode(($this->raw === true) ? $query : $query->getBody()->getContents());
                 }
             } catch (\Exception $e) {
                 return $e->getMessage();
