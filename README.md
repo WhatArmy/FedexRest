@@ -4,8 +4,10 @@ Fedex has offered a new Rest API that will replace the already obsolete WSDL and
 FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.html
 
 ## Todo
+### Services
 - [ ] Ship API
 - [ ] Track API
+   - [x] by tracking number
 - [ ] Address Validation API 
 - [ ] FedEx Locations Search API 
 - [ ] Ground End of Day Close API
@@ -13,6 +15,9 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Postal Code Validation API
 - [ ] Rate Quotes API
 - [ ] Service Availability API
+
+### Other
+- [x] oAuth authorization
 
 ## Contribution
 Any help will be useful :) Currently I'm working on Ship,Track and Address Validation API because that's all I need for my own purposes. 
