@@ -8,6 +8,11 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Ship API
 - [ ] Track API
    - [x] by tracking number
+   - [ ] Track Document
+   - [ ] Track Multiple Piece Shipment
+   - [ ] Send Notification
+   - [ ] Track By Tracking Control Number
+   - [ ] Track By References
 - [ ] Address Validation API 
 - [ ] FedEx Locations Search API 
 - [ ] Ground End of Day Close API
