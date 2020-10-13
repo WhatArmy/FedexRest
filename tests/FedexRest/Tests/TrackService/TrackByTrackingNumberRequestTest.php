@@ -23,8 +23,8 @@ class TrackByTrackingNumberRequestTest extends TestCase
     public function testProductionMode()
     {
         $request = (new TrackByTrackingNumberRequest())->useProduction();
-        $this->assertObjectHasAttribute('productionMode', $request);
-        $this->assertEquals(true, $request->productionMode);
+        $this->assertObjectHasAttribute('production_mode', $request);
+        $this->assertEquals(true, $request->production_mode);
         $this->assertEquals('https://apis.fedex.com', $request->getApiUri());
     }
 

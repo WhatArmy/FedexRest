@@ -41,13 +41,7 @@ class TrackByTrackingNumberRequest extends AbstractRequest
         }
 
         try {
-            $httpClient = new Client([
-                'headers' => [
-                    'Authorization' => "Bearer {$this->access_token}",
-                    'Content-Type' => 'application/json'
-                ],
-            ]);
-            $query = $httpClient->post($this->getApiUri($this->api_endpoint), [
+            $query = $this->http_client->post($this->getApiUri($this->api_endpoint), [
                 'json' => [
                     'includeDetailedScans' => $this->include_detailed_scans,
                     'trackingInfo' => $this->preparedData(),

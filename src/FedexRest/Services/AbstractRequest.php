@@ -7,6 +7,7 @@ namespace FedexRest\Services;
 use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Traits\rawable;
 use FedexRest\Traits\switchableEnv;
+use GuzzleHttp\Client;
 
 
 abstract class AbstractRequest implements RequestInterface
@@ -15,6 +16,7 @@ abstract class AbstractRequest implements RequestInterface
 
     public string $api_endpoint = '';
     protected string $access_token;
+    protected Client $http_client;
 
     /**
      * AbstractRequest constructor.
@@ -46,12 +48,12 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param $clientSecret
+     * @param $client_secret
      * @return $this|string
      */
-    public function setClientSecret($clientSecret)
+    public function setClientSecret($client_secret)
     {
-        $this->clientSecret = $clientSecret;
+        $this->clientSecret = $client_secret;
         return $this;
     }
 
@@ -60,5 +62,11 @@ abstract class AbstractRequest implements RequestInterface
         if (empty($this->access_token)) {
             throw new MissingAccessTokenException('Authorization token is missing. Make sure it is included');
         }
+        $this->http_client = new Client([
+            'headers' => [
+                'Authorization' => "Bearer {$this->access_token}",
+                'Content-Type' => 'application/json'
+            ],
+        ]);
     }
 }
