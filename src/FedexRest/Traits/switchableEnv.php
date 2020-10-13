@@ -11,11 +11,12 @@ trait switchableEnv
     protected string $testing_url = 'https://apis-sandbox.fedex.com';
 
     /**
+     * @param $endpoint
      * @return string
      */
-    public function getUri()
+    public function getApiUri($endpoint)
     {
-        return ($this->productionMode === false) ? $this->testing_url : $this->production_url;
+        return (($this->productionMode === false) ? $this->testing_url : $this->production_url).$endpoint;
     }
 
     /**

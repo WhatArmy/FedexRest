@@ -47,7 +47,7 @@ class Authorize
         $httpClient = new Client();
         if (isset($this->clientId) && isset($this->clientSecret)) {
             try {
-                $query = $httpClient->request('POST', $this->getUri().'/oauth/token', [
+                $query = $httpClient->request('POST', $this->getApiUri('/oauth/token'), [
                     'headers' => [
                         'Content-Type' => 'application/x-www-form-urlencoded',
                     ],
