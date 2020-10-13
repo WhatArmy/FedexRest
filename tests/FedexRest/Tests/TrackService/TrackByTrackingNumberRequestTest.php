@@ -70,4 +70,17 @@ class TrackByTrackingNumberRequestTest extends TestCase
         }
 
     }
+
+    public function testResponseSuccess()
+    {
+        $auth = (new Authorize)
+            ->setClientId('l76ac1844c563048e582a791871f51f1f5')
+            ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
+
+        $response = (new TrackByTrackingNumberRequest())
+            ->setTrackingNumber('020207021381215')
+            ->setAccessToken($auth->authorize()->access_token)->response();
+
+        $this->assertObjectHasAttribute('transactionId', $response);
+    }
 }
