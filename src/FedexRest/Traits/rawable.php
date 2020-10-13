@@ -8,8 +8,9 @@ trait rawable
 {
     public $raw = false;
 
-    public function rawResponse()
+    public function asRaw()
     {
         $this->raw = true;
+        return $this;
     }
 }
