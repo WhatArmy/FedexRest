@@ -32,9 +32,9 @@ class TrackByTrackingNumberRequest extends AbstractRequest
         return $this;
     }
 
-    public function response()
+    public function request()
     {
-        parent::response();
+        parent::request();
 
         if (empty($this->tracking_number)) {
             throw new MissingTrackingNumberException('Please enter at least one tracking number');

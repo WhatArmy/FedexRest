@@ -57,7 +57,7 @@ abstract class AbstractRequest implements RequestInterface
         return $this;
     }
 
-    public function response()
+    public function request()
     {
         if (empty($this->access_token)) {
             throw new MissingAccessTokenException('Authorization token is missing. Make sure it is included');

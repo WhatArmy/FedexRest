@@ -34,7 +34,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
         try {
             (new TrackByTrackingNumberRequest())
                 ->setTrackingNumber('020207021381215')
-                ->response();
+                ->request();
         } catch (MissingAccessTokenException $e) {
             $this->assertEquals('Authorization token is missing. Make sure it is included', $e->getMessage());
         }
@@ -50,7 +50,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
         $response = (new TrackByTrackingNumberRequest())
             ->asRaw()
             ->setTrackingNumber('020207021381215')
-            ->setAccessToken($auth->authorize()->access_token)->response();
+            ->setAccessToken($auth->authorize()->access_token)->request();
 
         $this->assertObjectHasAttribute('headers', $response);
     }
@@ -64,7 +64,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
                 ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
 
             (new TrackByTrackingNumberRequest())
-                ->setAccessToken($auth->authorize()->access_token)->response();
+                ->setAccessToken($auth->authorize()->access_token)->request();
         } catch (MissingTrackingNumberException $e) {
             $this->assertEquals('Please enter at least one tracking number', $e->getMessage());
         }
@@ -79,7 +79,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
 
         $response = (new TrackByTrackingNumberRequest())
             ->setTrackingNumber('020207021381215')
-            ->setAccessToken($auth->authorize()->access_token)->response();
+            ->setAccessToken($auth->authorize()->access_token)->request();
 
         $this->assertObjectHasAttribute('transactionId', $response);
     }

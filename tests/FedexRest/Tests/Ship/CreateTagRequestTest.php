@@ -21,7 +21,7 @@ class CreateTagRequestTest extends TestCase
 
             $request = (new CreateTagRequest)
                 ->setAccessToken($auth->authorize()->access_token)
-                ->response();
+                ->request();
 
         } catch (MissingAccountNumberException $e) {
             $this->assertEquals('The account number is required', $e->getMessage());
@@ -36,7 +36,10 @@ class CreateTagRequestTest extends TestCase
 
         $request = (new CreateTagRequest)
             ->setAccessToken($auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
-            ->response();
+            ->setAccountNumber(740561073);
+
+
+        var_dump($request);
+        die();
     }
 }

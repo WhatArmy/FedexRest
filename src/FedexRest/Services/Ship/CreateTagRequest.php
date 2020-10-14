@@ -4,7 +4,9 @@
 namespace FedexRest\Services\Ship;
 
 
+use FedexRest\Address;
 use FedexRest\Exceptions\MissingAccountNumberException;
+use FedexRest\Person;
 use FedexRest\Services\AbstractRequest;
 
 class CreateTagRequest extends AbstractRequest
@@ -29,18 +31,21 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
-    public function response()
+    public function request()
     {
-        parent::response();
+        parent::request();
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
+
         $request = $this->http_client->post($this->getApiUri($this->api_endpoint), [
             'json' => [
                 'accountNumber' => $this->account_number,
                 'requestedShipment' => [
                     'shipper' => [],
-                    'recipients' => [],
+                    'recipients' => [
+
+                    ],
                     'pickupType' => '',
                     'serviceType' => '',
                     'packagingType' => '',

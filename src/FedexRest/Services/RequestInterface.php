@@ -20,5 +20,5 @@ interface RequestInterface
     /**
      * @return mixed
      */
-    public function response();
+    public function request();
 }

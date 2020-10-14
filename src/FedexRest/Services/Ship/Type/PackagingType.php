@@ -11,7 +11,7 @@ class PackagingType
 {
     const _YOUR_PACKAGING = 'YOUR_PACKAGING'; // 150lbs/68KG or 70lbs/32KG
     const _FEDEX_ENVELOPE = 'FEDEX_ENVELOPE'; // 1lbs/0.5KG
-    const _FEDEX_BOX = 'FEDEX_BOX';// 20lbs/9KG
+    const _FEDEX_BOX = 'FEDEX_BOX'; // 20lbs/9KG
     const _FEDEX_SMALL_BOX = 'FEDEX_SMALL_BOX'; // 20lbs/9KG
     const _FEDEX_MEDIUM_BOX = 'FEDEX_MEDIUM_BOX'; // 20lbs/9KG
     const _FEDEX_LARGE_BOX = 'FEDEX_LARGE_BOX'; // 20lbs/9KG
