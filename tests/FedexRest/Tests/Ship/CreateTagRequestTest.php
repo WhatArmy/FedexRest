@@ -47,7 +47,8 @@ class CreateTagRequestTest extends TestCase
                             ->setStreetLines('line 1', 'line 2')
                     ),
                 (new Person)->setPersonName('Ipsum')
-            )->setShipper(
+            )
+            ->setShipper(
                 (new Person)->setPersonName('Ipsum')
             );
 
