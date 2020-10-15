@@ -6,7 +6,7 @@
 >
     <testsuites>
         <testsuite name="FedEx API Wrapper Test Suite">
-            <directory>./tests/FedEx/</directory>
+            <directory>./tests/FedexRest/</directory>
         </testsuite>
     </testsuites>
     <filter>
