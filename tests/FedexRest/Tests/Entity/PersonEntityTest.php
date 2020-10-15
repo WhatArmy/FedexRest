@@ -16,7 +16,9 @@ class PersonEntityTest extends TestCase
             ->setPersonName('Sample Name')
             ->setPhoneNumber(1111111111)
             ->withAddress((new Address)
-                ->setCity('Boston')->setStreetLines(['test 1','test 2']));
+                ->setCity('Boston')->setStreetLines('test 1','test 2')
+            );
+
 
         $this->assertObjectHasAttribute('personName', $person);
         $this->assertObjectHasAttribute('city', $person->address);

@@ -16,9 +16,9 @@ class Address
      * @param $street_lines
      * @return $this
      */
-    public function setStreetLines($street_lines)
+    public function setStreetLines(...$street_lines)
     {
-        $this->street_lines = (array) $street_lines;
+        $this->street_lines = $street_lines;
         return $this;
     }
 

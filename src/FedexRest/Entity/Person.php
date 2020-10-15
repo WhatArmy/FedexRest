@@ -40,4 +40,9 @@ class Person
         $this->phoneNumber = $phoneNumber;
         return $this;
     }
+
+    public function prepare(): array
+    {
+
+    }
 }
