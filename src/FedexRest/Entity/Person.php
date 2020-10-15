@@ -6,9 +6,9 @@ namespace FedexRest\Entity;
 
 class Person
 {
-    protected Address $address;
-    protected string $personName;
-    protected int $phoneNumber;
+    public Address $address;
+    public string $personName;
+    public int $phoneNumber;
 
     /**
      * @param  mixed  $address

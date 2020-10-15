@@ -6,25 +6,25 @@ namespace FedexRest\Entity;
 
 class Address
 {
-    protected array $street_lines;
-    protected string $city;
-    protected string $state_or_province;
-    protected string $postal_code;
-    protected string $country_code;
+    public array $street_lines;
+    public string $city;
+    public string $state_or_province;
+    public string $postal_code;
+    public string $country_code;
 
     /**
      * @param $street_lines
      * @return $this
      */
-    public function setStreetLines(string $street_lines)
+    public function setStreetLines($street_lines)
     {
         $this->street_lines = (array) $street_lines;
         return $this;
     }
 
     /**
-     * @param  mixed  $city
-     * @return Address
+     * @param  string  $city
+     * @return $this
      */
     public function setCity(string $city)
     {
@@ -33,8 +33,8 @@ class Address
     }
 
     /**
-     * @param  mixed  $state_or_province
-     * @return Address
+     * @param  string  $state_or_province
+     * @return $this
      */
     public function setStateOrProvince(string $state_or_province)
     {
@@ -43,20 +43,20 @@ class Address
     }
 
     /**
-     * @param  mixed  $postal_code
-     * @return Address
+     * @param  string  $postal_code
+     * @return $this
      */
-    public function setPostalCode($postal_code)
+    public function setPostalCode(string $postal_code)
     {
         $this->postal_code = $postal_code;
         return $this;
     }
 
     /**
-     * @param  mixed  $country_code
-     * @return Address
+     * @param  string  $country_code
+     * @return $this
      */
-    public function setCountryCode($country_code)
+    public function setCountryCode(string $country_code)
     {
         $this->country_code = $country_code;
         return $this;
