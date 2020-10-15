@@ -20,4 +20,4 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: PHPUnit (php-actions)
-        uses: php-actions/phpunit@v
+        uses: php-actions/phpunit@v9
