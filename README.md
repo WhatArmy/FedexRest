@@ -1,3 +1,5 @@
+![CI](https://github.com/WhatArmy/FedexRest/workflows/CI/badge.svg)
+
 # General Information
 Fedex has offered a new Rest API that will replace the already obsolete WSDL and SOAP-based Web Services in the future. The goal of this library is to offer a convenient and easy to use wrapper to this service.
 
