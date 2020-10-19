@@ -33,17 +33,12 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ### Usage
 #### Authorization
 ###### Example
-<details>
-<summary>Click to expand</summary>
-<p>
 ```php
 $auth = (new \FedexRest\Authorization\Authorize())
             ->setClientId('some Client ID')
             ->setClientSecret('some Client Secret')
             ->authorize();
 ```
-</p>
-</details>
 
 ###### Sample Response
 ```php
