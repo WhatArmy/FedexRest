@@ -32,22 +32,16 @@ class TrackByTrackingNumberRequest extends AbstractRequest
         return $this;
     }
 
-    public function response()
+    public function request()
     {
-        parent::response();
+        parent::request();
 
         if (empty($this->tracking_number)) {
             throw new MissingTrackingNumberException('Please enter at least one tracking number');
         }
 
         try {
-            $httpClient = new Client([
-                'headers' => [
-                    'Authorization' => "Bearer {$this->access_token}",
-                    'Content-Type' => 'application/json'
-                ],
-            ]);
-            $query = $httpClient->post($this->getApiUri($this->api_endpoint), [
+            $query = $this->http_client->post($this->getApiUri($this->api_endpoint), [
                 'json' => [
                     'includeDetailedScans' => $this->include_detailed_scans,
                     'trackingInfo' => $this->preparedData(),

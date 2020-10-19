@@ -14,26 +14,26 @@ class Authorize
 {
     use switchableEnv, rawable;
 
-    private string $clientId;
-    private string $clientSecret;
+    private string $client_id;
+    private string $client_secret;
 
     /**
-     * @param  string  $clientId
+     * @param  string  $client_id
      * @return Authorize
      */
-    public function setClientId(string $clientId): Authorize
+    public function setClientId(string $client_id): Authorize
     {
-        $this->clientId = $clientId;
+        $this->client_id = $client_id;
         return $this;
     }
 
     /**
-     * @param  string  $clientSecret
+     * @param  string  $client_secret
      * @return Authorize
      */
-    public function setClientSecret(string $clientSecret): Authorize
+    public function setClientSecret(string $client_secret): Authorize
     {
-        $this->clientSecret = $clientSecret;
+        $this->client_secret = $client_secret;
         return $this;
     }
 
@@ -46,7 +46,7 @@ class Authorize
     public function authorize()
     {
         $httpClient = new Client();
-        if (isset($this->clientId) && isset($this->clientSecret)) {
+        if (isset($this->client_id) && isset($this->client_secret)) {
             try {
                 $query = $httpClient->request('POST', $this->getApiUri('/oauth/token'), [
                     'headers' => [
@@ -54,8 +54,8 @@ class Authorize
                     ],
                     'form_params' => [
                         'grant_type' => 'client_credentials',
-                        'client_id' => $this->clientId,
-                        'client_secret' => $this->clientSecret,
+                        'client_id' => $this->client_id,
+                        'client_secret' => $this->client_secret,
                     ]
                 ]);
                 if ($query->getStatusCode() === 200) {

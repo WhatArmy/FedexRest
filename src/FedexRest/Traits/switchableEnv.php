@@ -6,7 +6,7 @@ namespace FedexRest\Traits;
 
 trait switchableEnv
 {
-    public bool $productionMode = false;
+    public bool $production_mode = false;
     protected string $production_url = 'https://apis.fedex.com';
     protected string $testing_url = 'https://apis-sandbox.fedex.com';
 
@@ -16,7 +16,7 @@ trait switchableEnv
      */
     public function getApiUri($endpoint = '')
     {
-        return (($this->productionMode === false) ? $this->testing_url : $this->production_url).$endpoint;
+        return (($this->production_mode === false) ? $this->testing_url : $this->production_url).$endpoint;
     }
 
     /**
@@ -24,7 +24,7 @@ trait switchableEnv
      */
     public function useProduction()
     {
-        $this->productionMode = true;
+        $this->production_mode = true;
         return $this;
     }
 }
