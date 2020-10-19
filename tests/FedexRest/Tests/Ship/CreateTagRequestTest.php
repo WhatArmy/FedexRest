@@ -63,7 +63,7 @@ class CreateTagRequestTest extends TestCase
         $this->assertEquals('FEDEX_GROUND', $request->getServiceType());
     }
 
-    public function testRequest()
+    public function testPrepare()
     {
         $request = (new CreateTagRequest)
             ->setAccessToken($this->auth->authorize()->access_token)
@@ -87,7 +87,7 @@ class CreateTagRequestTest extends TestCase
                     ->setPersonName('Ipsum')
                     ->setPhoneNumber(1234567890)
             );
-        var_dump($request->request());
-        die();
+        $prepared = $request->prepare();
+        $this->assertEquals('Boston',$prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
     }
 }

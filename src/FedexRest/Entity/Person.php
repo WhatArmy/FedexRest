@@ -41,6 +41,9 @@ class Person
         return $this;
     }
 
+    /**
+     * @return array[]
+     */
     public function prepare(): array
     {
         $data = [
@@ -52,13 +55,13 @@ class Person
         ];
 
         if ($this->address != null) {
-            array_push($data['address'], [
+            $data['address'] = [
                 'streetLines' => $this->address->street_lines,
                 'city' => $this->address->city,
                 'stateOrProvinceCode' => $this->address->state_or_province,
                 'postalCode' => $this->address->postal_code,
                 'countryCode' => $this->address->country_code,
-            ]);
+            ];
         }
         return $data;
     }

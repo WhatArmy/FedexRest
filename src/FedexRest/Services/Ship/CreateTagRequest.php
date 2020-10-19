@@ -88,22 +88,19 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
-    public function request()
+    /**
+     * @return array[]
+     */
+    public function prepare()
     {
-        parent::request();
-        if (empty($this->account_number)) {
-            throw new MissingAccountNumberException('The account number is required');
-        }
 
-        $persons = [];
-        array_map(fn(Person $person) => $person->prepare(), $persons);
 
-        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), [
+        return [
             'json' => [
                 'accountNumber' => $this->account_number,
                 'requestedShipment' => [
                     'shipper' => $this->shipper->prepare(),
-                    'recipients' => $persons,
+                    'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
                     'pickupType' => '',
                     'serviceType' => $this->getServiceType(),
                     'packagingType' => '',
@@ -120,7 +117,17 @@ class CreateTagRequest extends AbstractRequest
                     'pickupDetail' => [],
                 ],
             ]
-        ]);
+        ];
+    }
+
+    public function request()
+    {
+        parent::request();
+        if (empty($this->account_number)) {
+            throw new MissingAccountNumberException('The account number is required');
+        }
+
+        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
     }
 
 }
