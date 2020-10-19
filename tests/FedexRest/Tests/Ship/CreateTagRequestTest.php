@@ -9,6 +9,7 @@ use FedexRest\Entity\Address;
 use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Services\Ship\CreateTagRequest;
+use FedexRest\Services\Ship\Type\ServiceType;
 use PHPUnit\Framework\TestCase;
 
 class CreateTagRequestTest extends TestCase
@@ -42,6 +43,7 @@ class CreateTagRequestTest extends TestCase
         $request = (new CreateTagRequest)
             ->setAccessToken($this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
+            ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipients(
                 (new Person)->setPersonName('Lorem')
                     ->withAddress(
@@ -58,5 +60,34 @@ class CreateTagRequestTest extends TestCase
 
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasAttribute('personName', $request->getShipper());
+        $this->assertEquals('FEDEX_GROUND', $request->getServiceType());
+    }
+
+    public function testRequest()
+    {
+        $request = (new CreateTagRequest)
+            ->setAccessToken($this->auth->authorize()->access_token)
+            ->setAccountNumber(740561073)
+            ->setServiceType(ServiceType::_FEDEX_GROUND)
+            ->setRecipients(
+                (new Person)
+                    ->setPersonName('Lorem')
+                    ->setPhoneNumber(1234567890)
+                    ->withAddress(
+                        (new Address())
+                            ->setCity('Boston')
+                            ->setStreetLines('line 1', 'line 2')
+                            ->setStateOrProvince('MA')
+                            ->setCountryCode('US')
+                            ->setPostalCode('55555')
+                    )
+            )
+            ->setShipper(
+                (new Person)
+                    ->setPersonName('Ipsum')
+                    ->setPhoneNumber(1234567890)
+            );
+        var_dump($request->request());
+        die();
     }
 }

@@ -7,12 +7,14 @@ namespace FedexRest\Services\Ship;
 use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Services\AbstractRequest;
+use FedexRest\Services\Ship\Type\ServiceType;
 
 class CreateTagRequest extends AbstractRequest
 {
     protected int $account_number;
     protected Person $shipper;
     protected array $recipients;
+    protected string $service_type;
 
     /**
      * @inheritDoc
@@ -20,6 +22,24 @@ class CreateTagRequest extends AbstractRequest
     public function setApiEndpoint()
     {
         return '/ship/v1/shipments/tag';
+    }
+
+    /**
+     * @param  mixed  $service_type
+     * @return CreateTagRequest
+     */
+    public function setServiceType(string $service_type)
+    {
+        $this->service_type = $service_type;
+        return $this;
+    }
+
+    /**
+     * @return ServiceType
+     */
+    public function getServiceType(): string
+    {
+        return $this->service_type;
     }
 
     /**
@@ -75,29 +95,32 @@ class CreateTagRequest extends AbstractRequest
             throw new MissingAccountNumberException('The account number is required');
         }
 
-//        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), [
-//            'json' => [
-//                'accountNumber' => $this->account_number,
-//                'requestedShipment' => [
-//                    'shipper' => $this->shipper->prepare(),
-//                    'recipients' => $this->recipients->prepare(),
-//                    'pickupType' => '',
-//                    'serviceType' => '',
-//                    'packagingType' => '',
-//                    'shippingChargesPayment' => [
-//                        'paymentType' => '',
-//                        'payor' => [
-//                            'responsibleParty' => [
-//                                'accountNumber' => '',
-//                            ]
-//                        ],
-//                    ],
-//                    'labelSpecification' => [],
-//                    'requestedPackageLineItems' => [],
-//                    'pickupDetail' => [],
-//                ],
-//            ]
-//        ]);
+        $persons = [];
+        array_map(fn(Person $person) => $person->prepare(), $persons);
+
+        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), [
+            'json' => [
+                'accountNumber' => $this->account_number,
+                'requestedShipment' => [
+                    'shipper' => $this->shipper->prepare(),
+                    'recipients' => $persons,
+                    'pickupType' => '',
+                    'serviceType' => $this->getServiceType(),
+                    'packagingType' => '',
+                    'shippingChargesPayment' => [
+                        'paymentType' => '',
+                        'payor' => [
+                            'responsibleParty' => [
+                                'accountNumber' => '',
+                            ]
+                        ],
+                    ],
+                    'labelSpecification' => [],
+                    'requestedPackageLineItems' => [],
+                    'pickupDetail' => [],
+                ],
+            ]
+        ]);
     }
 
 }
