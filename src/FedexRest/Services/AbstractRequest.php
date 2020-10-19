@@ -27,10 +27,10 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param $access_token
-     * @return $this
+     * @param  string  $access_token
+     * @return $this|mixed
      */
-    public function setAccessToken($access_token)
+    public function setAccessToken(string $access_token)
     {
         $this->access_token = $access_token;
         return $this;

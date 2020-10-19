@@ -57,7 +57,7 @@ object(stdClass)#85 (4) {
 ```php
 $response = (new \FedexRest\Services\Track\TrackByTrackingNumberRequest())
             ->setTrackingNumber('020207021381215') //set tracking number
-            ->setAccessToken($this->auth->authorize()->access_token)
+            ->setAccessToken('some_access_token') //oAuth access token
 ->request();
 ```
 ###### Sample Response

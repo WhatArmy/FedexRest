@@ -7,10 +7,10 @@ namespace FedexRest\Services;
 interface RequestInterface
 {
     /**
-     * @param $access_token
+     * @param  string  $access_token
      * @return mixed
      */
-    public function setAccessToken($access_token);
+    public function setAccessToken(string $access_token);
 
     /**
      * @return mixed
