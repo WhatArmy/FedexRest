@@ -52,6 +52,339 @@ object(stdClass)#85 (4) {
 > It is good practice to save/cache an access token for future use. A token is valid for one hour. You don't need to generate a new one for every request. The token must be renewed before it expires or after it has expired. Generating a new access token for each request will slow down the library.
 #### Track API
 ##### Track by Tracking Number
-
+###### Example
+```php
+$response = (new \FedexRest\Services\Track\TrackByTrackingNumberRequest())
+            ->setTrackingNumber('020207021381215') //set tracking number
+            ->setAccessToken($this->auth->authorize()->access_token)
+->request();
+```
+###### Sample Response
+```php
+object(stdClass)#64 (2) {
+  ["transactionId"]=>
+  string(36) "6ff3eeba-5e2a-4459-9aeb-2761bb109511"
+  ["output"]=>
+  object(stdClass)#103 (1) {
+    ["completeTrackResults"]=>
+    array(1) {
+      [0]=>
+      object(stdClass)#67 (2) {
+        ["trackingNumber"]=>
+        string(15) "020207021381215"
+        ["trackResults"]=>
+        array(1) {
+          [0]=>
+          object(stdClass)#58 (18) {
+            ["trackingNumberInfo"]=>
+            object(stdClass)#384 (3) {
+              ["trackingNumber"]=>
+              string(15) "020207021381215"
+              ["trackingNumberUniqueId"]=>
+              string(26) "12013~020207021381215~FDEG"
+              ["carrierCode"]=>
+              string(4) "FDXG"
+            }
+            ["additionalTrackingInfo"]=>
+            object(stdClass)#50 (2) {
+              ["packageIdentifiers"]=>
+              array(2) {
+                [0]=>
+                object(stdClass)#54 (2) {
+                  ["type"]=>
+                  string(18) "GROUND_SHIPMENT_ID"
+                  ["values"]=>
+                  array(1) {
+                    [0]=>
+                    string(8) "53089528"
+                  }
+                }
+                [1]=>
+                object(stdClass)#48 (2) {
+                  ["type"]=>
+                  string(26) "TRACKING_NUMBER_OR_DOORTAG"
+                  ["values"]=>
+                  array(1) {
+                    [0]=>
+                    string(14) "DT706344197515"
+                  }
+                }
+              }
+              ["hasAssociatedShipments"]=>
+              bool(false)
+            }
+            ["shipperInformation"]=>
+            object(stdClass)#57 (1) {
+              ["address"]=>
+              object(stdClass)#71 (5) {
+                ["city"]=>
+                string(9) "HEMINGWAY"
+                ["stateOrProvinceCode"]=>
+                string(2) "SC"
+                ["countryCode"]=>
+                string(2) "US"
+                ["residential"]=>
+                bool(false)
+                ["countryName"]=>
+                string(13) "United States"
+              }
+            }
+            ["recipientInformation"]=>
+            object(stdClass)#74 (1) {
+              ["address"]=>
+              object(stdClass)#73 (5) {
+                ["city"]=>
+                string(9) "JEFFERSON"
+                ["stateOrProvinceCode"]=>
+                string(2) "GA"
+                ["countryCode"]=>
+                string(2) "US"
+                ["residential"]=>
+                bool(false)
+                ["countryName"]=>
+                string(13) "United States"
+              }
+            }
+            ["latestStatusDetail"]=>
+            object(stdClass)#75 (5) {
+              ["code"]=>
+              string(2) "PU"
+              ["derivedCode"]=>
+              string(2) "PU"
+              ["statusByLocale"]=>
+              string(9) "Picked up"
+              ["description"]=>
+              string(9) "Picked up"
+              ["scanLocation"]=>
+              object(stdClass)#76 (5) {
+                ["city"]=>
+                string(9) "Jefferson"
+                ["stateOrProvinceCode"]=>
+                string(2) "GA"
+                ["countryCode"]=>
+                string(2) "US"
+                ["residential"]=>
+                bool(false)
+                ["countryName"]=>
+                string(13) "United States"
+              }
+            }
+            ["dateAndTimes"]=>
+            array(2) {
+              [0]=>
+              object(stdClass)#77 (2) {
+                ["type"]=>
+                string(13) "ACTUAL_PICKUP"
+                ["dateTime"]=>
+                string(25) "2016-08-01T00:00:00-06:00"
+              }
+              [1]=>
+              object(stdClass)#78 (2) {
+                ["type"]=>
+                string(4) "SHIP"
+                ["dateTime"]=>
+                string(25) "2020-08-15T00:00:00-06:00"
+              }
+            }
+            ["packageDetails"]=>
+            object(stdClass)#80 (5) {
+              ["packagingDescription"]=>
+              object(stdClass)#79 (2) {
+                ["type"]=>
+                string(14) "YOUR_PACKAGING"
+                ["description"]=>
+                string(7) "Package"
+              }
+              ["physicalPackagingType"]=>
+              string(7) "PACKAGE"
+              ["sequenceNumber"]=>
+              string(1) "1"
+              ["count"]=>
+              string(1) "1"
+              ["weightAndDimensions"]=>
+              object(stdClass)#83 (1) {
+                ["weight"]=>
+                array(2) {
+                  [0]=>
+                  object(stdClass)#81 (2) {
+                    ["value"]=>
+                    string(3) "4.4"
+                    ["unit"]=>
+                    string(2) "LB"
+                  }
+                  [1]=>
+                  object(stdClass)#82 (2) {
+                    ["value"]=>
+                    string(3) "2.0"
+                    ["unit"]=>
+                    string(2) "KG"
+                  }
+                }
+              }
+            }
+            ["shipmentDetails"]=>
+            object(stdClass)#84 (1) {
+              ["possessionStatus"]=>
+              bool(true)
+            }
+            ["scanEvents"]=>
+            array(1) {
+              [0]=>
+              object(stdClass)#85 (8) {
+                ["date"]=>
+                string(25) "2014-01-06T10:18:00-05:00"
+                ["eventType"]=>
+                string(2) "PU"
+                ["eventDescription"]=>
+                string(9) "Picked up"
+                ["scanLocation"]=>
+                object(stdClass)#86 (7) {
+                  ["streetLines"]=>
+                  array(1) {
+                    [0]=>
+                    string(0) ""
+                  }
+                  ["city"]=>
+                  string(8) "FLORENCE"
+                  ["stateOrProvinceCode"]=>
+                  string(2) "SC"
+                  ["postalCode"]=>
+                  string(5) "29506"
+                  ["countryCode"]=>
+                  string(2) "US"
+                  ["residential"]=>
+                  bool(false)
+                  ["countryName"]=>
+                  string(13) "United States"
+                }
+                ["locationId"]=>
+                string(4) "0295"
+                ["locationType"]=>
+                string(15) "PICKUP_LOCATION"
+                ["derivedStatusCode"]=>
+                string(2) "PU"
+                ["derivedStatus"]=>
+                string(9) "Picked up"
+              }
+            }
+            ["availableNotifications"]=>
+            array(3) {
+              [0]=>
+              string(11) "ON_DELIVERY"
+              [1]=>
+              string(12) "ON_EXCEPTION"
+              [2]=>
+              string(21) "ON_ESTIMATED_DELIVERY"
+            }
+            ["deliveryDetails"]=>
+            object(stdClass)#87 (3) {
+              ["deliveryAttempts"]=>
+              string(1) "0"
+              ["deliveryOptionEligibilityDetails"]=>
+              array(4) {
+                [0]=>
+                object(stdClass)#88 (2) {
+                  ["option"]=>
+                  string(26) "INDIRECT_SIGNATURE_RELEASE"
+                  ["eligibility"]=>
+                  string(10) "INELIGIBLE"
+                }
+                [1]=>
+                object(stdClass)#89 (2) {
+                  ["option"]=>
+                  string(28) "REDIRECT_TO_HOLD_AT_LOCATION"
+                  ["eligibility"]=>
+                  string(10) "INELIGIBLE"
+                }
+                [2]=>
+                object(stdClass)#90 (2) {
+                  ["option"]=>
+                  string(7) "REROUTE"
+                  ["eligibility"]=>
+                  string(10) "INELIGIBLE"
+                }
+                [3]=>
+                object(stdClass)#91 (2) {
+                  ["option"]=>
+                  string(10) "RESCHEDULE"
+                  ["eligibility"]=>
+                  string(10) "INELIGIBLE"
+                }
+              }
+              ["destinationServiceArea"]=>
+              string(14) "EDDUNAVAILABLE"
+            }
+            ["originLocation"]=>
+            object(stdClass)#94 (1) {
+              ["locationContactAndAddress"]=>
+              object(stdClass)#93 (1) {
+                ["address"]=>
+                object(stdClass)#92 (5) {
+                  ["city"]=>
+                  string(8) "FLORENCE"
+                  ["stateOrProvinceCode"]=>
+                  string(2) "SC"
+                  ["countryCode"]=>
+                  string(2) "US"
+                  ["residential"]=>
+                  bool(false)
+                  ["countryName"]=>
+                  string(13) "United States"
+                }
+              }
+            }
+            ["lastUpdatedDestinationAddress"]=>
+            object(stdClass)#95 (5) {
+              ["city"]=>
+              string(9) "Jefferson"
+              ["stateOrProvinceCode"]=>
+              string(2) "GA"
+              ["countryCode"]=>
+              string(2) "US"
+              ["residential"]=>
+              bool(false)
+              ["countryName"]=>
+              string(13) "United States"
+            }
+            ["serviceCommitMessage"]=>
+            object(stdClass)#96 (2) {
+              ["message"]=>
+              string(50) "No scheduled delivery date available at this time."
+              ["type"]=>
+              string(35) "ESTIMATED_DELIVERY_DATE_UNAVAILABLE"
+            }
+            ["serviceDetail"]=>
+            object(stdClass)#97 (3) {
+              ["type"]=>
+              string(20) "GROUND_HOME_DELIVERY"
+              ["description"]=>
+              string(19) "FedEx Home Delivery"
+              ["shortDescription"]=>
+              string(2) "HD"
+            }
+            ["standardTransitTimeWindow"]=>
+            object(stdClass)#99 (1) {
+              ["window"]=>
+              object(stdClass)#98 (1) {
+                ["ends"]=>
+                string(25) "2016-08-01T00:00:00-06:00"
+              }
+            }
+            ["estimatedDeliveryTimeWindow"]=>
+            object(stdClass)#101 (1) {
+              ["window"]=>
+              object(stdClass)#100 (0) {
+              }
+            }
+            ["returnDetail"]=>
+            object(stdClass)#102 (0) {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 ## Contribution
 Any help will be useful :) Currently I'm working on Ship,Track and Address Validation API because that's all I need for my own purposes. 
