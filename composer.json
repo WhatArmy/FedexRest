@@ -1,7 +1,7 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "name": "whatarmy/fedex-rest",
-  "description": "",
+  "description": "New FedEx Rest API wrapper",
   "keywords": [
     "shipping",
     "fedex",
@@ -10,6 +10,9 @@
   ],
   "type": "library",
   "license": "MIT",
+  "support": {
+    "issues": "https://github.com/WhatArmy/FedexRest/issues"
+  },
   "authors": [
     {
       "name": "WhatArmy",
@@ -19,10 +22,11 @@
     }
   ],
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "ext-json": "*",
     "guzzlehttp/guzzle": "6.5.5"
   },
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "FedexRest\\": "src/FedexRest/",

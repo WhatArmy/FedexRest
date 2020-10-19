@@ -31,6 +31,8 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [x] [oAuth authorization](#authorization)
 
 ### Usage
+#### Installation
+`composer require whatarmy/fedex-rest`
 #### Authorization
 ###### Example
 ```php
