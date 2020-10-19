@@ -13,7 +13,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
    - [ ] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Create%20Tag))
    - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/CancelTag))
 - [ ] Track API
-   - [x] by tracking number ([docs](https://developer.fedex.com/api/en-us/catalog/track/v1/docs.html#operation/Track%20by%20Tracking%20Number))
+   - [x] [By Tracking Number](#track-by-tracking-number) ([docs](https://developer.fedex.com/api/en-us/catalog/track/v1/docs.html#operation/Track%20by%20Tracking%20Number))
    - [ ] Track Document
    - [ ] Track Multiple Piece Shipment
    - [ ] Send Notification
@@ -28,7 +28,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Service Availability API
 
 ### Other
-- [x] oAuth authorization
+- [x] [oAuth authorization](#authorization)
 
 ### Usage
 #### Authorization
