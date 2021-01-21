@@ -93,28 +93,50 @@ class CreateTagRequest extends AbstractRequest
      */
     public function prepare()
     {
-
-
         return [
             'json' => [
-                'accountNumber' => $this->account_number,
                 'requestedShipment' => [
                     'shipper' => $this->shipper->prepare(),
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
-                    'pickupType' => '',
-                    'serviceType' => $this->getServiceType(),
-                    'packagingType' => '',
+                    'shipDatestamp' => '2021-01-22',
+                    'pickupType' => 'CONTACT_FEDEX_TO_SCHEDULE',
+                    'serviceType' => $this->service_type,
+                    'packagingType' => 'YOUR_PACKAGING',
                     'shippingChargesPayment' => [
-                        'paymentType' => '',
+                        'paymentType' => 'SENDER',
                         'payor' => [
                             'responsibleParty' => [
-                                'accountNumber' => '',
-                            ]
+                                'accountNumber' => [
+                                    'value' => $this->account_number,
+                                ],
+                            ],
                         ],
                     ],
-                    'labelSpecification' => [],
-                    'requestedPackageLineItems' => [],
-                    'pickupDetail' => [],
+                    'shipmentSpecialServices' => [
+                        'specialServiceTypes' => [
+                            'RETURN_SHIPMENT',
+                        ],
+                        'returnShipmentDetail' => [
+                            'returnType' => 'FEDEX_TAG',
+                        ],
+                    ],
+                    'blockInsightVisibility' => false,
+                    'pickupDetail' => [
+                        'readyPickupDateTime' => '2021-01-22T09:00:00Z',
+                        'latestPickupDateTime' => '2021-01-22T14:00:00Z',
+                    ],
+                    'requestedPackageLineItems' => [
+                        [
+                            'itemDescription' => 'Item description',
+                            'weight' => [
+                                'units' => 'LB',
+                                'value' => 5,
+                            ],
+                        ],
+                    ],
+                ],
+                'accountNumber' => [
+                    'value' => $this->account_number,
                 ],
             ]
         ];
@@ -126,8 +148,8 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-
-        $request = $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
+        ray($this->prepare());
+        return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
     }
 
 }
