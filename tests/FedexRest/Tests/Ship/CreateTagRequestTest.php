@@ -4,6 +4,7 @@
 namespace FedexRest\Tests\Ship;
 
 
+use Carbon\Carbon;
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
 use FedexRest\Entity\Person;
@@ -97,6 +98,7 @@ class CreateTagRequestTest extends TestCase
             ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
+            ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
             ->setShipper(
                 (new Person)
                     ->setPersonName('SHIPPER NAME')
@@ -125,7 +127,7 @@ class CreateTagRequestTest extends TestCase
             )
             ->request();
 
-       $this->assertObjectHasAttribute('transactionId',json_decode($request->getBody()->getContents()));
+        $this->assertObjectHasAttribute('transactionId', json_decode($request->getBody()->getContents()));
     }
 
 }

@@ -15,6 +15,7 @@ class CreateTagRequest extends AbstractRequest
     protected Person $shipper;
     protected array $recipients;
     protected string $service_type;
+    protected string $ship_datestamp = '';
 
     /**
      * @inheritDoc
@@ -23,6 +24,17 @@ class CreateTagRequest extends AbstractRequest
     {
         return '/ship/v1/shipments/tag';
     }
+
+    /**
+     * @param  string  $ship_datestamp
+     * @return CreateTagRequest
+     */
+    public function setShipDatestamp(string $ship_datestamp)
+    {
+        $this->ship_datestamp = $ship_datestamp;
+        return $this;
+    }
+
 
     /**
      * @param  mixed  $service_type
@@ -98,7 +110,7 @@ class CreateTagRequest extends AbstractRequest
                 'requestedShipment' => [
                     'shipper' => $this->shipper->prepare(),
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
-                    'shipDatestamp' => '2021-01-22',
+                    'shipDatestamp' => $this->ship_datestamp,
                     'pickupType' => 'CONTACT_FEDEX_TO_SCHEDULE',
                     'serviceType' => $this->service_type,
                     'packagingType' => 'YOUR_PACKAGING',
@@ -122,8 +134,12 @@ class CreateTagRequest extends AbstractRequest
                     ],
                     'blockInsightVisibility' => false,
                     'pickupDetail' => [
-                        'readyPickupDateTime' => '2021-01-22T09:00:00Z',
-                        'latestPickupDateTime' => '2021-01-22T14:00:00Z',
+                        'readyPickupDateTime' => (new \DateTime(date('Y-m-d H:i:s')))
+                                ->modify('+3 day')
+                                ->format('Y-m-d').'T09:00:00Z',
+                        'latestPickupDateTime' => (new \DateTime(date('Y-m-d H:i:s')))
+                                ->modify('+3 day')
+                                ->format('Y-m-d').'T14:00:00Z',
                     ],
                     'requestedPackageLineItems' => [
                         [
@@ -148,7 +164,7 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-        ray($this->prepare());
+
         return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
     }
 
