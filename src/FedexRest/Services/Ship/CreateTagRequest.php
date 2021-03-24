@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FedexRest\Services\Ship;
-
 
 use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
@@ -22,7 +20,7 @@ class CreateTagRequest extends AbstractRequest
      */
     public function setApiEndpoint()
     {
-        return '/ship/v1/shipments/tag';
+        return '/ship/v1/shipments';
     }
 
     /**
@@ -107,46 +105,35 @@ class CreateTagRequest extends AbstractRequest
     {
         return [
             'json' => [
+                'labelResponseOptions' => 'LABEL',
                 'requestedShipment' => [
                     'shipper' => $this->shipper->prepare(),
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
                     'shipDatestamp' => $this->ship_datestamp,
-                    'pickupType' => 'CONTACT_FEDEX_TO_SCHEDULE',
-                    'serviceType' => $this->service_type,
+                    'serviceType' => 'FEDEX_GROUND',
                     'packagingType' => 'YOUR_PACKAGING',
+                    'pickupType' => 'DROPOFF_AT_FEDEX_LOCATION',
+                    'blockInsightVisibility' => false,
                     'shippingChargesPayment' => [
                         'paymentType' => 'SENDER',
-                        'payor' => [
-                            'responsibleParty' => [
-                                'accountNumber' => [
-                                    'value' => $this->account_number,
-                                ],
-                            ],
-                        ],
                     ],
                     'shipmentSpecialServices' => [
                         'specialServiceTypes' => [
                             'RETURN_SHIPMENT',
                         ],
                         'returnShipmentDetail' => [
-                            'returnType' => 'FEDEX_TAG',
+                            'returnType' => 'PRINT_RETURN_LABEL',
                         ],
                     ],
-                    'blockInsightVisibility' => false,
-                    'pickupDetail' => [
-                        'readyPickupDateTime' => (new \DateTime(date('Y-m-d H:i:s')))
-                                ->modify('+3 day')
-                                ->format('Y-m-d').'T09:00:00Z',
-                        'latestPickupDateTime' => (new \DateTime(date('Y-m-d H:i:s')))
-                                ->modify('+3 day')
-                                ->format('Y-m-d').'T14:00:00Z',
+                    'labelSpecification' => [
+                        'imageType' => 'PDF',
+                        'labelStockType' => 'PAPER_85X11_TOP_HALF_LABEL',
                     ],
                     'requestedPackageLineItems' => [
                         [
-                            'itemDescription' => 'Item description',
                             'weight' => [
+                                'value' => 1,
                                 'units' => 'LB',
-                                'value' => 5,
                             ],
                         ],
                     ],
@@ -154,7 +141,7 @@ class CreateTagRequest extends AbstractRequest
                 'accountNumber' => [
                     'value' => $this->account_number,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -164,7 +151,6 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-
         return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
     }
 

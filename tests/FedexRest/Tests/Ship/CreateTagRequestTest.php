@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-
 namespace FedexRest\Tests\Ship;
-
 
 use Carbon\Carbon;
 use FedexRest\Authorization\Authorize;
@@ -57,8 +55,6 @@ class CreateTagRequestTest extends TestCase
             ->setShipper(
                 (new Person)->setPersonName('Ipsum')
             );
-
-
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasAttribute('personName', $request->getShipper());
         $this->assertEquals('FEDEX_GROUND', $request->getServiceType());
@@ -126,8 +122,10 @@ class CreateTagRequestTest extends TestCase
                     )
             )
             ->request();
+        $response = json_decode($request->getBody()->getContents());
 
-        $this->assertObjectHasAttribute('transactionId', json_decode($request->getBody()->getContents()));
+        $this->assertObjectHasAttribute('transactionId', $response);
+        $this->assertObjectHasAttribute('encodedLabel', $response->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
     }
 
 }
