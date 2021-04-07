@@ -64,6 +64,9 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
+    /**
+     * @return Item
+     */
     public function getLineItems(): Item
     {
         return $this->line_items;
@@ -193,6 +196,12 @@ class CreateTagRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return mixed|\Psr\Http\Message\ResponseInterface|void
+     * @throws MissingAccountNumberException
+     * @throws MissingLineItemException
+     * @throws \FedexRest\Exceptions\MissingAccessTokenException
+     */
     public function request()
     {
         parent::request();
