@@ -142,7 +142,7 @@ class CreateTagRequestTest extends TestCase
                     ))
                 ->request();
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
-           // ray($e->getMessage());
+
         }
 
         $response = json_decode($request->getBody()->getContents());
