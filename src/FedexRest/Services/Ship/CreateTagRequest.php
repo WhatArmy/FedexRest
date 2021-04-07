@@ -164,7 +164,7 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-        ray($this->line_items);
+
         if (empty($this->getLineItems())) {
             throw new MissingLineItemException('Line items are required');
         }
