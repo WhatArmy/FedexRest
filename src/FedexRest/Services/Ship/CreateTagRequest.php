@@ -64,7 +64,6 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
-
     public function getLineItems(): Item
     {
         return $this->line_items;
@@ -80,7 +79,6 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
-
     /**
      * @param  string  $ship_datestamp
      * @return CreateTagRequest
@@ -90,7 +88,6 @@ class CreateTagRequest extends AbstractRequest
         $this->ship_datestamp = $ship_datestamp;
         return $this;
     }
-
 
     /**
      * @param  mixed  $service_type
