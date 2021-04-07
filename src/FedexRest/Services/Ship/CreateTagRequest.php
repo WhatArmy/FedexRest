@@ -16,6 +16,8 @@ class CreateTagRequest extends AbstractRequest
     protected array $recipients;
     protected ?Item $line_items;
     protected string $service_type;
+    protected string $packaging_type;
+    protected string $pickup_type;
     protected string $ship_datestamp = '';
 
     /**
@@ -24,6 +26,42 @@ class CreateTagRequest extends AbstractRequest
     public function setApiEndpoint(): string
     {
         return '/ship/v1/shipments';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPickupType(): string
+    {
+        return $this->pickup_type;
+    }
+
+    /**
+     * @param  string  $pickup_type
+     * @return CreateTagRequest
+     */
+    public function setPickupType(string $pickup_type): CreateTagRequest
+    {
+        $this->pickup_type = $pickup_type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackagingType(): string
+    {
+        return $this->packaging_type;
+    }
+
+    /**
+     * @param  string  $packaging_type
+     * @return CreateTagRequest
+     */
+    public function setPackagingType(string $packaging_type): CreateTagRequest
+    {
+        $this->packaging_type = $packaging_type;
+        return $this;
     }
 
 
@@ -131,8 +169,8 @@ class CreateTagRequest extends AbstractRequest
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
                     'shipDatestamp' => $this->ship_datestamp,
                     'serviceType' => $this->getServiceType(),
-                    'packagingType' => 'YOUR_PACKAGING',
-                    'pickupType' => 'DROPOFF_AT_FEDEX_LOCATION',
+                    'packagingType' => $this->getPackagingType(),
+                    'pickupType' => $this->getPickupType(),
                     'blockInsightVisibility' => false,
                     'shippingChargesPayment' => [
                         'paymentType' => 'SENDER',
@@ -164,7 +202,6 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-
         if (empty($this->getLineItems())) {
             throw new MissingLineItemException('Line items are required');
         }
