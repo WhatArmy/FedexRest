@@ -1,32 +1,43 @@
 <?php
 
-
 namespace FedexRest\Entity;
-
 
 class Item
 {
-    public string $item_description = '';
+    public string $itemDescription = '';
     public ?Weight $weight;
 
     /**
-     * @param  string  $item_description
+     * @param  string  $itemDescription
      * @return Item
      */
-    public function setItemDescription(string $item_description): Item
+    public function setItemDescription(string $itemDescription): Item
     {
-        $this->item_description = $item_description;
+        $this->itemDescription = $itemDescription;
         return $this;
     }
 
     /**
      * @param  Weight|null  $weight
-     * @return Item
+     * @return $this
      */
     public function setWeight(?Weight $weight): Item
     {
         $this->weight = $weight;
         return $this;
+    }
+
+    public function prepare(): array
+    {
+        return [
+            [
+                'itemDescription' => $this->itemDescription,
+                'weight' => [
+                    'units' => $this->weight->unit,
+                    'value' => $this->weight->value,
+                ],
+            ]
+        ];
     }
 
 

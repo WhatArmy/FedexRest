@@ -2,8 +2,10 @@
 
 namespace FedexRest\Services\Ship;
 
+use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
+use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\AbstractRequest;
 use FedexRest\Services\Ship\Type\ServiceType;
 
@@ -12,22 +14,40 @@ class CreateTagRequest extends AbstractRequest
     protected int $account_number;
     protected Person $shipper;
     protected array $recipients;
+    protected ?Item $line_items;
     protected string $service_type;
     protected string $ship_datestamp = '';
 
     /**
      * @inheritDoc
      */
-    public function setApiEndpoint()
+    public function setApiEndpoint(): string
     {
         return '/ship/v1/shipments';
     }
+
+
+    public function getLineItems(): Item
+    {
+        return $this->line_items;
+    }
+
+    /**
+     * @param  Item  $line_items
+     * @return $this
+     */
+    public function setLineItems(Item $line_items): CreateTagRequest
+    {
+        $this->line_items = $line_items;
+        return $this;
+    }
+
 
     /**
      * @param  string  $ship_datestamp
      * @return CreateTagRequest
      */
-    public function setShipDatestamp(string $ship_datestamp)
+    public function setShipDatestamp(string $ship_datestamp): CreateTagRequest
     {
         $this->ship_datestamp = $ship_datestamp;
         return $this;
@@ -38,7 +58,7 @@ class CreateTagRequest extends AbstractRequest
      * @param  mixed  $service_type
      * @return CreateTagRequest
      */
-    public function setServiceType(string $service_type)
+    public function setServiceType(string $service_type): CreateTagRequest
     {
         $this->service_type = $service_type;
         return $this;
@@ -101,7 +121,7 @@ class CreateTagRequest extends AbstractRequest
     /**
      * @return array[]
      */
-    public function prepare()
+    public function prepare(): array
     {
         return [
             'json' => [
@@ -110,7 +130,7 @@ class CreateTagRequest extends AbstractRequest
                     'shipper' => $this->shipper->prepare(),
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
                     'shipDatestamp' => $this->ship_datestamp,
-                    'serviceType' => 'FEDEX_GROUND',
+                    'serviceType' => $this->getServiceType(),
                     'packagingType' => 'YOUR_PACKAGING',
                     'pickupType' => 'DROPOFF_AT_FEDEX_LOCATION',
                     'blockInsightVisibility' => false,
@@ -129,14 +149,7 @@ class CreateTagRequest extends AbstractRequest
                         'imageType' => 'PDF',
                         'labelStockType' => 'PAPER_85X11_TOP_HALF_LABEL',
                     ],
-                    'requestedPackageLineItems' => [
-                        [
-                            'weight' => [
-                                'value' => 1,
-                                'units' => 'LB',
-                            ],
-                        ],
-                    ],
+                    'requestedPackageLineItems' => $this->getLineItems()->prepare(),
                 ],
                 'accountNumber' => [
                     'value' => $this->account_number,
@@ -150,6 +163,10 @@ class CreateTagRequest extends AbstractRequest
         parent::request();
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
+        }
+        ray($this->line_items);
+        if (empty($this->getLineItems())) {
+            throw new MissingLineItemException('Line items are required');
         }
         return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
     }

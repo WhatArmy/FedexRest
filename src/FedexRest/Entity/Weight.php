@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FedexRest\Entity;
-
 
 class Weight
 {
@@ -20,10 +18,10 @@ class Weight
     }
 
     /**
-     * @param  string  $value
+     * @param  int  $value
      * @return Weight
      */
-    public function setValue(string $value): Weight
+    public function setValue(int $value): Weight
     {
         $this->value = $value;
         return $this;
