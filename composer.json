@@ -31,7 +31,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "FedexRest\\": "src/FedexRest/",
+      "FedexRest\\": "src/FedexRest",
       "FedexRest\\Tests\\": "tests/FedexRest/Tests"
     },
     "classmap": [
