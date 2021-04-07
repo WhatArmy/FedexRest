@@ -1,15 +1,18 @@
 <?php declare(strict_types=1);
 
-
 namespace FedexRest\Tests\Ship;
 
-
+use Carbon\Carbon;
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
+use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
+use FedexRest\Entity\Weight;
 use FedexRest\Exceptions\MissingAccountNumberException;
+use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Services\Ship\CreateTagRequest;
 use FedexRest\Services\Ship\Type\ServiceType;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class CreateTagRequestTest extends TestCase
@@ -29,7 +32,7 @@ class CreateTagRequestTest extends TestCase
         try {
 
             $request = (new CreateTagRequest)
-                ->setAccessToken($this->auth->authorize()->access_token)
+                ->setAccessToken((string) $this->auth->authorize()->access_token)
                 ->request();
 
         } catch (MissingAccountNumberException $e) {
@@ -41,7 +44,7 @@ class CreateTagRequestTest extends TestCase
     {
 
         $request = (new CreateTagRequest)
-            ->setAccessToken($this->auth->authorize()->access_token)
+            ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipients(
@@ -56,8 +59,6 @@ class CreateTagRequestTest extends TestCase
             ->setShipper(
                 (new Person)->setPersonName('Ipsum')
             );
-
-
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasAttribute('personName', $request->getShipper());
         $this->assertEquals('FEDEX_GROUND', $request->getServiceType());
@@ -66,7 +67,7 @@ class CreateTagRequestTest extends TestCase
     public function testPrepare()
     {
         $request = (new CreateTagRequest)
-            ->setAccessToken($this->auth->authorize()->access_token)
+            ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipients(
@@ -79,15 +80,75 @@ class CreateTagRequestTest extends TestCase
                             ->setStreetLines('line 1', 'line 2')
                             ->setStateOrProvince('MA')
                             ->setCountryCode('US')
-                            ->setPostalCode('55555')
+                            ->setPostalCode(55555)
                     )
             )
             ->setShipper(
                 (new Person)
                     ->setPersonName('Ipsum')
                     ->setPhoneNumber(1234567890)
-            );
+            )
+            ->setLineItems((new Item())
+                ->setItemDescription('lorem Ipsum')
+                ->setWeight(
+                    (new Weight())
+                        ->setValue(1)
+                        ->setUnit('LB')
+                ));
         $prepared = $request->prepare();
-        $this->assertEquals('Boston',$prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
+        $this->assertEquals('Boston', $prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
     }
+
+    public function testRequest()
+    {
+        try {
+            $request = (new CreateTagRequest())
+                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccountNumber(740561073)
+                ->setServiceType(ServiceType::_FEDEX_GROUND)
+                ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+                ->setShipper(
+                    (new Person)
+                        ->setPersonName('SHIPPER NAME')
+                        ->setPhoneNumber(1234567890)
+                        ->withAddress(
+                            (new Address())
+                                ->setCity('Collierville')
+                                ->setStreetLines('RECIPIENT STREET LINE 1')
+                                ->setStateOrProvince('TN')
+                                ->setCountryCode('US')
+                                ->setPostalCode(38017)
+                        )
+                )
+                ->setRecipients(
+                    (new Person)
+                        ->setPersonName('RECEIPIENT NAME')
+                        ->setPhoneNumber(1234567890)
+                        ->withAddress(
+                            (new Address())
+                                ->setCity('Irving')
+                                ->setStreetLines('RECIPIENT STREET LINE 1')
+                                ->setStateOrProvince('TX')
+                                ->setCountryCode('US')
+                                ->setPostalCode(75063)
+                        )
+                )
+                ->setLineItems((new Item())
+                    ->setItemDescription('lorem Ipsum')
+                    ->setWeight(
+                        (new Weight())
+                            ->setValue(1)
+                            ->setUnit('LB')
+                    ))
+                ->request();
+        } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
+           // ray($e->getMessage());
+        }
+
+        $response = json_decode($request->getBody()->getContents());
+        $this->assertObjectHasAttribute('transactionId', $response);
+        $this->assertObjectHasAttribute('encodedLabel',
+            $response->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
+    }
+
 }
