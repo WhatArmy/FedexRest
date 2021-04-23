@@ -19,7 +19,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
    - [ ] Send Notification
    - [ ] Track By Tracking Control Number
    - [ ] Track By References
-- [ ] Address Validation API 
+- [x] [Address Validation API](#address-validation) ([docs](https://developer.fedex.com/api/en-us/catalog/address-validation/v1/docs.html#operation/Validate%20Address))
 - [ ] FedEx Locations Search API 
 - [ ] Ground End of Day Close API
 - [ ] Pickup Request API
@@ -389,5 +389,22 @@ object(stdClass)#64 (2) {
   }
 }
 ```
+
+#### Address Validation
+###### Example
+```php
+$response = (new \FedexRest\Services\AddressValidation\AddressValidation())
+            ->setAddress(
+                (new \FedexRest\Entity\Address())
+                    ->setCity('Irving')
+                    ->setCountryCode('US')
+                    ->setStateOrProvince('TX')
+                    ->setPostalCode('75063-8659')
+                    ->setStreetLines('7372 PARKRIDGE BLVD', 'APT 286')
+            )
+            ->setAccessToken('some access_token')
+            ->request();
+```
+
 ## Contribution
 Any help will be useful :) Currently I'm working on Ship,Track and Address Validation API because that's all I need for my own purposes. 
