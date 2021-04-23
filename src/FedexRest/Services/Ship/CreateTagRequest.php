@@ -8,6 +8,7 @@ use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\AbstractRequest;
 use FedexRest\Services\Ship\Type\ServiceType;
+use JetBrains\PhpStorm\ArrayShape;
 
 class CreateTagRequest extends AbstractRequest
 {
@@ -16,6 +17,8 @@ class CreateTagRequest extends AbstractRequest
     protected array $recipients;
     protected ?Item $line_items;
     protected string $service_type;
+    protected string $packaging_type;
+    protected string $pickup_type;
     protected string $ship_datestamp = '';
 
     /**
@@ -26,7 +29,45 @@ class CreateTagRequest extends AbstractRequest
         return '/ship/v1/shipments';
     }
 
+    /**
+     * @return string
+     */
+    public function getPickupType(): string
+    {
+        return $this->pickup_type;
+    }
 
+    /**
+     * @param  string  $pickup_type
+     * @return CreateTagRequest
+     */
+    public function setPickupType(string $pickup_type): CreateTagRequest
+    {
+        $this->pickup_type = $pickup_type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackagingType(): string
+    {
+        return $this->packaging_type;
+    }
+
+    /**
+     * @param  string  $packaging_type
+     * @return CreateTagRequest
+     */
+    public function setPackagingType(string $packaging_type): CreateTagRequest
+    {
+        $this->packaging_type = $packaging_type;
+        return $this;
+    }
+
+    /**
+     * @return Item
+     */
     public function getLineItems(): Item
     {
         return $this->line_items;
@@ -42,7 +83,6 @@ class CreateTagRequest extends AbstractRequest
         return $this;
     }
 
-
     /**
      * @param  string  $ship_datestamp
      * @return CreateTagRequest
@@ -52,7 +92,6 @@ class CreateTagRequest extends AbstractRequest
         $this->ship_datestamp = $ship_datestamp;
         return $this;
     }
-
 
     /**
      * @param  mixed  $service_type
@@ -65,7 +104,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @return ServiceType
+     * @return string
      */
     public function getServiceType(): string
     {
@@ -121,6 +160,7 @@ class CreateTagRequest extends AbstractRequest
     /**
      * @return array[]
      */
+    #[ArrayShape(['json' => "array"])]
     public function prepare(): array
     {
         return [
@@ -131,8 +171,8 @@ class CreateTagRequest extends AbstractRequest
                     'recipients' => array_map(fn(Person $person) => $person->prepare(), $this->recipients),
                     'shipDatestamp' => $this->ship_datestamp,
                     'serviceType' => $this->getServiceType(),
-                    'packagingType' => 'YOUR_PACKAGING',
-                    'pickupType' => 'DROPOFF_AT_FEDEX_LOCATION',
+                    'packagingType' => $this->getPackagingType(),
+                    'pickupType' => $this->getPickupType(),
                     'blockInsightVisibility' => false,
                     'shippingChargesPayment' => [
                         'paymentType' => 'SENDER',
@@ -158,13 +198,18 @@ class CreateTagRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return mixed|\Psr\Http\Message\ResponseInterface|void
+     * @throws MissingAccountNumberException
+     * @throws MissingLineItemException
+     * @throws \FedexRest\Exceptions\MissingAccessTokenException
+     */
     public function request()
     {
         parent::request();
         if (empty($this->account_number)) {
             throw new MissingAccountNumberException('The account number is required');
         }
-        ray($this->line_items);
         if (empty($this->getLineItems())) {
             throw new MissingLineItemException('Line items are required');
         }

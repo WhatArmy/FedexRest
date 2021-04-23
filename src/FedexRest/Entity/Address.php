@@ -1,15 +1,13 @@
 <?php
 
-
 namespace FedexRest\Entity;
-
 
 class Address
 {
     public array $street_lines;
     public string $city;
     public string $state_or_province;
-    public int $postal_code;
+    public int|string $postal_code;
     public string $country_code;
 
     /**
@@ -43,10 +41,10 @@ class Address
     }
 
     /**
-     * @param  int  $postal_code
+     * @param  int|string  $postal_code
      * @return $this
      */
-    public function setPostalCode(int $postal_code)
+    public function setPostalCode(int|string $postal_code)
     {
         $this->postal_code = $postal_code;
         return $this;
@@ -60,5 +58,16 @@ class Address
     {
         $this->country_code = $country_code;
         return $this;
+    }
+
+    public function prepare()
+    {
+        return [
+            'streetLines' => $this->street_lines,
+            'city' => $this->city,
+            'stateOrProvinceCode' => $this->state_or_province,
+            'postalCode' => $this->postal_code,
+            'countryCode' => $this->country_code,
+        ];
     }
 }

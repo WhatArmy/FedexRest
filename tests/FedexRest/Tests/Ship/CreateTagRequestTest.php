@@ -11,6 +11,8 @@ use FedexRest\Entity\Weight;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Services\Ship\CreateTagRequest;
+use FedexRest\Services\Ship\Type\PackagingType;
+use FedexRest\Services\Ship\Type\PickupType;
 use FedexRest\Services\Ship\Type\ServiceType;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
@@ -70,6 +72,8 @@ class CreateTagRequestTest extends TestCase
             ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
+            ->setPackagingType(PackagingType::_YOUR_PACKAGING)
+            ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
             ->setRecipients(
                 (new Person)
                     ->setPersonName('Lorem')
@@ -106,6 +110,8 @@ class CreateTagRequestTest extends TestCase
                 ->setAccessToken((string) $this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
+                ->setPackagingType(PackagingType::_YOUR_PACKAGING)
+                ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
                 ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
                 ->setShipper(
                     (new Person)
@@ -142,7 +148,7 @@ class CreateTagRequestTest extends TestCase
                     ))
                 ->request();
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
-           // ray($e->getMessage());
+
         }
 
         $response = json_decode($request->getBody()->getContents());
