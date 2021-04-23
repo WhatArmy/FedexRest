@@ -24,7 +24,7 @@
   "require": {
     "php": ">=8.0",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^5|^6",
+    "guzzlehttp/guzzle": "^5|^6|^7",
     "nesbot/carbon": "^2.43",
     "spatie/ray": "^1.14"
   },
