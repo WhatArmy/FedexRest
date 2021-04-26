@@ -173,6 +173,13 @@ class CreateTagRequest extends AbstractRequest
                     'blockInsightVisibility' => false,
                     'shippingChargesPayment' => [
                         'paymentType' => 'SENDER',
+                        'payor' => [
+                            'responsibleParty' => [
+                                'accountNumber' => [
+                                    'value' => $this->account_number
+                                ]
+                            ]
+                        ]
                     ],
                     'shipmentSpecialServices' => [
                         'specialServiceTypes' => [
