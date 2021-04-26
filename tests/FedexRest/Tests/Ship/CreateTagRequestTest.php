@@ -84,7 +84,7 @@ class CreateTagRequestTest extends TestCase
                             ->setStreetLines('line 1', 'line 2')
                             ->setStateOrProvince('MA')
                             ->setCountryCode('US')
-                            ->setPostalCode(55555)
+                            ->setPostalCode('55555')
                     )
             )
             ->setShipper(
@@ -123,7 +123,7 @@ class CreateTagRequestTest extends TestCase
                                 ->setStreetLines('RECIPIENT STREET LINE 1')
                                 ->setStateOrProvince('TN')
                                 ->setCountryCode('US')
-                                ->setPostalCode(38017)
+                                ->setPostalCode('38017')
                         )
                 )
                 ->setRecipients(
@@ -136,7 +136,7 @@ class CreateTagRequestTest extends TestCase
                                 ->setStreetLines('RECIPIENT STREET LINE 1')
                                 ->setStateOrProvince('TX')
                                 ->setCountryCode('US')
-                                ->setPostalCode(75063)
+                                ->setPostalCode('75063')
                         )
                 )
                 ->setLineItems((new Item())

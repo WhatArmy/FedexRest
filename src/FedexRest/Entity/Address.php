@@ -7,7 +7,7 @@ class Address
     public array $street_lines;
     public string $city;
     public string $state_or_province;
-    public int|string $postal_code;
+    public string $postal_code;
     public string $country_code;
 
     /**
@@ -41,10 +41,10 @@ class Address
     }
 
     /**
-     * @param  int|string  $postal_code
+     * @param  string  $postal_code
      * @return $this
      */
-    public function setPostalCode(int|string $postal_code)
+    public function setPostalCode(string $postal_code)
     {
         $this->postal_code = $postal_code;
         return $this;
