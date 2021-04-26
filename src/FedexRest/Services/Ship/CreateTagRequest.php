@@ -213,7 +213,9 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->getLineItems())) {
             throw new MissingLineItemException('Line items are required');
         }
-        return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
+
+        $query = $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
+        return ($this->raw === true) ? $query : json_decode($query->getBody()->getContents());
     }
 
 }

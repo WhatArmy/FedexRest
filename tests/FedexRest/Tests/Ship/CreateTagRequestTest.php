@@ -150,11 +150,9 @@ class CreateTagRequestTest extends TestCase
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
 
         }
-
-        $response = json_decode($request->getBody()->getContents());
-        $this->assertObjectHasAttribute('transactionId', $response);
+        $this->assertObjectHasAttribute('transactionId', $request);
         $this->assertObjectHasAttribute('encodedLabel',
-            $response->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
+            $request->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
     }
 
 }
