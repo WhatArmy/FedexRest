@@ -186,8 +186,9 @@ class CreateTagRequest extends AbstractRequest
                         ],
                     ],
                     'labelSpecification' => [
+                        'labelFormatType' => 'COMMON2D',
                         'imageType' => 'PNG',
-                        'labelStockType' => 'PAPER_85X11_TOP_HALF_LABEL',
+                        'labelStockType' => 'PAPER_7X475',
                     ],
                     'requestedPackageLineItems' => $this->getLineItems()->prepare(),
                 ],
