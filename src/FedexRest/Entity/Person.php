@@ -32,10 +32,10 @@ class Person
     }
 
     /**
-     * @param  mixed  $phoneNumber
-     * @return Person
+     * @param  string  $phoneNumber
+     * @return $this
      */
-    public function setPhoneNumber(int $phoneNumber)
+    public function setPhoneNumber(string $phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
         return $this;

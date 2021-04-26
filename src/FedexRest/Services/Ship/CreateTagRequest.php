@@ -7,8 +7,6 @@ use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\AbstractRequest;
-use FedexRest\Services\Ship\Type\ServiceType;
-use JetBrains\PhpStorm\ArrayShape;
 
 class CreateTagRequest extends AbstractRequest
 {
@@ -160,7 +158,6 @@ class CreateTagRequest extends AbstractRequest
     /**
      * @return array[]
      */
-    #[ArrayShape(['json' => "array"])]
     public function prepare(): array
     {
         return [

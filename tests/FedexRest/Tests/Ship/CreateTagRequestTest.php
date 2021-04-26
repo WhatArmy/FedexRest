@@ -77,7 +77,7 @@ class CreateTagRequestTest extends TestCase
             ->setRecipients(
                 (new Person)
                     ->setPersonName('Lorem')
-                    ->setPhoneNumber(1234567890)
+                    ->setPhoneNumber('1234567890')
                     ->withAddress(
                         (new Address())
                             ->setCity('Boston')
@@ -90,7 +90,7 @@ class CreateTagRequestTest extends TestCase
             ->setShipper(
                 (new Person)
                     ->setPersonName('Ipsum')
-                    ->setPhoneNumber(1234567890)
+                    ->setPhoneNumber('1234567890')
             )
             ->setLineItems((new Item())
                 ->setItemDescription('lorem Ipsum')
@@ -116,7 +116,7 @@ class CreateTagRequestTest extends TestCase
                 ->setShipper(
                     (new Person)
                         ->setPersonName('SHIPPER NAME')
-                        ->setPhoneNumber(1234567890)
+                        ->setPhoneNumber('1234567890')
                         ->withAddress(
                             (new Address())
                                 ->setCity('Collierville')
@@ -129,7 +129,7 @@ class CreateTagRequestTest extends TestCase
                 ->setRecipients(
                     (new Person)
                         ->setPersonName('RECEIPIENT NAME')
-                        ->setPhoneNumber(1234567890)
+                        ->setPhoneNumber('1234567890')
                         ->withAddress(
                             (new Address())
                                 ->setCity('Irving')
