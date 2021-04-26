@@ -186,7 +186,7 @@ class CreateTagRequest extends AbstractRequest
                         ],
                     ],
                     'labelSpecification' => [
-                        'imageType' => 'PDF',
+                        'imageType' => 'PNG',
                         'labelStockType' => 'PAPER_85X11_TOP_HALF_LABEL',
                     ],
                     'requestedPackageLineItems' => $this->getLineItems()->prepare(),
