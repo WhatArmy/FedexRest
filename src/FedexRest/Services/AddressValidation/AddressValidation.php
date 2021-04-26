@@ -4,7 +4,6 @@ namespace FedexRest\Services\AddressValidation;
 
 use FedexRest\Entity\Address;
 use FedexRest\Services\AbstractRequest;
-use JetBrains\PhpStorm\ArrayShape;
 
 class AddressValidation extends AbstractRequest
 {
@@ -28,7 +27,6 @@ class AddressValidation extends AbstractRequest
         return $this;
     }
 
-    #[ArrayShape(['json' => "array"])]
     public function prepare(): array
     {
         return [
