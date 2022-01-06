@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.4.0",
   "name": "whatarmy/fedex-rest",
   "description": "New FedEx Rest API wrapper",
   "keywords": [

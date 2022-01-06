@@ -40,6 +40,10 @@ class AddressValidation extends AbstractRequest
         ];
     }
 
+    /**
+     * @throws \FedexRest\Exceptions\MissingAccessTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function request()
     {
         parent::request();
