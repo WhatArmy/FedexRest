@@ -15,6 +15,18 @@ class FindLocations extends AbstractRequest
     protected bool $sameCountry = false;
     protected ?float $long = null;
     protected ?float $lat = null;
+    protected ?int $resultLimit = 20;
+
+    /**
+     * @param int|null $resultLimit
+     * @return FindLocations
+     */
+    public function setResultLimit(?int $resultLimit): FindLocations
+    {
+        $this->resultLimit = $resultLimit;
+        return $this;
+    }
+
 
     public function setApiEndpoint(): string
     {
@@ -78,6 +90,9 @@ class FindLocations extends AbstractRequest
         return [
             'json' => [
                 'locationSearchCriterion' => $this->searchCriterion,
+                'locationsSummaryRequestControlParameters' => [
+                    'maxResults' => $this->resultLimit
+                ],
                 'location' => [
                     'address' => $this->address->prepare(),
                     "longLat" => [

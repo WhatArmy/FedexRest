@@ -25,7 +25,7 @@ class FindLocationsTest extends TestCase
      * @throws \FedexRest\Exceptions\MissingAccessTokenException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function testValidateAddress()
+    public function testSearch()
     {
         $locate = (new FindLocations)
             ->setSearchCriterion(SearchCriterionType::_ADDRESS)
@@ -40,5 +40,28 @@ class FindLocationsTest extends TestCase
             ->request();
 
         $this->assertObjectHasAttribute('transactionId', $locate);
+    }
+
+    /**
+     * @throws \FedexRest\Exceptions\MissingAuthCredentialsException
+     * @throws \FedexRest\Exceptions\MissingAccessTokenException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testSearchWithResultLimit()
+    {
+        $locate = (new FindLocations)
+            ->setSearchCriterion(SearchCriterionType::_ADDRESS)
+            ->setAddress(
+                (new Address)
+                    ->setCountryCode('US')
+                    ->setPostalCode('90210')
+                    ->setStateOrProvince('CA')
+                    ->setCity('Beverly Hills')
+            )
+            ->setAccessToken($this->auth->authorize()->access_token)
+            ->setResultLimit(3)
+            ->request();
+
+        $this->assertCount(3, $locate->output->locationDetailList);
     }
 }
