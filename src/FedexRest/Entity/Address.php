@@ -7,7 +7,7 @@ class Address
     public array $street_lines;
     public string $city;
     public string $state_or_province;
-    public int|string $postal_code;
+    public string $postal_code;
     public string $country_code;
 
     /**
@@ -21,7 +21,7 @@ class Address
     }
 
     /**
-     * @param  string  $city
+     * @param string $city
      * @return $this
      */
     public function setCity(string $city)
@@ -31,7 +31,7 @@ class Address
     }
 
     /**
-     * @param  string  $state_or_province
+     * @param string $state_or_province
      * @return $this
      */
     public function setStateOrProvince(string $state_or_province)
@@ -41,17 +41,17 @@ class Address
     }
 
     /**
-     * @param  int|string  $postal_code
+     * @param string $postal_code
      * @return $this
      */
-    public function setPostalCode(int|string $postal_code)
+    public function setPostalCode(string $postal_code)
     {
         $this->postal_code = $postal_code;
         return $this;
     }
 
     /**
-     * @param  string  $country_code
+     * @param string $country_code
      * @return $this
      */
     public function setCountryCode(string $country_code)
@@ -60,14 +60,25 @@ class Address
         return $this;
     }
 
-    public function prepare()
+    public function prepare(): array
     {
-        return [
-            'streetLines' => $this->street_lines,
-            'city' => $this->city,
-            'stateOrProvinceCode' => $this->state_or_province,
-            'postalCode' => $this->postal_code,
-            'countryCode' => $this->country_code,
-        ];
+        $address = [];
+        if (!empty($this->street_lines)) {
+            $address['streetLines'] = $this->street_lines;
+        }
+        if (!empty($this->city)) {
+            $address['city'] = $this->city;
+        }
+        if (!empty($this->state_or_province)) {
+            $address['stateOrProvinceCode'] = $this->state_or_province;
+        }
+        if (!empty($this->postal_code)) {
+            $address['postalCode'] = $this->postal_code;
+        }
+        if (!empty($this->country_code)) {
+            $address['countryCode'] = $this->country_code;
+        }
+
+        return $address;
     }
 }

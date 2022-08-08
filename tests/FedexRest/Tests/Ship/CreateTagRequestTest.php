@@ -77,20 +77,20 @@ class CreateTagRequestTest extends TestCase
             ->setRecipients(
                 (new Person)
                     ->setPersonName('Lorem')
-                    ->setPhoneNumber(1234567890)
+                    ->setPhoneNumber('1234567890')
                     ->withAddress(
                         (new Address())
                             ->setCity('Boston')
                             ->setStreetLines('line 1', 'line 2')
                             ->setStateOrProvince('MA')
                             ->setCountryCode('US')
-                            ->setPostalCode(55555)
+                            ->setPostalCode('55555')
                     )
             )
             ->setShipper(
                 (new Person)
                     ->setPersonName('Ipsum')
-                    ->setPhoneNumber(1234567890)
+                    ->setPhoneNumber('1234567890')
             )
             ->setLineItems((new Item())
                 ->setItemDescription('lorem Ipsum')
@@ -116,27 +116,27 @@ class CreateTagRequestTest extends TestCase
                 ->setShipper(
                     (new Person)
                         ->setPersonName('SHIPPER NAME')
-                        ->setPhoneNumber(1234567890)
+                        ->setPhoneNumber('1234567890')
                         ->withAddress(
                             (new Address())
                                 ->setCity('Collierville')
                                 ->setStreetLines('RECIPIENT STREET LINE 1')
                                 ->setStateOrProvince('TN')
                                 ->setCountryCode('US')
-                                ->setPostalCode(38017)
+                                ->setPostalCode('38017')
                         )
                 )
                 ->setRecipients(
                     (new Person)
                         ->setPersonName('RECEIPIENT NAME')
-                        ->setPhoneNumber(1234567890)
+                        ->setPhoneNumber('1234567890')
                         ->withAddress(
                             (new Address())
                                 ->setCity('Irving')
                                 ->setStreetLines('RECIPIENT STREET LINE 1')
                                 ->setStateOrProvince('TX')
                                 ->setCountryCode('US')
-                                ->setPostalCode(75063)
+                                ->setPostalCode('75063')
                         )
                 )
                 ->setLineItems((new Item())
@@ -150,11 +150,9 @@ class CreateTagRequestTest extends TestCase
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
 
         }
-
-        $response = json_decode($request->getBody()->getContents());
-        $this->assertObjectHasAttribute('transactionId', $response);
+        $this->assertObjectHasAttribute('transactionId', $request);
         $this->assertObjectHasAttribute('encodedLabel',
-            $response->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
+            $request->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
     }
 
 }

@@ -4,7 +4,10 @@ namespace FedexRest\Tests\AddressValidation;
 
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
+use FedexRest\Exceptions\MissingAccessTokenException;
+use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Services\AddressValidation\AddressValidation;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class AddressValidationTest extends TestCase
@@ -19,6 +22,11 @@ class AddressValidationTest extends TestCase
             ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
     }
 
+    /**
+     * @throws MissingAccessTokenException
+     * @throws MissingAuthCredentialsException
+     * @throws GuzzleException
+     */
     public function testValidateAddress()
     {
         $test = (new AddressValidation())

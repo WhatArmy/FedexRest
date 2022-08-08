@@ -20,7 +20,8 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
    - [ ] Track By Tracking Control Number
    - [ ] Track By References
 - [x] [Address Validation API](#address-validation) ([docs](https://developer.fedex.com/api/en-us/catalog/address-validation/v1/docs.html#operation/Validate%20Address))
-- [ ] FedEx Locations Search API 
+- [x] Locations Search API
+   - [x] [Location Search API](#find-locations) ([docs](https://developer.fedex.com/api/en-us/catalog/locations/v1/docs.html))
 - [ ] Ground End of Day Close API
 - [ ] Pickup Request API
 - [ ] Postal Code Validation API

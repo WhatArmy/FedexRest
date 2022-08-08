@@ -7,8 +7,6 @@ use FedexRest\Entity\Person;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\AbstractRequest;
-use FedexRest\Services\Ship\Type\ServiceType;
-use JetBrains\PhpStorm\ArrayShape;
 
 class CreateTagRequest extends AbstractRequest
 {
@@ -160,7 +158,6 @@ class CreateTagRequest extends AbstractRequest
     /**
      * @return array[]
      */
-    #[ArrayShape(['json' => "array"])]
     public function prepare(): array
     {
         return [
@@ -176,6 +173,13 @@ class CreateTagRequest extends AbstractRequest
                     'blockInsightVisibility' => false,
                     'shippingChargesPayment' => [
                         'paymentType' => 'SENDER',
+                        'payor' => [
+                            'responsibleParty' => [
+                                'accountNumber' => [
+                                    'value' => $this->account_number
+                                ]
+                            ]
+                        ]
                     ],
                     'shipmentSpecialServices' => [
                         'specialServiceTypes' => [
@@ -186,8 +190,9 @@ class CreateTagRequest extends AbstractRequest
                         ],
                     ],
                     'labelSpecification' => [
-                        'imageType' => 'PDF',
-                        'labelStockType' => 'PAPER_85X11_TOP_HALF_LABEL',
+                        'labelFormatType' => 'COMMON2D',
+                        'imageType' => 'PNG',
+                        'labelStockType' => 'PAPER_7X475',
                     ],
                     'requestedPackageLineItems' => $this->getLineItems()->prepare(),
                 ],
@@ -213,7 +218,9 @@ class CreateTagRequest extends AbstractRequest
         if (empty($this->getLineItems())) {
             throw new MissingLineItemException('Line items are required');
         }
-        return $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
+
+        $query = $this->http_client->post($this->getApiUri($this->api_endpoint), $this->prepare());
+        return ($this->raw === true) ? $query : json_decode($query->getBody()->getContents());
     }
 
 }
