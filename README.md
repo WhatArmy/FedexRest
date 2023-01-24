@@ -8,10 +8,10 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ## Todo
 ### Services
 - [ ] Ship API
-   - [ ] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Create%20Shipment))
-   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Cancel%20Shipment))
-   - [ ] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/Create%20Tag))
-   - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/v1/docs.html#operation/CancelTag))
+   - [x] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Shipment))
+   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Cancel%20Shipment))
+   - [ ] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Tag))
+   - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/CancelTag))
 - [ ] Track API
    - [x] [By Tracking Number](#track-by-tracking-number) ([docs](https://developer.fedex.com/api/en-us/catalog/track/v1/docs.html#operation/Track%20by%20Tracking%20Number))
    - [ ] Track Document
@@ -393,6 +393,7 @@ object(stdClass)#64 (2) {
 
 #### Address Validation
 ###### Example
+
 ```php
 $response = (new \FedexRest\Services\AddressValidation\AddressValidation())
             ->setAddress(
@@ -407,5 +408,414 @@ $response = (new \FedexRest\Services\AddressValidation\AddressValidation())
             ->request();
 ```
 
+#### Create Shipment
+###### Example
+```php
+$request = (new CreateShipment())
+            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccountNumber(749999999)
+            ->setServiceType(ServiceType::_FEDEX_GROUND)
+            ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
+            ->setPackagingType(PackagingType::_YOUR_PACKAGING)
+            ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
+            ->setShippingChargesPayment((new ShippingChargesPayment())
+                ->setPaymentType('SENDER')
+            )
+            ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+            ->setLabel((new Label())
+                ->setLabelStockType(LabelStockType::_STOCK_4X6)
+                ->setImageType(ImageType::_PDF)
+            )
+            ->setShipper(
+                (new Person)
+                    ->setPersonName('SHIPPER NAME')
+                    ->setPhoneNumber('1234567890')
+                    ->withAddress(
+                        (new Address())
+                            ->setCity('Collierville')
+                            ->setStreetLines('SHIPPER STREET LINE 1')
+                            ->setStateOrProvince('TN')
+                            ->setCountryCode('US')
+                            ->setPostalCode('38017')
+                    )
+            )
+            ->setRecipients(
+                (new Person)
+                    ->setPersonName('RECEIPIENT NAME')
+                    ->setPhoneNumber('1234567890')
+                    ->withAddress(
+                        (new Address())
+                            ->setCity('Irving')
+                            ->setStreetLines('RECIPIENT STREET LINE 1')
+                            ->setStateOrProvince('TX')
+                            ->setCountryCode('US')
+                            ->setPostalCode('75063')
+                    )
+            )
+            ->setLineItems((new Item())
+                ->setItemDescription('lorem Ipsum')
+                ->setWeight(
+                    (new Weight())
+                        ->setValue(1)
+                        ->setUnit(WeightUnits::_POUND)
+                )
+                ->setDimensions((new Dimensions())
+                    ->setWidth(12)
+                    ->setLength(12)
+                    ->setHeight(12)
+                    ->setUnits(LinearUnits::_INCH)
+                )
+            )->request();
+```
+###### Sample Response
+```php
+stdClass Object
+(
+    [transactionId] => 99ba99f9-9999-99f9-a99d-9a9c9e9ac99a
+    [output] => stdClass Object
+        (
+            [transactionShipments] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [masterTrackingNumber] => 794699999999
+                            [serviceType] => FEDEX_GROUND
+                            [shipDatestamp] => 2023-01-22
+                            [serviceName] => FedEx Ground®
+                            [pieceResponses] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [masterTrackingNumber] => 794699999999
+                                            [deliveryDatestamp] => 2023-01-25
+                                            [trackingNumber] => 794699999999
+                                            [additionalChargesDiscount] => 0
+                                            [netRateAmount] => 0
+                                            [netChargeAmount] => 0
+                                            [netDiscountAmount] => 0
+                                            [packageDocuments] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [url] => https://wwwtest.fedex.com/document/v2/document/retrieveThermal/SH,31b7d2e9c193913c794699999999_SHIPPING_Z/isLabel=true&autoPrint=false
+                                                            [contentType] => LABEL
+                                                            [copiesToPrint] => 1
+                                                            [docType] => PDF
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                            [customerReferences] => Array
+                                                (
+                                                )
+
+                                            [codcollectionAmount] => 0
+                                            [baseRateAmount] => 17.4
+                                        )
+
+                                )
+
+                            [completedShipmentDetail] => stdClass Object
+                                (
+                                    [usDomestic] => 1
+                                    [carrierCode] => FDXG
+                                    [masterTrackingId] => stdClass Object
+                                        (
+                                            [trackingIdType] => FEDEX
+                                            [trackingNumber] => 794699999999
+                                        )
+
+                                    [serviceDescription] => stdClass Object
+                                        (
+                                            [serviceId] => EP1000000134
+                                            [serviceType] => FEDEX_GROUND
+                                            [code] => 92
+                                            [names] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [type] => long
+                                                            [encoding] => utf-8
+                                                            [value] => FedEx GroundÂ®
+                                                        )
+
+                                                    [1] => stdClass Object
+                                                        (
+                                                            [type] => long
+                                                            [encoding] => ascii
+                                                            [value] => FedEx Ground
+                                                        )
+
+                                                    [2] => stdClass Object
+                                                        (
+                                                            [type] => medium
+                                                            [encoding] => utf-8
+                                                            [value] => GroundÂ®
+                                                        )
+
+                                                    [3] => stdClass Object
+                                                        (
+                                                            [type] => medium
+                                                            [encoding] => ascii
+                                                            [value] => Ground
+                                                        )
+
+                                                    [4] => stdClass Object
+                                                        (
+                                                            [type] => short
+                                                            [encoding] => utf-8
+                                                            [value] => FG
+                                                        )
+
+                                                    [5] => stdClass Object
+                                                        (
+                                                            [type] => short
+                                                            [encoding] => ascii
+                                                            [value] => FG
+                                                        )
+
+                                                    [6] => stdClass Object
+                                                        (
+                                                            [type] => abbrv
+                                                            [encoding] => ascii
+                                                            [value] => SG
+                                                        )
+
+                                                )
+
+                                            [operatingOrgCodes] => Array
+                                                (
+                                                    [0] => FXG
+                                                )
+
+                                            [description] => FedEx Ground
+                                            [astraDescription] => FXG
+                                        )
+
+                                    [packagingDescription] => Customer Packaging
+                                    [operationalDetail] => stdClass Object
+                                        (
+                                            [originLocationNumber] => 386
+                                            [destinationLocationNumber] => 752
+                                            [deliveryDate] => 2023-01-25
+                                            [deliveryDay] => WED
+                                            [ineligibleForMoneyBackGuarantee] =>
+                                            [serviceCode] => 92
+                                            [packagingCode] => 01
+                                            [deliveryEligibilities] => Array
+                                                (
+                                                    [0] => SATURDAY_DELIVERY
+                                                )
+
+                                            [transitTime] => TWO_DAYS
+                                            [publishedDeliveryTime] =>
+                                            [scac] =>
+                                        )
+
+                                    [shipmentRating] => stdClass Object
+                                        (
+                                            [actualRateType] => PAYOR_ACCOUNT_PACKAGE
+                                            [shipmentRateDetails] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                            [rateScale] =>
+                                                            [rateZone] => 4
+                                                            [ratedWeightMethod] => DIM
+                                                            [dimDivisor] => 139
+                                                            [fuelSurchargePercent] => 5.5
+                                                            [totalBillingWeight] => stdClass Object
+                                                                (
+                                                                    [units] => LB
+                                                                    [value] => 13
+                                                                )
+
+                                                            [totalBaseCharge] => 16.49
+                                                            [totalFreightDiscounts] => 0
+                                                            [totalNetFreight] => 16.49
+                                                            [totalSurcharges] => 0.91
+                                                            [totalNetFedExCharge] => 17.4
+                                                            [totalTaxes] => 0
+                                                            [totalNetCharge] => 17.4
+                                                            [totalRebates] => 0
+                                                            [totalDutiesAndTaxes] => 0
+                                                            [totalAncillaryFeesAndTaxes] => 0
+                                                            [totalDutiesTaxesAndFees] => 0
+                                                            [totalNetChargeWithDutiesAndTaxes] => 0
+                                                            [surcharges] => Array
+                                                                (
+                                                                    [0] => stdClass Object
+                                                                        (
+                                                                            [surchargeType] => FUEL
+                                                                            [level] => PACKAGE
+                                                                            [description] => FedEx Ground Fuel
+                                                                            [amount] => 0.91
+                                                                        )
+
+                                                                )
+
+                                                            [freightDiscounts] => Array
+                                                                (
+                                                                )
+
+                                                            [taxes] => Array
+                                                                (
+                                                                )
+
+                                                            [currency] => USD
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [completedPackageDetails] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [sequenceNumber] => 1
+                                                    [trackingIds] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [trackingIdType] => FEDEX
+                                                                    [trackingNumber] => 794699999999
+                                                                )
+
+                                                        )
+
+                                                    [groupNumber] => 0
+                                                    [packageRating] => stdClass Object
+                                                        (
+                                                            [actualRateType] => PAYOR_ACCOUNT_PACKAGE
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetails] => Array
+                                                                (
+                                                                    [0] => stdClass Object
+                                                                        (
+                                                                            [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                            [ratedWeightMethod] => DIM
+                                                                            [minimumChargeType] =>
+                                                                            [billingWeight] => stdClass Object
+                                                                                (
+                                                                                    [units] => LB
+                                                                                    [value] => 13
+                                                                                )
+
+                                                                            [baseCharge] => 16.49
+                                                                            [totalFreightDiscounts] => 0
+                                                                            [netFreight] => 16.49
+                                                                            [totalSurcharges] => 0.91
+                                                                            [netFedExCharge] => 17.4
+                                                                            [totalTaxes] => 0
+                                                                            [netCharge] => 17.4
+                                                                            [totalRebates] => 0
+                                                                            [surcharges] => Array
+                                                                                (
+                                                                                    [0] => stdClass Object
+                                                                                        (
+                                                                                            [surchargeType] => FUEL
+                                                                                            [level] => PACKAGE
+                                                                                            [description] => FedEx Ground Fuel
+                                                                                            [amount] => 0.91
+                                                                                        )
+
+                                                                                )
+
+                                                                            [currency] => USD
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                    [signatureOption] => SERVICE_DEFAULT
+                                                    [operationalDetail] => stdClass Object
+                                                        (
+                                                            [barcodes] => stdClass Object
+                                                                (
+                                                                    [binaryBarcodes] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => COMMON_2D
+                                                                                    [value] => Wyk+HjAxHTAyNzUwNjMdODQwHTAxOR03OTQ2MDcwMjU0NDIdRkRFRx00OTEwMjIxHTAyMh0dMS8xHTEuMDBMQh1OHVJFQ0lQSUVOVCBTVFJFRVQgTElORSAxHUlydmluZx999999999MDYdMTBaR0QwMDkdMTJaMTIzNDU2Nzg5MB0yMFocHTMxWjk2MjIwMDE5MDAwMDQ5MTAyMjEzMDA3OTQ2MDcwMjU0NDIdMzRaMDEdHgQ=
+                                                                                )
+
+                                                                        )
+
+                                                                    [stringBarcodes] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FEDEX_1D
+                                                                                    [value] => 9622001900004910999999999999999999
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                            [astraHandlingText] =>
+                                                            [operationalInstructions] => Array
+                                                                (
+                                                                    [0] => stdClass Object
+                                                                        (
+                                                                            [number] => 2
+                                                                            [content] => TRK#
+                                                                        )
+
+                                                                    [1] => stdClass Object
+                                                                        (
+                                                                            [number] => 7
+                                                                            [content] => 9622001900004910221300794699999999
+                                                                        )
+
+                                                                    [2] => stdClass Object
+                                                                        (
+                                                                            [number] => 8
+                                                                            [content] => 581J2/D297/FE2D
+                                                                        )
+
+                                                                    [3] => stdClass Object
+                                                                        (
+                                                                            [number] => 10
+                                                                            [content] => 7946 0702 5442
+                                                                        )
+
+                                                                    [4] => stdClass Object
+                                                                        (
+                                                                            [number] => 15
+                                                                            [content] => 75063
+                                                                        )
+
+                                                                    [5] => stdClass Object
+                                                                        (
+                                                                            [number] => 18
+                                                                            [content] => 9622 0019 0 (000 000 0000) 0 00 9999 9999 9999
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                            [serviceCategory] => GROUND
+                        )
+
+                )
+
+        )
+
+)
+```
+
 ## Contribution
-Any help will be useful :) Currently I'm working on Ship,Track and Address Validation API because that's all I need for my own purposes. 
+Any help will be useful :) Currently I'm working on Ship, Track and Address Validation API because that's all I need for my own purposes. 

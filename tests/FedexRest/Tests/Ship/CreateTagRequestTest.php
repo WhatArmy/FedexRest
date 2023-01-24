@@ -148,7 +148,7 @@ class CreateTagRequestTest extends TestCase
                     ))
                 ->request();
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
-
+            $this->assertEmpty($e, sprintf('The request failed with message %s', $e->getMessage()));
         }
         $this->assertObjectHasAttribute('transactionId', $request);
         $this->assertObjectHasAttribute('encodedLabel',

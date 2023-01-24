@@ -9,6 +9,7 @@ class Person
     public ?Address $address = null;
     public string $personName = '';
     public int $phoneNumber;
+    public string $companyName = '';
 
     /**
      * @param  mixed  $address
@@ -42,26 +43,33 @@ class Person
     }
 
     /**
+     * @param  string  $companyName
+     * @return $this
+     */
+    public function setCompanyName(string $companyName)
+    {
+        $this->companyName = $companyName;
+        return $this;
+    }
+
+    /**
      * @return array[]
      */
     public function prepare(): array
     {
-        $data = [
-            'contact' =>
-                [
-                    'personName' => $this->personName,
-                    'phoneNumber' => $this->phoneNumber,
-                ]
-        ];
+        $data = [];
+        if (!empty($this->personName)) {
+            $data['contact']['personName'] = $this->personName;
+        }
+        if (!empty($this->phoneNumber)) {
+            $data['contact']['phoneNumber'] = $this->phoneNumber;
+        }
+        if (!empty($this->company_name)) {
+            $data['contact']['companyName'] = $this->company_name;
+        }
 
         if ($this->address != null) {
-            $data['address'] = [
-                'streetLines' => $this->address->street_lines,
-                'city' => $this->address->city,
-                'stateOrProvinceCode' => $this->address->state_or_province,
-                'postalCode' => $this->address->postal_code,
-                'countryCode' => $this->address->country_code,
-            ];
+            $data['address'] = $this->address->prepare();
         }
         return $data;
     }
