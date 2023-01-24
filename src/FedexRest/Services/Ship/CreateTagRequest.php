@@ -194,7 +194,7 @@ class CreateTagRequest extends AbstractRequest
                         'imageType' => 'PNG',
                         'labelStockType' => 'PAPER_7X475',
                     ],
-                    'requestedPackageLineItems' => $this->getLineItems()->prepare(),
+                    'requestedPackageLineItems' => [$this->getLineItems()->prepare()],
                 ],
                 'accountNumber' => [
                     'value' => $this->account_number,

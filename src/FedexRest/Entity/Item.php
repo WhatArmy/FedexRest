@@ -6,6 +6,7 @@ class Item
 {
     public string $itemDescription = '';
     public ?Weight $weight;
+    public ?Dimensions $dimensions;
 
     /**
      * @param  string  $itemDescription
@@ -27,17 +28,28 @@ class Item
         return $this;
     }
 
+  /**
+   * @param  Dimensions|null $dimensions
+   * @return $this
+   */
+  public function setDimensions(?Dimensions $dimensions): Item
+  {
+    $this->dimensions = $dimensions;
+    return $this;
+  }
+
     public function prepare(): array
     {
-        return [
-            [
-                'itemDescription' => $this->itemDescription,
-                'weight' => [
-                    'units' => $this->weight->unit,
-                    'value' => $this->weight->value,
-                ],
-            ]
+        $data = [
+            'itemDescription' => $this->itemDescription,
         ];
+        if (!empty($this->weight)) {
+            $data['weight'] = $this->weight->prepare();
+        }
+        if (!empty($this->dimensions)) {
+            $data['dimensions'] = $this->dimensions->prepare();
+        }
+        return $data;
     }
 
 

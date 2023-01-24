@@ -27,5 +27,16 @@ class Weight
         return $this;
     }
 
+    public function prepare(): array {
+        $data = [];
+        if (!empty($this->value)) {
+            $data['value'] = $this->value;
+        }
+        if (!empty($this->unit)) {
+            $data['units'] = $this->unit;
+        }
+        return $data;
+    }
+
 
 }
