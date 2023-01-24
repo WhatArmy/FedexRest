@@ -36,7 +36,7 @@ class AddressValidationTest extends TestCase
                     ->setCountryCode('US')
                     ->setStateOrProvince('TX')
                     ->setPostalCode('75063-8659')
-                    ->setStreetLines('7372 PARKRIDGE BLVD', 'APT 286')
+                    ->setStreetLines('7372 PARKRIDGE BLVD', 'APT 286', '2903 sprank')
             )
             ->setAccessToken($this->auth->authorize()->access_token)
             ->request();
