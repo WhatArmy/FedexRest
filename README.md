@@ -8,20 +8,20 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ## Todo
 ### Services
 - [ ] Ship API
-  - [x] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Shipment))
-  - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Cancel%20Shipment))
-  - [x] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Tag))
-  - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/CancelTag))
+   - [x] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Shipment))
+   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Cancel%20Shipment))
+   - [x] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Tag))
+   - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/CancelTag))
 - [ ] Track API
-  - [x] [By Tracking Number](#track-by-tracking-number) ([docs](https://developer.fedex.com/api/en-us/catalog/track/v1/docs.html#operation/Track%20by%20Tracking%20Number))
-  - [ ] Track Document
-  - [ ] Track Multiple Piece Shipment
-  - [ ] Send Notification
-  - [ ] Track By Tracking Control Number
-  - [ ] Track By References
+   - [x] [By Tracking Number](#track-by-tracking-number) ([docs](https://developer.fedex.com/api/en-us/catalog/track/v1/docs.html#operation/Track%20by%20Tracking%20Number))
+   - [ ] Track Document
+   - [ ] Track Multiple Piece Shipment
+   - [ ] Send Notification
+   - [ ] Track By Tracking Control Number
+   - [ ] Track By References
 - [x] [Address Validation API](#address-validation) ([docs](https://developer.fedex.com/api/en-us/catalog/address-validation/v1/docs.html#operation/Validate%20Address))
 - [x] Locations Search API
-  - [x] [Location Search API](#find-locations) ([docs](https://developer.fedex.com/api/en-us/catalog/locations/v1/docs.html))
+   - [x] [Location Search API](#find-locations) ([docs](https://developer.fedex.com/api/en-us/catalog/locations/v1/docs.html))
 - [ ] Ground End of Day Close API
 - [ ] Pickup Request API
 - [ ] Postal Code Validation API
