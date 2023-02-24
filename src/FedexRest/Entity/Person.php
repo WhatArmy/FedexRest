@@ -8,7 +8,7 @@ class Person
 {
     public ?Address $address = null;
     public string $personName = '';
-    public int $phoneNumber;
+    public string $phoneNumber;
     public string $companyName = '';
 
     /**
