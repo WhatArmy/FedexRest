@@ -12,8 +12,8 @@ class AuthorizationTest extends TestCase
     public function testAuth()
     {
         $auth = (new Authorize)
-            ->setClientId('l76ac1844c563048e582a791871f51f1f5')
-            ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
+            ->setClientId('l7749d031872cf4b55a7889376f360d045')
+            ->setClientSecret('bd59d91084e8482895d4ae2fb4fb79a3');
 
         $this->assertObjectHasAttribute('access_token', $auth->authorize());
     }
@@ -22,8 +22,8 @@ class AuthorizationTest extends TestCase
     {
         $auth = (new Authorize)
             ->asRaw()
-            ->setClientId('l76ac1844c563048e582a791871f51f1f5')
-            ->setClientSecret('f4ae9fc64c694b14af5ef3716a902a1b');
+            ->setClientId('l7749d031872cf4b55a7889376f360d045')
+            ->setClientSecret('bd59d91084e8482895d4ae2fb4fb79a3');
 
         $this->assertObjectHasAttribute('headers', $auth->authorize());
     }
