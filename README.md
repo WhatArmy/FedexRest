@@ -32,6 +32,11 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [x] [oAuth authorization](#authorization)
 
 ### Usage
+
+| Library Version | Fedex Rest Api Version |
+|-----------------|------------------------|
+| ^0.5            | v1                     |
+
 #### Installation
 `composer require whatarmy/fedex-rest "^0.5"`
 #### Authorization
