@@ -64,8 +64,8 @@ class Person
         if (!empty($this->phoneNumber)) {
             $data['contact']['phoneNumber'] = $this->phoneNumber;
         }
-        if (!empty($this->company_name)) {
-            $data['contact']['companyName'] = $this->company_name;
+        if (!empty($this->companyName)) {
+            $data['contact']['companyName'] = $this->companyName;
         }
 
         if ($this->address != null) {
