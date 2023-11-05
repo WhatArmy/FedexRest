@@ -39,7 +39,7 @@ class FindLocationsTest extends TestCase
             ->setAccessToken($this->auth->authorize()->access_token)
             ->request();
 
-        $this->assertObjectHasAttribute('transactionId', $locate);
+        $this->assertObjectHasProperty('transactionId', $locate);
     }
 
     /**

@@ -381,9 +381,9 @@ class CreateShipmentTest extends TestCase
                 )
             );
         $request = $shipment->request();
-        $this->assertObjectHasAttribute('transactionId', $request);
-        $this->assertObjectNotHasAttribute('errors', $request);
-        $this->assertObjectHasAttribute('output', $request);
+        $this->assertObjectHasProperty('transactionId', $request);
+        $this->assertObjectNotHasProperty('errors', $request);
+        $this->assertObjectHasProperty('output', $request);
         $output = $request->output;
         $this->assertNotEmpty($output->transactionShipments);
         $new_shipment = $output->transactionShipments[0];

@@ -15,7 +15,7 @@ class AuthorizationTest extends TestCase
             ->setClientId('l7749d031872cf4b55a7889376f360d045')
             ->setClientSecret('bd59d91084e8482895d4ae2fb4fb79a3');
 
-        $this->assertObjectHasAttribute('access_token', $auth->authorize());
+        $this->assertObjectHasProperty('access_token', $auth->authorize());
     }
 
     public function testAuthRaw()
@@ -25,7 +25,7 @@ class AuthorizationTest extends TestCase
             ->setClientId('l7749d031872cf4b55a7889376f360d045')
             ->setClientSecret('bd59d91084e8482895d4ae2fb4fb79a3');
 
-        $this->assertObjectHasAttribute('headers', $auth->authorize());
+        $this->assertObjectHasProperty('headers', $auth->authorize());
     }
 
     public function testMissingCredentials()

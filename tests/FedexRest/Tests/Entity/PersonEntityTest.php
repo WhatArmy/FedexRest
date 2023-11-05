@@ -21,10 +21,10 @@ class PersonEntityTest extends TestCase
             );
 
 
-        $this->assertObjectHasAttribute('personName', $person);
-        $this->assertObjectHasAttribute('companyName', $person);
-        $this->assertObjectHasAttribute('phoneNumber', $person);
-        $this->assertObjectHasAttribute('city', $person->address);
+        $this->assertObjectHasProperty('personName', $person);
+        $this->assertObjectHasProperty('companyName', $person);
+        $this->assertObjectHasProperty('phoneNumber', $person);
+        $this->assertObjectHasProperty('city', $person->address);
         $this->assertEquals('Boston', $person->address->city);
         $this->assertCount(2, $person->address->street_lines);
     }

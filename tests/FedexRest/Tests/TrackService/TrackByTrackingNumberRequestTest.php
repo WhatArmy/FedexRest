@@ -24,7 +24,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
     {
         $request = new TrackByTrackingNumberRequest();
 
-        $this->assertObjectHasAttribute('api_endpoint', $request);
+        $this->assertObjectHasProperty('api_endpoint', $request);
         $this->assertEquals('/track/v1/trackingnumbers', $request->api_endpoint);
     }
 
@@ -32,7 +32,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
     public function testProductionMode()
     {
         $request = (new TrackByTrackingNumberRequest())->useProduction();
-        $this->assertObjectHasAttribute('production_mode', $request);
+        $this->assertObjectHasProperty('production_mode', $request);
         $this->assertEquals(true, $request->production_mode);
         $this->assertEquals('https://apis.fedex.com', $request->getApiUri());
     }
@@ -57,7 +57,7 @@ class TrackByTrackingNumberRequestTest extends TestCase
             ->setTrackingNumber('020207021381215')
             ->setAccessToken($this->auth->authorize()->access_token)->request();
 
-        $this->assertObjectHasAttribute('headers', $response);
+        $this->assertObjectHasProperty('headers', $response);
     }
 
     public function testMissingTrackingNumber()
@@ -78,6 +78,6 @@ class TrackByTrackingNumberRequestTest extends TestCase
             ->setTrackingNumber('020207021381215')
             ->setAccessToken($this->auth->authorize()->access_token)->request();
 
-        $this->assertObjectHasAttribute('transactionId', $response);
+        $this->assertObjectHasProperty('transactionId', $response);
     }
 }
