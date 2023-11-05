@@ -27,9 +27,9 @@ class ItemEntityTest extends TestCase
                     ->setWidth(12)
                     ->setLength(12)
             );
-        $this->assertObjectHasAttribute('itemDescription', $item);
-        $this->assertObjectHasAttribute('dimensions', $item);
-        $this->assertObjectHasAttribute('weight', $item);
+        $this->assertObjectHasProperty('itemDescription', $item);
+        $this->assertObjectHasProperty('dimensions', $item);
+        $this->assertObjectHasProperty('weight', $item);
         $test_item = $item->prepare();
         $this->assertEquals(1, $test_item['weight']['value']);
         $this->assertEquals(WeightUnits::_POUND, $test_item['weight']['units']);

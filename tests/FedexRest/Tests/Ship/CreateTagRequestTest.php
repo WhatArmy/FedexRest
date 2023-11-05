@@ -62,7 +62,7 @@ class CreateTagRequestTest extends TestCase
                 (new Person)->setPersonName('Ipsum')
             );
         $this->assertCount(2, $request->getRecipients());
-        $this->assertObjectHasAttribute('personName', $request->getShipper());
+        $this->assertObjectHasProperty('personName', $request->getShipper());
         $this->assertEquals('FEDEX_GROUND', $request->getServiceType());
     }
 
@@ -150,8 +150,8 @@ class CreateTagRequestTest extends TestCase
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
             $this->assertEmpty($e, sprintf('The request failed with message %s', $e->getMessage()));
         }
-        $this->assertObjectHasAttribute('transactionId', $request);
-        $this->assertObjectHasAttribute('encodedLabel',
+        $this->assertObjectHasProperty('transactionId', $request);
+        $this->assertObjectHasProperty('encodedLabel',
             $request->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
     }
 

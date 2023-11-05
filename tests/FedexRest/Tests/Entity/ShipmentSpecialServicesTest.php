@@ -13,7 +13,7 @@ class ShipmentSpecialServicesTest extends TestCase
         $ShipmentSpecialServices = (new ShipmentSpecialServices())
             ->setSpecialServiceTypes([ShipmentSpecialServiceType::_THIRD_PARTY_CONSIGNEE])
             ->setReturnShipmentDetails(['returnType' => 'PRINT_RETURN_LABEL']);
-        $this->assertObjectHasAttribute('returnShipmentDetails', $ShipmentSpecialServices);
-        $this->assertObjectHasAttribute('specialServiceTypes', $ShipmentSpecialServices);
+        $this->assertObjectHasProperty('returnShipmentDetails', $ShipmentSpecialServices);
+        $this->assertObjectHasProperty('specialServiceTypes', $ShipmentSpecialServices);
     }
 }

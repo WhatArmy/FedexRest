@@ -14,8 +14,8 @@ class LabelEntityTest extends TestCase
         $label = (new Label())
             ->setLabelStockType(LabelStockType::_STOCK_4X6)
             ->setImageType(ImageType::_PDF);
-        $this->assertObjectHasAttribute('imageType', $label);
-        $this->assertObjectHasAttribute('labelStockType', $label);
+        $this->assertObjectHasProperty('imageType', $label);
+        $this->assertObjectHasProperty('labelStockType', $label);
         $this->assertEquals(LabelStockType::_STOCK_4X6, $label->prepare()['labelStockType']);
         $this->assertEquals(ImageType::_PDF, $label->prepare()['imageType']);
     }

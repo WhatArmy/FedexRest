@@ -11,7 +11,7 @@ class ShippingChargesPaymentTest extends TestCase
     {
         $ShippingChargesPayment = (new ShippingChargesPayment())
             ->setPaymentType('SENDER');
-        $this->assertObjectHasAttribute('paymentType', $ShippingChargesPayment);
+        $this->assertObjectHasProperty('paymentType', $ShippingChargesPayment);
         $this->assertEquals('SENDER', $ShippingChargesPayment->prepare()['paymentType']);
     }
 }
