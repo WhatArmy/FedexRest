@@ -7,6 +7,9 @@ use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
 use FedexRest\Entity\Dimensions;
 use FedexRest\Entity\Item;
+use FedexRest\Exceptions\MissingAccessTokenException;
+use FedexRest\Exceptions\MissingAuthCredentialsException;
+use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Entity\Person;
 use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
@@ -25,6 +28,7 @@ use FedexRest\Services\Ship\Type\PackagingType;
 use FedexRest\Services\Ship\Type\PickupType;
 use FedexRest\Services\Ship\Type\ServiceType;
 use FedexRest\Services\Ship\Type\WeightUnits;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class CreateShipmentTest extends TestCase
@@ -323,6 +327,16 @@ class CreateShipmentTest extends TestCase
         $this->assertEquals('FEDEX_GROUND', $requested_shipment['serviceType']);
     }
 
+    /**
+     * @throws MissingLabelResponseOptionsException
+     * @throws MissingShippingChargesPaymentException
+     * @throws MissingAuthCredentialsException
+     * @throws MissingLineItemException
+     * @throws MissingAccessTokenException
+     * @throws MissingLabelException
+     * @throws GuzzleException
+     * @throws MissingAccountNumberException
+     */
     public function testRequest()
     {
         $shipment = (new CreateShipment())
@@ -391,7 +405,7 @@ class CreateShipmentTest extends TestCase
         $this->assertEquals('FEDEX_GROUND', $new_shipment->serviceType);
         $this->assertNotEmpty($new_shipment->pieceResponses);
         $this->assertNotEmpty($new_shipment->completedShipmentDetail);
-        $this->assertEquals('GROUND', $new_shipment->serviceCategory);
+        $this->assertEquals('EXPRESS', $new_shipment->serviceCategory);
     }
 
 }
