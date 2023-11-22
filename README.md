@@ -25,7 +25,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Ground End of Day Close API
 - [ ] Pickup Request API
 - [ ] Postal Code Validation API
-- [ ] Rate Quotes API
+- [x] Rate Quotes API
 - [ ] Service Availability API
 
 ### Other
@@ -1254,6 +1254,1794 @@ stdClass Object
 
                 )
 
+        )
+
+)
+```
+</details>
+
+#### Create Rates Request
+###### Example
+```php
+$request = (new CreateRatesRequest)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
+            ->setAccountNumber(740561073)
+            ->setRateRequestTypes('ACCOUNT', 'LIST')
+            ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
+            ->setShipper(
+                (new Person)
+                    ->withAddress(
+                        (new Address())
+                            ->setPostalCode('38017')
+                            ->setCountryCode('US')
+                    )
+            )
+            ->setRecipient(
+                (new Person)
+                    ->withAddress(
+                        (new Address())
+                            ->setPostalCode('75063')
+                            ->setCountryCode('US')
+                    )
+            )
+            ->setLineItems((new Item())
+                ->setWeight(
+                    (new Weight())
+                        ->setValue(1)
+                        ->setUnit(WeightUnits::_POUND)
+                )
+            )
+            ->request();
+```
+###### Sample Response
+<details>
+  <summary>Show Response</summary>
+
+```php
+stdClass Object
+(
+    [transactionId] => APIF_SV_RATC_TxID206ab89d-6825-40b2-844f-dd81d1b41129
+    [customerTransactionId] => customer test
+    [output] => stdClass Object
+        (
+            [alerts] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [code] => VIRTUAL.RESPONSE
+                            [message] => This is a Virtual Response.
+                            [alertType] => NOTE
+                        )
+
+                    [1] => stdClass Object
+                        (
+                            [code] => ORIGIN.STATEORPROVINCECODE.CHANGED
+                            [message] => The origin state/province code has been changed.
+                            [alertType] => NOTE
+                        )
+
+                    [2] => stdClass Object
+                        (
+                            [code] => DESTINATION.STATEORPROVINCECODE.CHANGED
+                            [message] => The destination state/province code has been changed.
+                            [alertType] => NOTE
+                        )
+
+                )
+
+            [rateReplyDetails] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [serviceType] => FIRST_OVERNIGHT
+                            [serviceName] => FedEx First Overnight®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 114.39
+                                            [totalNetCharge] => 131.55
+                                            [totalNetFedExCharge] => 131.55
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 17.16
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 17.16
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 14
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 114.39
+                                                                    [netFreight] => 114.39
+                                                                    [totalSurcharges] => 17.16
+                                                                    [netFedExCharge] => 131.55
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 131.55
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 17.16
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 114.39
+                                            [totalNetCharge] => 131.55
+                                            [totalNetFedExCharge] => 131.55
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 17.16
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 17.16
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 14
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 114.39
+                                                                    [netFreight] => 114.39
+                                                                    [totalSurcharges] => 17.16
+                                                                    [netFedExCharge] => 131.55
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 131.55
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 17.16
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => 1ST OVR
+                                    [airportId] => EWR
+                                    [serviceCode] => 06
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000006
+                                    [serviceType] => FIRST_OVERNIGHT
+                                    [code] => 06
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx First Overnight®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx First Overnight
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx First Overnight®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx First Overnight
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => FO
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => FO
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => FO
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => First Overnight
+                                    [astraDescription] => 1ST OVR
+                                )
+
+                        )
+
+                    [1] => stdClass Object
+                        (
+                            [serviceType] => PRIORITY_OVERNIGHT
+                            [serviceName] => FedEx Priority Overnight®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 83.39
+                                            [totalNetCharge] => 95.9
+                                            [totalNetFedExCharge] => 95.9
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 12.51
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 12.51
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 1574
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 83.39
+                                                                    [netFreight] => 83.39
+                                                                    [totalSurcharges] => 12.51
+                                                                    [netFedExCharge] => 95.9
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 95.9
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 12.51
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 83.39
+                                            [totalNetCharge] => 95.9
+                                            [totalNetFedExCharge] => 95.9
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 12.51
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 12.51
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 1574
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 83.39
+                                                                    [netFreight] => 83.39
+                                                                    [totalSurcharges] => 12.51
+                                                                    [netFedExCharge] => 95.9
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 95.9
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 12.51
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => P1
+                                    [airportId] => EWR
+                                    [serviceCode] => 01
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000002
+                                    [serviceType] => PRIORITY_OVERNIGHT
+                                    [code] => 01
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Priority Overnight®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Priority Overnight
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Priority Overnight®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Priority Overnight
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => P-1
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => P-1
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => PO
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => Priority Overnight
+                                    [astraDescription] => P1
+                                )
+
+                        )
+
+                    [2] => stdClass Object
+                        (
+                            [serviceType] => STANDARD_OVERNIGHT
+                            [serviceName] => FedEx Standard Overnight®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 74.56
+                                            [totalNetCharge] => 85.74
+                                            [totalNetFedExCharge] => 85.74
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 11.18
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 11.18
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 1371
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 74.56
+                                                                    [netFreight] => 74.56
+                                                                    [totalSurcharges] => 11.18
+                                                                    [netFedExCharge] => 85.74
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 85.74
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 11.18
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 74.56
+                                            [totalNetCharge] => 85.74
+                                            [totalNetFedExCharge] => 85.74
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 11.18
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 11.18
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 1371
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 74.56
+                                                                    [netFreight] => 74.56
+                                                                    [totalSurcharges] => 11.18
+                                                                    [netFedExCharge] => 85.74
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 85.74
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 11.18
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => STD OVR
+                                    [airportId] => EWR
+                                    [serviceCode] => 05
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000005
+                                    [serviceType] => STANDARD_OVERNIGHT
+                                    [code] => 05
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Standard Overnight®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Standard Overnight
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Standard Overnight®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Standard Overnight
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => SOS
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => SOS
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => SO
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => Standard Overnight
+                                    [astraDescription] => STD OVR
+                                )
+
+                        )
+
+                    [3] => stdClass Object
+                        (
+                            [serviceType] => FEDEX_2_DAY_AM
+                            [serviceName] => FedEx 2Day® AM
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 41.46
+                                            [totalNetCharge] => 47.68
+                                            [totalNetFedExCharge] => 47.68
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 6.22
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 6.22
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 12
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 41.46
+                                                                    [netFreight] => 41.46
+                                                                    [totalSurcharges] => 6.22
+                                                                    [netFedExCharge] => 47.68
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 47.68
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 6.22
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 41.46
+                                            [totalNetCharge] => 47.68
+                                            [totalNetFedExCharge] => 47.68
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 6.22
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 6.22
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 12
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 41.46
+                                                                    [netFreight] => 41.46
+                                                                    [totalSurcharges] => 6.22
+                                                                    [netFedExCharge] => 47.68
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 47.68
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 6.22
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => 2DAY AM
+                                    [airportId] => EWR
+                                    [serviceCode] => 49
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000023
+                                    [serviceType] => FEDEX_2_DAY_AM
+                                    [code] => 49
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx 2Day® AM
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx 2Day AM
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx 2Day® AM
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx 2Day AM
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => E2AM
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => E2AM
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => TA
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => 2DAY AM
+                                    [astraDescription] => 2DAY AM
+                                )
+
+                        )
+
+                    [4] => stdClass Object
+                        (
+                            [serviceType] => FEDEX_2_DAY
+                            [serviceName] => FedEx 2Day®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 34.5
+                                            [totalNetCharge] => 39.68
+                                            [totalNetFedExCharge] => 39.68
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 5.18
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 5.18
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 6068
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 34.5
+                                                                    [netFreight] => 34.5
+                                                                    [totalSurcharges] => 5.18
+                                                                    [netFedExCharge] => 39.68
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 39.68
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 5.18
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 34.5
+                                            [totalNetCharge] => 39.68
+                                            [totalNetFedExCharge] => 39.68
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 5.18
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 5.18
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 6068
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 34.5
+                                                                    [netFreight] => 34.5
+                                                                    [totalSurcharges] => 5.18
+                                                                    [netFedExCharge] => 39.68
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 39.68
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 5.18
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => E2
+                                    [airportId] => EWR
+                                    [serviceCode] => 03
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000003
+                                    [serviceType] => FEDEX_2_DAY
+                                    [code] => 03
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx 2Day®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx 2Day
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx 2Day®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx 2Day
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => P-2
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => P-2
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => ES
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => 2Day
+                                    [astraDescription] => E2
+                                )
+
+                        )
+
+                    [5] => stdClass Object
+                        (
+                            [serviceType] => FEDEX_EXPRESS_SAVER
+                            [serviceName] => FedEx Express Saver®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 29.46
+                                            [totalNetCharge] => 33.88
+                                            [totalNetFedExCharge] => 33.88
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 4.42
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 4.42
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 7175
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 29.46
+                                                                    [netFreight] => 29.46
+                                                                    [totalSurcharges] => 4.42
+                                                                    [netFedExCharge] => 33.88
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 33.88
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 4.42
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 29.46
+                                            [totalNetCharge] => 33.88
+                                            [totalNetFedExCharge] => 33.88
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 06
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 15
+                                                    [totalSurcharges] => 4.42
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [amount] => 4.42
+                                                                )
+
+                                                        )
+
+                                                    [pricingCode] => PACKAGE
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                    [rateScale] => 7175
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 29.46
+                                                                    [netFreight] => 29.46
+                                                                    [totalSurcharges] => 4.42
+                                                                    [netFedExCharge] => 33.88
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 33.88
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [amount] => 4.42
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => XS
+                                    [airportId] => EWR
+                                    [serviceCode] => 20
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000013
+                                    [serviceType] => FEDEX_EXPRESS_SAVER
+                                    [code] => 20
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Express Saver®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Express Saver
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Express Saver®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Express Saver
+                                                )
+
+                                        )
+
+                                    [serviceCategory] => parcel
+                                    [description] => Express Saver
+                                    [astraDescription] => XS
+                                )
+
+                        )
+
+                    [6] => stdClass Object
+                        (
+                            [serviceType] => FEDEX_GROUND
+                            [serviceName] => FedEx Ground®
+                            [packagingType] => YOUR_PACKAGING
+                            [ratedShipmentDetails] => Array
+                                (
+                                    [0] => stdClass Object
+                                        (
+                                            [rateType] => ACCOUNT
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 12.38
+                                            [totalNetCharge] => 14.14
+                                            [totalNetFedExCharge] => 14.14
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 6
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 14.25
+                                                    [totalSurcharges] => 1.76
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [level] => PACKAGE
+                                                                    [amount] => 1.76
+                                                                )
+
+                                                        )
+
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_ACCOUNT_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 12.38
+                                                                    [netFreight] => 12.38
+                                                                    [totalSurcharges] => 1.76
+                                                                    [netFedExCharge] => 14.14
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 14.14
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [level] => PACKAGE
+                                                                                    [amount] => 1.76
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                    [1] => stdClass Object
+                                        (
+                                            [rateType] => LIST
+                                            [ratedWeightMethod] => ACTUAL
+                                            [totalDiscounts] => 0
+                                            [totalBaseCharge] => 12.38
+                                            [totalNetCharge] => 14.14
+                                            [totalNetFedExCharge] => 14.14
+                                            [shipmentRateDetail] => stdClass Object
+                                                (
+                                                    [rateZone] => 6
+                                                    [dimDivisor] => 0
+                                                    [fuelSurchargePercent] => 14.25
+                                                    [totalSurcharges] => 1.76
+                                                    [totalFreightDiscount] => 0
+                                                    [surCharges] => Array
+                                                        (
+                                                            [0] => stdClass Object
+                                                                (
+                                                                    [type] => FUEL
+                                                                    [description] => Fuel Surcharge
+                                                                    [level] => PACKAGE
+                                                                    [amount] => 1.76
+                                                                )
+
+                                                        )
+
+                                                    [totalBillingWeight] => stdClass Object
+                                                        (
+                                                            [units] => LB
+                                                            [value] => 1
+                                                        )
+
+                                                    [currency] => USD
+                                                )
+
+                                            [ratedPackages] => Array
+                                                (
+                                                    [0] => stdClass Object
+                                                        (
+                                                            [groupNumber] => 0
+                                                            [effectiveNetDiscount] => 0
+                                                            [packageRateDetail] => stdClass Object
+                                                                (
+                                                                    [rateType] => PAYOR_LIST_PACKAGE
+                                                                    [ratedWeightMethod] => ACTUAL
+                                                                    [baseCharge] => 12.38
+                                                                    [netFreight] => 12.38
+                                                                    [totalSurcharges] => 1.76
+                                                                    [netFedExCharge] => 14.14
+                                                                    [totalTaxes] => 0
+                                                                    [netCharge] => 14.14
+                                                                    [totalRebates] => 0
+                                                                    [billingWeight] => stdClass Object
+                                                                        (
+                                                                            [units] => LB
+                                                                            [value] => 1
+                                                                        )
+
+                                                                    [totalFreightDiscounts] => 0
+                                                                    [surcharges] => Array
+                                                                        (
+                                                                            [0] => stdClass Object
+                                                                                (
+                                                                                    [type] => FUEL
+                                                                                    [description] => Fuel Surcharge
+                                                                                    [level] => PACKAGE
+                                                                                    [amount] => 1.76
+                                                                                )
+
+                                                                        )
+
+                                                                    [currency] => USD
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [currency] => USD
+                                        )
+
+                                )
+
+                            [operationalDetail] => stdClass Object
+                                (
+                                    [ineligibleForMoneyBackGuarantee] => 
+                                    [astraDescription] => FXG
+                                    [airportId] => EWR
+                                    [serviceCode] => 92
+                                )
+
+                            [signatureOptionType] => SERVICE_DEFAULT
+                            [serviceDescription] => stdClass Object
+                                (
+                                    [serviceId] => EP1000000134
+                                    [serviceType] => FEDEX_GROUND
+                                    [code] => 92
+                                    [names] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => utf-8
+                                                    [value] => FedEx Ground®
+                                                )
+
+                                            [1] => stdClass Object
+                                                (
+                                                    [type] => long
+                                                    [encoding] => ascii
+                                                    [value] => FedEx Ground
+                                                )
+
+                                            [2] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => utf-8
+                                                    [value] => Ground®
+                                                )
+
+                                            [3] => stdClass Object
+                                                (
+                                                    [type] => medium
+                                                    [encoding] => ascii
+                                                    [value] => Ground
+                                                )
+
+                                            [4] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => utf-8
+                                                    [value] => FG
+                                                )
+
+                                            [5] => stdClass Object
+                                                (
+                                                    [type] => short
+                                                    [encoding] => ascii
+                                                    [value] => FG
+                                                )
+
+                                            [6] => stdClass Object
+                                                (
+                                                    [type] => abbrv
+                                                    [encoding] => ascii
+                                                    [value] => SG
+                                                )
+
+                                        )
+
+                                    [description] => FedEx Ground
+                                    [astraDescription] => FXG
+                                )
+
+                        )
+
+                )
+
+            [quoteDate] => 2023-08-02
+            [encoded] => 
         )
 
 )
