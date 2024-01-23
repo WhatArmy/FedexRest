@@ -7,6 +7,7 @@ class Item
     public string $itemDescription = '';
     public ?Weight $weight;
     public ?Dimensions $dimensions;
+    public ?int $groupPackageCount;
 
     /**
      * @param  string  $itemDescription
@@ -38,6 +39,16 @@ class Item
     return $this;
   }
 
+  /**
+   * @param int|null $groupPackageCount
+   * @return $this
+   */
+  public function setGroupPackageCount(?int $groupPackageCount): Item
+  {
+    $this->groupPackageCount = $groupPackageCount;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -52,6 +63,10 @@ class Item
 
         if (!empty($this->dimensions)) {
             $data['dimensions'] = $this->dimensions->prepare();
+        }
+
+        if (!empty($this->groupPackageCount)) {
+            $data['groupPackageCount'] = $this->groupPackageCount;
         }
 
         return $data;
