@@ -8,6 +8,7 @@ class Item
     public ?Weight $weight;
     public ?Dimensions $dimensions;
     public ?int $groupPackageCount;
+    public ?int $sequenceNumber;
 
     /**
      * @param  string  $itemDescription
@@ -49,6 +50,16 @@ class Item
     return $this;
   }
 
+  /**
+   * @param int|null $sequenceNumber
+   * @return $this
+   */
+  public function setSequenceNumber(?int $sequenceNumber): Item
+  {
+    $this->sequenceNumber = $sequenceNumber;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -67,6 +78,10 @@ class Item
 
         if (!empty($this->groupPackageCount)) {
             $data['groupPackageCount'] = $this->groupPackageCount;
+        }
+
+        if (!empty($this->sequenceNumber)) {
+            $data['sequenceNumber'] = $this->sequenceNumber;
         }
 
         return $data;

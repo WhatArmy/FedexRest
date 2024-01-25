@@ -27,11 +27,13 @@ class ItemEntityTest extends TestCase
                     ->setWidth(12)
                     ->setLength(12)
             )
-            ->setGroupPackageCount(2);
+            ->setGroupPackageCount(2)
+            ->setSequenceNumber(1);
         $this->assertObjectHasProperty('itemDescription', $item);
         $this->assertObjectHasProperty('dimensions', $item);
         $this->assertObjectHasProperty('weight', $item);
         $this->assertObjectHasProperty('groupPackageCount', $item);
+        $this->assertObjectHasProperty('sequenceNumber', $item);
         $test_item = $item->prepare();
         $this->assertEquals(1, $test_item['weight']['value']);
         $this->assertEquals(WeightUnits::_POUND, $test_item['weight']['units']);
@@ -40,5 +42,6 @@ class ItemEntityTest extends TestCase
         $this->assertEquals(12, $test_item['dimensions']['length']);
         $this->assertEquals(LinearUnits::_INCH, $test_item['dimensions']['units']);
         $this->assertEquals(2, $test_item['groupPackageCount']);
+        $this->assertEquals(1, $test_item['sequenceNumber']);
     }
 }
