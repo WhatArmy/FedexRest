@@ -5,6 +5,7 @@ namespace FedexRest\Tests\Entity;
 use FedexRest\Entity\Dimensions;
 use FedexRest\Entity\Item;
 use FedexRest\Entity\Weight;
+use FedexRest\Services\Ship\Entity\Value;
 use FedexRest\Services\Ship\Type\LinearUnits;
 use FedexRest\Services\Ship\Type\SubPackagingType;
 use FedexRest\Services\Ship\Type\WeightUnits;
@@ -30,13 +31,15 @@ class ItemEntityTest extends TestCase
             )
             ->setGroupPackageCount(2)
             ->setSequenceNumber(1)
-            ->setSubPackagingType(SubPackagingType::_BAG);
+            ->setSubPackagingType(SubPackagingType::_BAG)
+            ->setDeclaredValue((new Value())->setAmount(100)->setCurrency('USD'));
         $this->assertObjectHasProperty('itemDescription', $item);
         $this->assertObjectHasProperty('dimensions', $item);
         $this->assertObjectHasProperty('weight', $item);
         $this->assertObjectHasProperty('groupPackageCount', $item);
         $this->assertObjectHasProperty('sequenceNumber', $item);
         $this->assertObjectHasProperty('subPackagingType', $item);
+        $this->assertObjectHasProperty('declaredValue', $item);
         $test_item = $item->prepare();
         $this->assertEquals(1, $test_item['weight']['value']);
         $this->assertEquals(WeightUnits::_POUND, $test_item['weight']['units']);
@@ -47,5 +50,7 @@ class ItemEntityTest extends TestCase
         $this->assertEquals(2, $test_item['groupPackageCount']);
         $this->assertEquals(1, $test_item['sequenceNumber']);
         $this->assertEquals(SubPackagingType::_BAG, $test_item['subPackagingType']);
+        $this->assertEquals(100, $test_item['declaredValue']['amount']);
+        $this->assertEquals('USD', $test_item['declaredValue']['currency']);
     }
 }

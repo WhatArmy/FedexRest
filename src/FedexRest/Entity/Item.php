@@ -2,6 +2,8 @@
 
 namespace FedexRest\Entity;
 
+use FedexRest\Services\Ship\Entity\Value;
+
 class Item
 {
     public string $itemDescription = '';
@@ -10,6 +12,7 @@ class Item
     public ?int $groupPackageCount;
     public ?int $sequenceNumber;
     public ?string $subPackagingType;
+    public ?Value $declaredValue;
 
     /**
      * @param  string  $itemDescription
@@ -71,6 +74,16 @@ class Item
     return $this;
   }
 
+  /**
+   * @param Value|null $declaredValue
+   * @return $this
+   */
+  public function setDeclaredValue(Value $declaredValue): Item
+  {
+    $this->declaredValue = $declaredValue;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -97,6 +110,10 @@ class Item
 
         if (!empty($this->subPackagingType)) {
             $data['subPackagingType'] = $this->subPackagingType;
+        }
+
+        if (!empty($this->declaredValue)) {
+            $data['declaredValue'] = $this->declaredValue->prepare();
         }
 
         return $data;
