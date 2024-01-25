@@ -9,6 +9,7 @@ class Item
     public ?Dimensions $dimensions;
     public ?int $groupPackageCount;
     public ?int $sequenceNumber;
+    public ?string $subPackagingType;
 
     /**
      * @param  string  $itemDescription
@@ -60,6 +61,16 @@ class Item
     return $this;
   }
 
+  /**
+   * @param string $subPackagingType
+   * @return $this
+   */
+  public function setSubPackagingType(string $subPackagingType): Item
+  {
+    $this->subPackagingType = $subPackagingType;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -82,6 +93,10 @@ class Item
 
         if (!empty($this->sequenceNumber)) {
             $data['sequenceNumber'] = $this->sequenceNumber;
+        }
+
+        if (!empty($this->subPackagingType)) {
+            $data['subPackagingType'] = $this->subPackagingType;
         }
 
         return $data;
