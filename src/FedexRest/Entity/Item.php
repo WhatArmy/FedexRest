@@ -13,6 +13,7 @@ class Item
     public ?int $sequenceNumber;
     public ?string $subPackagingType;
     public ?Value $declaredValue;
+    public ?PackageSpecialServicesRequested $packageSpecialServices;
 
     /**
      * @param  string  $itemDescription
@@ -84,6 +85,16 @@ class Item
     return $this;
   }
 
+  /**
+   * @param PackageSpecialServicesRequested|null $packageSpecialServices
+   * @return $this
+   */
+  public function setPackageSpecialServices(?PackageSpecialServicesRequested $packageSpecialServices): Item
+  {
+    $this->packageSpecialServices = $packageSpecialServices;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -114,6 +125,10 @@ class Item
 
         if (!empty($this->declaredValue)) {
             $data['declaredValue'] = $this->declaredValue->prepare();
+        }
+
+        if (!empty($this->packageSpecialServices)) {
+            $data['packageSpecialServices'] = $this->packageSpecialServices->prepare();
         }
 
         return $data;
