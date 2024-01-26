@@ -78,7 +78,7 @@ class Item
    * @param Value|null $declaredValue
    * @return $this
    */
-  public function setDeclaredValue(Value $declaredValue): Item
+  public function setDeclaredValue(?Value $declaredValue): Item
   {
     $this->declaredValue = $declaredValue;
     return $this;
