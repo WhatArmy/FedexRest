@@ -173,7 +173,7 @@ class CreateShipmentTest extends TestCase
                     )
                     ->setDimensions((new Dimensions())
                         ->setWidth(12)
-                        ->setLength(12.25)
+                        ->setLength(12)
                         ->setHeight(12)
                         ->setUnits(LinearUnits::_INCH)
                     )
@@ -224,8 +224,8 @@ class CreateShipmentTest extends TestCase
                             ->setUnit(WeightUnits::_POUND)
                     )
                     ->setDimensions((new Dimensions())
-                        ->setWidth(12.5)
-                        ->setLength(12.5)
+                        ->setWidth(12)
+                        ->setLength(12)
                         ->setHeight(12)
                         ->setUnits(LinearUnits::_INCH)
                     ))->request();
@@ -311,9 +311,9 @@ class CreateShipmentTest extends TestCase
                         ->setUnit(WeightUnits::_POUND)
                 )
                 ->setDimensions((new Dimensions())
-                    ->setWidth(12.5)
-                    ->setLength(12.5)
-                    ->setHeight(12.5)
+                    ->setWidth(12)
+                    ->setLength(12)
+                    ->setHeight(12)
                     ->setUnits(LinearUnits::_INCH)
                 ));
         $prepared = $request->prepare();
