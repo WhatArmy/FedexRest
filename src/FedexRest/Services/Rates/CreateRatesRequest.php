@@ -359,8 +359,15 @@ class CreateRatesRequest extends AbstractRequest
         }
 
         try {
+          $prepare = $this->prepare();
+//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['dimensions']);
+//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['groupPackageCount']);
+//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['sequenceNumber']);
+//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['subPackagingType']);
+//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['itemDescription']);
+//          unset($prepare['requestedShipment']['totalPackageCount']);
             $query = $this->http_client->post($this->getApiUri($this->api_endpoint), [
-                'json' => $this->prepare(),
+                'json' => $prepare,
                 'http_errors' => false,
             ]);
             return ($this->raw === true) ? $query : json_decode($query->getBody()->getContents());
