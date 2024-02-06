@@ -13,6 +13,7 @@ use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Services\Ship\Entity\ShipmentSpecialServices;
 use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
 use GuzzleHttp\Exception\GuzzleException;
+use Log;
 
 class CreateRatesRequest extends AbstractRequest
 {
@@ -366,6 +367,7 @@ class CreateRatesRequest extends AbstractRequest
 //          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['subPackagingType']);
 //          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['itemDescription']);
 //          unset($prepare['requestedShipment']['totalPackageCount']);
+            Log::info(__FILE__."-->".__LINE__.' -> ' . json_encode($prepare));
             $query = $this->http_client->post($this->getApiUri($this->api_endpoint), [
                 'json' => $prepare,
                 'http_errors' => false,
