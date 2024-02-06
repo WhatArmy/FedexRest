@@ -5,7 +5,7 @@ namespace FedexRest\Entity;
 class Weight
 {
     public string $unit = '';
-    public string $value = '';
+    public float $value = 0;
 
     /**
      * @param  string  $unit
@@ -18,10 +18,10 @@ class Weight
     }
 
     /**
-     * @param  int  $value
+     * @param  float  $value
      * @return Weight
      */
-    public function setValue(int $value): Weight
+    public function setValue(float $value): Weight
     {
         $this->value = $value;
         return $this;
