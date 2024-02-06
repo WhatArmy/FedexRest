@@ -50,7 +50,7 @@ class ItemEntityTest extends TestCase
         $this->assertObjectHasProperty('sequenceNumber', $item);
         $this->assertObjectHasProperty('subPackagingType', $item);
         $this->assertObjectHasProperty('declaredValue', $item);
-        $this->assertObjectHasProperty('packageSpecialServicesRequested', $item);
+        $this->assertObjectHasProperty('packageSpecialServices', $item);
         $test_item = $item->prepare();
         $this->assertEquals(1, $test_item['weight']['value']);
         $this->assertEquals(WeightUnits::_POUND, $test_item['weight']['units']);
