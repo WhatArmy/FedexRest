@@ -2,11 +2,18 @@
 
 namespace FedexRest\Entity;
 
+use FedexRest\Services\Ship\Entity\Value;
+
 class Item
 {
     public string $itemDescription = '';
     public ?Weight $weight;
     public ?Dimensions $dimensions;
+    public ?int $groupPackageCount;
+    public ?int $sequenceNumber;
+    public ?string $subPackagingType;
+    public ?Value $declaredValue;
+    public ?PackageSpecialServicesRequested $packageSpecialServices;
 
     /**
      * @param  string  $itemDescription
@@ -38,6 +45,56 @@ class Item
     return $this;
   }
 
+  /**
+   * @param int|null $groupPackageCount
+   * @return $this
+   */
+  public function setGroupPackageCount(?int $groupPackageCount): Item
+  {
+    $this->groupPackageCount = $groupPackageCount;
+    return $this;
+  }
+
+  /**
+   * @param int|null $sequenceNumber
+   * @return $this
+   */
+  public function setSequenceNumber(?int $sequenceNumber): Item
+  {
+    $this->sequenceNumber = $sequenceNumber;
+    return $this;
+  }
+
+  /**
+   * @param string $subPackagingType
+   * @return $this
+   */
+  public function setSubPackagingType(string $subPackagingType): Item
+  {
+    $this->subPackagingType = $subPackagingType;
+    return $this;
+  }
+
+  /**
+   * @param Value|null $declaredValue
+   * @return $this
+   */
+  public function setDeclaredValue(?Value $declaredValue): Item
+  {
+    $this->declaredValue = $declaredValue;
+    return $this;
+  }
+
+  /**
+   * @param PackageSpecialServicesRequested|null $packageSpecialServices
+   * @return $this
+   */
+  public function setPackageSpecialServices(?PackageSpecialServicesRequested $packageSpecialServices): Item
+  {
+    $this->packageSpecialServices = $packageSpecialServices;
+    return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -52,6 +109,26 @@ class Item
 
         if (!empty($this->dimensions)) {
             $data['dimensions'] = $this->dimensions->prepare();
+        }
+
+        if (!empty($this->groupPackageCount)) {
+            $data['groupPackageCount'] = $this->groupPackageCount;
+        }
+
+        if (!empty($this->sequenceNumber)) {
+            $data['sequenceNumber'] = $this->sequenceNumber;
+        }
+
+        if (!empty($this->subPackagingType)) {
+            $data['subPackagingType'] = $this->subPackagingType;
+        }
+
+        if (!empty($this->declaredValue)) {
+            $data['declaredValue'] = $this->declaredValue->prepare();
+        }
+
+        if (!empty($this->packageSpecialServices)) {
+            $data['packageSpecialServices'] = $this->packageSpecialServices->prepare();
         }
 
         return $data;
