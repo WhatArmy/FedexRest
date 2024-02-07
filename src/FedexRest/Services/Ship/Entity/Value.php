@@ -5,7 +5,7 @@ namespace FedexRest\Services\Ship\Entity;
 class Value
 {
     public ?string $currency;
-    public ?int $amount;
+    public ?float $amount;
 
     /**
      * @param  string  $currency
@@ -18,10 +18,10 @@ class Value
     }
 
     /**
-     * @param  int  $amount
+     * @param  float  $amount
      * @return $this
      */
-    public function setAmount(int $amount): Value
+    public function setAmount(float $amount): Value
     {
         $this->amount = $amount;
         return $this;
