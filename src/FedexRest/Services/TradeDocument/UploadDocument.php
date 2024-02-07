@@ -10,6 +10,8 @@ use GuzzleHttp\Exception\GuzzleException;
 class UploadDocument extends AbstractRequest
 {
 
+    protected string $production_url = 'https://documentapi.prod.fedex.com';
+    protected string $testing_url = 'https://documentapitest.prod.fedex.com/sandbox';
     protected string $content_type = 'multipart/form-data';
     public string $attachment;
     public Document $document;
@@ -28,8 +30,18 @@ class UploadDocument extends AbstractRequest
 
     public function prepare(): array {
         return [
-            'attachment' => $this->attachment,
-            'document' => $this->document->prepare(),
+            [
+                'name' => 'attachment',
+                'contents' => $this->attachment,
+                'filename' => $this->document->name,
+                'headers' => [
+                    'Content-Type' => $this->document->contentType
+                ]
+            ],
+            [
+                'name' => 'document',
+                'contents' =>  json_encode($this->document->prepare())
+            ]
         ];
     }
 
