@@ -4,8 +4,12 @@ namespace FedexRest\Tests\TradeDocument;
 
 use FedexRest\Authorization\Authorize;
 use FedexRest\Services\TradeDocument\Entity\Document;
+use FedexRest\Services\TradeDocument\Entity\ImageDocument;
+use FedexRest\Services\TradeDocument\Entity\ImageMeta;
 use FedexRest\Services\TradeDocument\Entity\Meta;
+use FedexRest\Services\TradeDocument\Entity\Rule;
 use FedexRest\Services\TradeDocument\UploadDocument;
+use FedexRest\Services\TradeDocument\UploadImages;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +25,7 @@ class UploadDocumentTest extends TestCase
             ->setClientSecret('bd59d91084e8482895d4ae2fb4fb79a3');
     }
 
-    public function testHasAccountNumber()
+    public function testUploadDocument()
     {
         $meta = (new Meta())
             ->setShipDocumentType('COMMERCIAL_INVOICE')
@@ -45,5 +49,26 @@ class UploadDocumentTest extends TestCase
             ->request();
         Assert::assertInstanceOf(\stdClass::class, $request);
         Assert::assertNotEmpty($request->output->meta->docId);
+    }
+
+    public function testUploadImages()
+    {
+        $meta = (new ImageMeta())
+            ->setImageType('SIGNATURE')
+            ->setImageIndex('IMAGE_1');
+        $rules = (new Rule())->setWorkflowName('LetterheadSignature');
+        $document = (new ImageDocument())
+            ->setReferenceId('1234')
+            ->setName('LH2.PNG')
+            ->setContentType('image/png')
+            ->setMeta($meta)
+            ->setRules($rules);
+        $request = (new UploadImages())
+            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setDocument($document)
+            ->setAttachment('file.PNG')
+            ->request();
+        Assert::assertInstanceOf(\stdClass::class, $request);
+        Assert::assertNotEmpty($request->errors);
     }
 }
