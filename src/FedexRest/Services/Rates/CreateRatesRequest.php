@@ -33,8 +33,8 @@ class CreateRatesRequest extends AbstractRequest
     protected int $totalPackageCount;
     protected bool $returnTransitTimes = false;
     protected bool $servicesNeededOnRateFailure = false;
-    protected ?string $variableOptions;
-    protected ?string $rateSortOrder;
+    protected ?string $variableOptions = null;
+    protected ?string $rateSortOrder = null;
 
     /**
      * {@inheritDoc}
