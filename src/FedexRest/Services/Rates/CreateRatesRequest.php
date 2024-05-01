@@ -31,6 +31,10 @@ class CreateRatesRequest extends AbstractRequest
     protected int $totalWeight;
     protected string $preferredCurrency = '';
     protected int $totalPackageCount;
+    protected bool $returnTransitTimes = false;
+    protected bool $servicesNeededOnRateFailure = false;
+    protected ?string $variableOptions;
+    protected ?string $rateSortOrder;
 
     /**
      * {@inheritDoc}
@@ -279,6 +283,71 @@ class CreateRatesRequest extends AbstractRequest
         return $this->totalPackageCount;
     }
 
+    public function setReturnTransitTimes(bool $returnTransitTimes=true): CreateRatesRequest
+    {
+        $this->returnTransitTimes = $returnTransitTimes;
+        return $this;
+    }
+
+    public function getReturnTransitTimes(): bool
+    {
+        return $this->returnTransitTimes;
+    }
+
+    public function setServicesNeededOnRateFailure(bool $servicesNeededOnRateFailure=true): CreateRatesRequest
+    {
+        $this->servicesNeededOnRateFailure = $servicesNeededOnRateFailure;
+        return $this;
+    }
+
+    public function getServicesNeededOnRateFailure(): bool
+    {
+        return $this->servicesNeededOnRateFailure;
+    }
+
+    public function setVariableOptions(?string $variableOptions): CreateRatesRequest
+    {
+        $this->variableOptions = $variableOptions;
+        return $this;
+    }
+
+    public function getVariableOptions(): ?string
+    {
+        return $this->variableOptions;
+    }
+
+    public function setRateSortOrder(?string $rateSortOrder): CreateRatesRequest
+    {
+        $this->rateSortOrder = $rateSortOrder;
+        return $this;
+    }
+
+    public function getRateSortOrder(): ?string
+    {
+        return $this->rateSortOrder;
+    }
+
+    /**
+     * @return array
+     */
+    public function getControlParameters(): array
+    {
+        $data = [
+            'returnTransitTimes' => $this->returnTransitTimes,
+            'servicesNeededOnRateFailure' => $this->servicesNeededOnRateFailure,
+        ];
+
+        if ($this->variableOptions) {
+            $data['variableOptions'] = $this->variableOptions;
+        }
+
+        if ($this->rateSortOrder) {
+            $data['rateSortOrder'] = $this->rateSortOrder;
+        }
+
+        return $data;
+    }
+
     /**
      * @return array
      */
@@ -338,6 +407,7 @@ class CreateRatesRequest extends AbstractRequest
             'accountNumber' => [
                 'value' => $this->accountNumber,
             ],
+            'rateRequestControlParameters' => $this->getControlParameters(),
             'requestedShipment' => $this->getRequestedShipment(),
         ];
     }
