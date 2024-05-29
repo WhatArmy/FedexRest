@@ -51,22 +51,21 @@ class CancelShipmentTest extends TestCase
 
     public function testPrepare()
     {
-        $trackingNumber = 794953555571;
         $request = (new CancelShipment)
             ->setAccessToken((string) $this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
-            ->setTrackingNumber($trackingNumber);
+            ->setAccountNumber($accountNumber = 740561073)
+            ->setTrackingNumber($trackingNumber = 794953555571);
 
+        $this->assertEquals($accountNumber, $request->prepare()['accountNumber']['value']);
         $this->assertEquals($trackingNumber, $request->prepare()['trackingNumber']);
     }
 
     public function testRequest()
     {
-        $trackingNumber = 794953555571;
         $cancelShipment = (new CancelShipment)
             ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
-            ->setTrackingNumber($trackingNumber);
+            ->setTrackingNumber(794953555571);
 
         $request = $cancelShipment->request();
 
