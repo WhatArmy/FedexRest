@@ -35,6 +35,7 @@ class CreateRatesRequest extends AbstractRequest
     protected bool $servicesNeededOnRateFailure = false;
     protected ?string $variableOptions = null;
     protected ?string $rateSortOrder = null;
+    protected array $carrierCodes = [];
 
     /**
      * {@inheritDoc}
@@ -328,6 +329,24 @@ class CreateRatesRequest extends AbstractRequest
     }
 
     /**
+     * Set the list of Carrier Codes to request rates from.
+     *
+     * Documentation is not clear on what the default is when not specified, but as of
+     * 2024-05-30 the default appears to be ['FDXE', 'FDXG']. You must explicitly include
+     * 'FXSP' to obtain SmartPost rates
+     */
+    public function setCarrierCodes(array $carrierCodes): CreateRatesRequest
+    {
+        $this->carrierCodes = $carrierCodes;
+        return $this;
+    }
+
+    public function getCarrierCodes(): array
+    {
+        return $this->carrierCodes;
+    }
+
+    /**
      * @return array
      */
     public function getControlParameters(): array
@@ -409,6 +428,7 @@ class CreateRatesRequest extends AbstractRequest
             ],
             'rateRequestControlParameters' => $this->getControlParameters(),
             'requestedShipment' => $this->getRequestedShipment(),
+            'carrierCodes' => $this->getCarrierCodes(),
         ];
     }
 
@@ -429,13 +449,7 @@ class CreateRatesRequest extends AbstractRequest
         }
 
         try {
-          $prepare = $this->prepare();
-//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['dimensions']);
-//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['groupPackageCount']);
-//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['sequenceNumber']);
-//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['subPackagingType']);
-//          unset($prepare['requestedShipment']['requestedPackageLineItems'][0]['itemDescription']);
-//          unset($prepare['requestedShipment']['totalPackageCount']);
+            $prepare = $this->prepare();
             $query = $this->http_client->post($this->getApiUri($this->api_endpoint), [
                 'json' => $prepare,
                 'http_errors' => false,

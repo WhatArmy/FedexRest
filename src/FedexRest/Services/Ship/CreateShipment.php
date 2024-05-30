@@ -7,6 +7,7 @@ use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Entity\Person;
 use FedexRest\Services\Ship\Entity\ShipmentSpecialServices;
 use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
+use FedexRest\Services\Ship\Entity\SmartPostInfoDetail;
 use FedexRest\Services\Ship\Entity\Value;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Services\Ship\Exceptions\MissingLabelException;
