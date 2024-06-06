@@ -81,7 +81,6 @@ class CreateRatesRequestTest extends TestCase
     }
 
     /**
-     * @covers \FedexRest\Services\Rates\CreateRatesRequest::prepare
      * @return void
      * @throws \FedexRest\Exceptions\MissingAuthCredentialsException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -140,7 +139,6 @@ class CreateRatesRequestTest extends TestCase
     }
 
     /**
-     * @covers \FedexRest\Services\Rates\CreateRatesRequest::request
      * @return void
      * @throws MissingAccountNumberException
      * @throws \FedexRest\Exceptions\MissingAccessTokenException
