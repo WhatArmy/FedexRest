@@ -2,6 +2,8 @@
 
 namespace FedexRest\Services\Ship\Entity;
 
+use FedexRest\Entity\EmailNotificationRecipient;
+
 class EmailNotificationDetail
 {
     protected string $aggregationType = 'PER_SHIPMENT';
@@ -50,6 +52,7 @@ class EmailNotificationDetail
     private function prepareEmailNotificationRecipients(): array
     {
         $emailNotificationRecipients = [];
+        /** @var EmailNotificationRecipient $emailNotificationRecipient */
         foreach ($this->emailNotificationRecipients as $emailNotificationRecipient) {
             $emailNotificationRecipients[] = $emailNotificationRecipient->prepare();
         }
