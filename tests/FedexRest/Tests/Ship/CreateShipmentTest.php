@@ -343,7 +343,7 @@ class CreateShipmentTest extends TestCase
         $this->assertFalse($prepared['oneLabelAtATime']);
         $this->assertEquals('FEDEX_GROUND', $requested_shipment['serviceType']);
 
-        $emailNotificationDetail = $prepared['emailNotificationDetail'];
+        $emailNotificationDetail = $requested_shipment['emailNotificationDetail'];
         $this->assertEquals('PER_PACKAGE', $emailNotificationDetail['aggregationType']);
         $this->assertEquals('john@doe.com', $emailNotificationDetail['emailNotificationRecipients'][0]['emailAddress']);
         $this->assertEquals('SHIPPER', $emailNotificationDetail['emailNotificationRecipients'][0]['emailNotificationRecipientType']);

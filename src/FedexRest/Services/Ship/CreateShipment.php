@@ -2,7 +2,6 @@
 
 namespace FedexRest\Services\Ship;
 
-use FedexRest\Entity\EmailNotificationRecipient;
 use FedexRest\Entity\Item;
 use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
 use FedexRest\Services\Ship\Entity\Label;
@@ -540,10 +539,6 @@ class CreateShipment extends AbstractRequest
         }
         if (!empty($this->processingOptionType)) {
             $data['processingOptionType'] = $this->processingOptionType;
-        }
-
-        if (!empty($this->emailNotificationDetail)) {
-            $data['emailNotificationDetail'] = $this->emailNotificationDetail->prepare();
         }
         return $data;
     }
