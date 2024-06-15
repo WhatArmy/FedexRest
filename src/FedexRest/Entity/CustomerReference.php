@@ -6,10 +6,10 @@ class CustomerReference
 {
     public function __construct(
         public ?string $type = null, // One of the Type\CustomerReferenceType constants
-        public ?string $value = null,
+        public string $value = '',
     ) {}
 
-    public function setType(string $type): static
+    public function setType(?string $type): static
     {
         $this->type = $type;
         return $this;
