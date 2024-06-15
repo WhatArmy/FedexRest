@@ -2,6 +2,7 @@
 
 namespace FedexRest\Entity;
 
+use FedexRest\Entity\CustomerReference;
 use FedexRest\Services\Ship\Entity\Value;
 
 class Item
@@ -14,6 +15,7 @@ class Item
     public ?string $subPackagingType;
     public ?Value $declaredValue;
     public ?PackageSpecialServicesRequested $packageSpecialServices;
+    public array $customerReferences = [];
 
     /**
      * @param  string  $itemDescription
@@ -35,65 +37,77 @@ class Item
         return $this;
     }
 
-  /**
-   * @param  Dimensions|null $dimensions
-   * @return $this
-   */
-  public function setDimensions(?Dimensions $dimensions): Item
-  {
-    $this->dimensions = $dimensions;
-    return $this;
-  }
+    /**
+     * @param  Dimensions|null $dimensions
+     * @return $this
+     */
+    public function setDimensions(?Dimensions $dimensions): Item
+    {
+        $this->dimensions = $dimensions;
+        return $this;
+    }
 
-  /**
-   * @param int|null $groupPackageCount
-   * @return $this
-   */
-  public function setGroupPackageCount(?int $groupPackageCount): Item
-  {
-    $this->groupPackageCount = $groupPackageCount;
-    return $this;
-  }
+    /**
+     * @param int|null $groupPackageCount
+     * @return $this
+     */
+    public function setGroupPackageCount(?int $groupPackageCount): Item
+    {
+        $this->groupPackageCount = $groupPackageCount;
+        return $this;
+    }
 
-  /**
-   * @param int|null $sequenceNumber
-   * @return $this
-   */
-  public function setSequenceNumber(?int $sequenceNumber): Item
-  {
-    $this->sequenceNumber = $sequenceNumber;
-    return $this;
-  }
+    /**
+     * @param int|null $sequenceNumber
+     * @return $this
+     */
+    public function setSequenceNumber(?int $sequenceNumber): Item
+    {
+        $this->sequenceNumber = $sequenceNumber;
+        return $this;
+    }
 
-  /**
-   * @param string $subPackagingType
-   * @return $this
-   */
-  public function setSubPackagingType(string $subPackagingType): Item
-  {
-    $this->subPackagingType = $subPackagingType;
-    return $this;
-  }
+    /**
+     * @param string $subPackagingType
+     * @return $this
+     */
+    public function setSubPackagingType(string $subPackagingType): Item
+    {
+        $this->subPackagingType = $subPackagingType;
+        return $this;
+    }
 
-  /**
-   * @param Value|null $declaredValue
-   * @return $this
-   */
-  public function setDeclaredValue(?Value $declaredValue): Item
-  {
-    $this->declaredValue = $declaredValue;
-    return $this;
-  }
+    /**
+     * @param Value|null $declaredValue
+     * @return $this
+     */
+    public function setDeclaredValue(?Value $declaredValue): Item
+    {
+        $this->declaredValue = $declaredValue;
+        return $this;
+    }
 
-  /**
-   * @param PackageSpecialServicesRequested|null $packageSpecialServices
-   * @return $this
-   */
-  public function setPackageSpecialServices(?PackageSpecialServicesRequested $packageSpecialServices): Item
-  {
-    $this->packageSpecialServices = $packageSpecialServices;
-    return $this;
-  }
+    /**
+     * @param PackageSpecialServicesRequested|null $packageSpecialServices
+     * @return $this
+     */
+    public function setPackageSpecialServices(?PackageSpecialServicesRequested $packageSpecialServices): Item
+    {
+        $this->packageSpecialServices = $packageSpecialServices;
+        return $this;
+    }
+
+    public function setCustomerReferences(array $customerReferences): Item
+    {
+        $this->customerReferences = $customerReferences;
+        return $this;
+    }
+
+    public function addCustomerReference(CustomerReference $customerReference): Item
+    {
+        $this->customerReferences[] = $customerReference;
+        return $this;
+    }
 
     public function prepare(): array
     {
@@ -129,6 +143,14 @@ class Item
 
         if (!empty($this->packageSpecialServices)) {
             $data['packageSpecialServices'] = $this->packageSpecialServices->prepare();
+        }
+
+        if (!empty($this->customerReferences)) {
+            // Call `prepare()` on each element
+            $data['customerReferences'] = array_map(
+                fn(CustomerReference $custref): array => $custref->prepare(),
+                $this->customerReferences
+            );
         }
 
         return $data;
