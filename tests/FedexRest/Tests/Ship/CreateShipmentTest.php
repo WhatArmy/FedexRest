@@ -2,7 +2,6 @@
 
 namespace FedexRest\Tests\Ship;
 
-use Carbon\Carbon;
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
 use FedexRest\Entity\Dimensions;
@@ -71,7 +70,7 @@ class CreateShipmentTest extends TestCase
                 ->setShippingChargesPayment((new ShippingChargesPayment())
                     ->setPaymentType('SENDER')
                 )
-                ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+                ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
                 ->setLabel((new Label())
                     ->setLabelStockType(LabelStockType::_STOCK_4X6)
                     ->setImageType(ImageType::_PDF)
@@ -133,7 +132,7 @@ class CreateShipmentTest extends TestCase
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
                 ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
                 ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
-                ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+                ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
                 ->setLabel((new Label())
                     ->setLabelStockType(LabelStockType::_STOCK_4X6)
                     ->setImageType(ImageType::_PDF)
@@ -349,7 +348,7 @@ class CreateShipmentTest extends TestCase
             ->setShippingChargesPayment((new ShippingChargesPayment())
                 ->setPaymentType('SENDER')
             )
-            ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+            ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
             ->setLabel((new Label())
                 ->setLabelStockType(LabelStockType::_STOCK_4X6)
                 ->setImageType(ImageType::_PDF)
