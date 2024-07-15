@@ -26,3 +26,4 @@ jobs:
         with:
           configuration: ./phpunit.xml
           test_suffix: "Test.php"
+
