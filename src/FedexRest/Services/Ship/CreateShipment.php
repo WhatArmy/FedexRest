@@ -7,6 +7,7 @@ use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Entity\Person;
 use FedexRest\Services\Ship\Entity\ShipmentSpecialServices;
 use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
+use FedexRest\Services\Ship\Entity\SmartPostInfoDetail;
 use FedexRest\Services\Ship\Entity\Value;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Services\Ship\Exceptions\MissingLabelException;
@@ -38,6 +39,7 @@ class CreateShipment extends AbstractRequest
     protected string $recipientLocationNumber = '';
     protected int $totalWeight;
     protected Person $origin;
+    protected SmartPostInfoDetail $smartPostInfoDetail;
     protected bool $blockInsightVisibility = FALSE;
     protected bool $oneLabelAtATime = FALSE;
     protected string $preferredCurrency = '';
@@ -392,6 +394,17 @@ class CreateShipment extends AbstractRequest
         return $this->origin;
     }
 
+    public function setSmartPostInfoDetail(?SmartPostInfoDetail $smartPostInfoDetail): CreateShipment
+    {
+        $this->smartPostInfoDetail = $smartPostInfoDetail;
+        return $this;
+    }
+
+    public function getSmartPostInfoDetail(): ?SmartPostInfoDetail
+    {
+        return $this->smartPostInfoDetail;
+    }
+
     /**
      * @param  bool  $blockInsightVisibility
      * @return $this
@@ -512,6 +525,9 @@ class CreateShipment extends AbstractRequest
         }
         if (!empty($this->origin)) {
             $data['origin'] = $this->origin->prepare();
+        }
+        if (!empty($this->smartPostInfoDetail)) {
+            $data['smartPostInfoDetail'] = $this->smartPostInfoDetail->prepare();
         }
         if (!empty($this->preferredCurrency)) {
             $data['preferredCurrency'] = $this->preferredCurrency;
