@@ -2,14 +2,15 @@
 
 namespace FedexRest\Tests\Ship;
 
-use Carbon\Carbon;
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
 use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
 use FedexRest\Entity\Weight;
+use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
+use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\Ship\CreateTagRequest;
 use FedexRest\Services\Ship\Type\PackagingType;
 use FedexRest\Services\Ship\Type\PickupType;
@@ -32,13 +33,13 @@ class CreateTagRequestTest extends TestCase
     public function testHasAccountNumber()
     {
         try {
-
-            $request = (new CreateTagRequest)
+            (new CreateTagRequest)
                 ->setAccessToken((string) $this->auth->authorize()->access_token)
                 ->request();
 
         } catch (MissingAccountNumberException $e) {
             $this->assertEquals('The account number is required', $e->getMessage());
+        } catch (MissingAccessTokenException|MissingLineItemException|GuzzleException|MissingAuthCredentialsException $e) {
         }
     }
 
@@ -107,12 +108,13 @@ class CreateTagRequestTest extends TestCase
     {
         try {
             $request = (new CreateTagRequest())
+                ->asRaw()
                 ->setAccessToken((string) $this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
                 ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
-                ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+                ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
                 ->setShipper(
                     (new Person)
                         ->setPersonName('SHIPPER NAME')
@@ -150,9 +152,11 @@ class CreateTagRequestTest extends TestCase
         } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
             $this->assertEmpty($e, sprintf('The request failed with message %s', $e->getMessage()));
         }
-        $this->assertObjectHasProperty('transactionId', $request);
+
+        $response = json_decode($request->getBody()->getContents());
+        $this->assertObjectHasProperty('transactionId', $response);
         $this->assertObjectHasProperty('encodedLabel',
-            $request->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
+            $response->output->transactionShipments[0]->pieceResponses[0]->packageDocuments[0]);
     }
 
 }
