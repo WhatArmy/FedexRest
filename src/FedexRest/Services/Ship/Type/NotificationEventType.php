@@ -1,0 +1,20 @@
+<?php
+
+namespace FedexRest\Services\Ship\Type;
+
+class NotificationEventType
+{
+    // Ship API, Open-Ship API
+    const _ON_DELIVERY = 'ON_DELIVERY';
+    const _ON_EXCEPTION = 'ON_EXCEPTION';
+    const _ON_SHIPMENT = 'ON_SHIPMENT';
+    const _ON_TENDER = 'ON_TENDER';
+
+    // Freight LTL API
+    const _ON_BILL_OF_LADING = 'ON_BILL_OF_LADING';
+    const _ON_ESTIMATED_DELIVERY = 'ON_ESTIMATED_DELIVERY';
+    const _ON_PICKUP_DRIVER_ARRIVED = 'ON_PICKUP_DRIVER_ARRIVED';
+    const _ON_PICKUP_DRIVER_ASSIGNED = 'ON_PICKUP_DRIVER_ASSIGNED';
+    const _ON_PICKUP_DRIVER_DEPARTED = 'ON_PICKUP_DRIVER_DEPARTED';
+    const _ON_PICKUP_DRIVER_EN_ROUTE = 'ON_PICKUP_DRIVER_EN_ROUTE';
+}

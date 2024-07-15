@@ -5,10 +5,12 @@ namespace FedexRest\Tests\Ship;
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
 use FedexRest\Entity\Dimensions;
+use FedexRest\Entity\EmailNotificationRecipient;
 use FedexRest\Entity\Item;
 use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Exceptions\MissingLineItemException;
+use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
 use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Entity\Person;
 use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
@@ -48,7 +50,7 @@ class CreateShipmentTest extends TestCase
         try {
 
             $request = (new CreateShipment)
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->request();
 
         } catch (MissingAccountNumberException $e) {
@@ -62,7 +64,7 @@ class CreateShipmentTest extends TestCase
         $request = NULL;
         try {
             $request = (new CreateShipment())
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -114,7 +116,8 @@ class CreateShipmentTest extends TestCase
                         ->setHeight(12)
                         ->setUnits(LinearUnits::_INCH)
                     )
-                )->request();
+                )
+                ->request();
         } catch (MissingLabelResponseOptionsException $e) {
             $this->assertEquals('Label Response Options are required', $e->getMessage());
         }
@@ -126,7 +129,7 @@ class CreateShipmentTest extends TestCase
         $request = NULL;
         try {
             $request = (new CreateShipment())
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -188,7 +191,7 @@ class CreateShipmentTest extends TestCase
         $request = NULL;
         try {
             $request = (new CreateShipment)
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
@@ -237,7 +240,7 @@ class CreateShipmentTest extends TestCase
     public function testRequiredData()
     {
         $shipment = (new CreateShipment())
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
@@ -271,7 +274,7 @@ class CreateShipmentTest extends TestCase
     public function testPrepare()
     {
         $request = (new CreateShipment)
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
@@ -314,16 +317,35 @@ class CreateShipmentTest extends TestCase
                     ->setLength(12)
                     ->setHeight(12)
                     ->setUnits(LinearUnits::_INCH)
-                ));
+                ))
+            ->setEmailNotificationDetail((new EmailNotificationDetail)
+                ->setPersonalMessage('hello world')
+                ->setAggregationType('PER_PACKAGE')
+                ->setEmailNotificationRecipients([
+                        (new EmailNotificationRecipient())
+                            ->setName('John Doe')
+                            ->setEmailAddress('john@doe.com')
+                            ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                            ->setEmailNotificationRecipientType('SHIPPER')
+                    ]
+                )
+            );
+
         $prepared = $request->prepare();
+
         $requested_shipment = $prepared['requestedShipment'];
         $this->assertEquals('Boston', $requested_shipment['recipients'][0]['address']['city']);
         $this->assertCount(1, $requested_shipment['recipients']);
         $this->assertNotEmpty($requested_shipment['shipper']['contact']['personName']);
         $this->assertEquals(LabelResponseOptionsType::_URL_ONLY, $prepared['labelResponseOptions']);
         $this->assertEquals(LabelDocOptionType::_LABELS_AND_DOCS, $prepared['mergeLabelDocOption']);
-        $this->assertEquals(FALSE, $prepared['oneLabelAtATime']);
+        $this->assertFalse($prepared['oneLabelAtATime']);
         $this->assertEquals('FEDEX_GROUND', $requested_shipment['serviceType']);
+
+        $emailNotificationDetail = $requested_shipment['emailNotificationDetail'];
+        $this->assertEquals('PER_PACKAGE', $emailNotificationDetail['aggregationType']);
+        $this->assertEquals('john@doe.com', $emailNotificationDetail['emailNotificationRecipients'][0]['emailAddress']);
+        $this->assertEquals('SHIPPER', $emailNotificationDetail['emailNotificationRecipients'][0]['emailNotificationRecipientType']);
     }
 
     /**
@@ -339,7 +361,7 @@ class CreateShipmentTest extends TestCase
     public function testRequest()
     {
         $shipment = (new CreateShipment())
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
@@ -392,8 +414,22 @@ class CreateShipmentTest extends TestCase
                     ->setHeight(12)
                     ->setUnits(LinearUnits::_INCH)
                 )
+            )
+            ->setEmailNotificationDetail((new EmailNotificationDetail)
+                ->setPersonalMessage('hello world')
+                ->setAggregationType('PER_PACKAGE')
+                ->setEmailNotificationRecipients([
+                        (new EmailNotificationRecipient())
+                            ->setName('John Doe')
+                            ->setEmailAddress('john@doe.com')
+                            ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                            ->setEmailNotificationRecipientType('SHIPPER')
+                    ]
+                )
             );
+
         $request = $shipment->request();
+
         $this->assertObjectHasProperty('transactionId', $request);
         $this->assertObjectNotHasProperty('errors', $request);
         $this->assertObjectHasProperty('output', $request);
@@ -404,7 +440,7 @@ class CreateShipmentTest extends TestCase
         $this->assertEquals('FEDEX_GROUND', $new_shipment->serviceType);
         $this->assertNotEmpty($new_shipment->pieceResponses);
         $this->assertNotEmpty($new_shipment->completedShipmentDetail);
-        $this->assertEquals('EXPRESS', $new_shipment->serviceCategory);
+        $this->assertEquals('GROUND', $new_shipment->serviceCategory);
     }
 
 }
