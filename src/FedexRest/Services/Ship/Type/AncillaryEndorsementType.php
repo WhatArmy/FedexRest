@@ -2,7 +2,7 @@
 
 namespace FedexRest\Services\Ship\Type;
 
-class AncillaryEncorsementType
+class AncillaryEndorsementType
 {
     const _ADDRESS_CORRECTION = 'ADDRESS_CORRECTION';
     const _CARRIER_LEAVE_IF_NO_RESPONSE = 'CARRIER_LEAVE_IF_NO_RESPONSE';
