@@ -50,7 +50,6 @@ class CreateTagRequestTest extends TestCase
 
     public function testRequiredData()
     {
-
         $request = (new CreateTagRequest)
             ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
@@ -128,7 +127,10 @@ class CreateTagRequestTest extends TestCase
                         ->setUnit('LB')
                 ));
         $prepared = $request->prepare();
+
         $this->assertEquals('Boston', $prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
+        $this->assertEquals(LabelStockType::_PAPER_4X6, $prepared['json']['requestedShipment']['labelSpecification']['labelStockType']);
+        $this->assertEquals(LabelStockType::_PAPER_4X6, $prepared['json']['requestedShipment']['emailNotificationDetail']['emailNotificationRecipients'][0]['emailAddress'] === 'john@doe.com');
     }
 
     public function testRequest()

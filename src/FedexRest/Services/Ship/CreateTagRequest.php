@@ -143,6 +143,14 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
+     * @return Label
+     */
+    public function getLabel(): Label
+    {
+        return $this->label;
+    }
+
+    /**
      * @param Label $label
      * @return $this
      */
@@ -157,19 +165,11 @@ class CreateTagRequest extends AbstractRequest
         return $this->emailNotificationDetail;
     }
 
-    public function setEmailNotificationDetail(EmailNotificationDetail $emailNotificationDetail): static
+    public function setEmailNotificationDetail(EmailNotificationDetail $emailNotificationDetail): CreateTagRequest
     {
         $this->emailNotificationDetail = $emailNotificationDetail;
 
         return $this;
-    }
-
-    /**
-     * @return Label
-     */
-    public function getLabel(): Label
-    {
-        return $this->label;
     }
 
     /**
