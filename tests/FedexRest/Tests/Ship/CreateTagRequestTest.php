@@ -4,6 +4,7 @@ namespace FedexRest\Tests\Ship;
 
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
+use FedexRest\Entity\EmailNotificationRecipient;
 use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
 use FedexRest\Entity\Weight;
@@ -12,6 +13,10 @@ use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\Ship\CreateTagRequest;
+use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
+use FedexRest\Services\Ship\Entity\Label;
+use FedexRest\Services\Ship\Type\ImageType;
+use FedexRest\Services\Ship\Type\LabelStockType;
 use FedexRest\Services\Ship\Type\PackagingType;
 use FedexRest\Services\Ship\Type\PickupType;
 use FedexRest\Services\Ship\Type\ServiceType;
@@ -61,6 +66,11 @@ class CreateTagRequestTest extends TestCase
             )
             ->setShipper(
                 (new Person)->setPersonName('Ipsum')
+            )
+            ->setLabel(
+                (new Label())
+                    ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                    ->setImageType(ImageType::_PNG)
             );
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasProperty('personName', $request->getShipper());
@@ -92,6 +102,23 @@ class CreateTagRequestTest extends TestCase
                 (new Person)
                     ->setPersonName('Ipsum')
                     ->setPhoneNumber('1234567890')
+            )
+            ->setLabel(
+                (new Label())
+                    ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                    ->setImageType(ImageType::_PNG)
+            )
+            ->setEmailNotificationDetail((new EmailNotificationDetail)
+                ->setPersonalMessage('hello world')
+                ->setAggregationType('PER_PACKAGE')
+                ->setEmailNotificationRecipients([
+                        (new EmailNotificationRecipient())
+                            ->setName('John Doe')
+                            ->setEmailAddress('john@doe.com')
+                            ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                            ->setEmailNotificationRecipientType('SHIPPER')
+                    ]
+                )
             )
             ->setLineItems((new Item())
                 ->setItemDescription('lorem Ipsum')
@@ -140,6 +167,23 @@ class CreateTagRequestTest extends TestCase
                                 ->setCountryCode('US')
                                 ->setPostalCode('75063')
                         )
+                )
+                ->setLabel(
+                    (new Label())
+                        ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                        ->setImageType(ImageType::_PNG)
+                )
+                ->setEmailNotificationDetail((new EmailNotificationDetail)
+                    ->setPersonalMessage('hello world')
+                    ->setAggregationType('PER_PACKAGE')
+                    ->setEmailNotificationRecipients([
+                            (new EmailNotificationRecipient())
+                                ->setName('John Doe')
+                                ->setEmailAddress('john@doe.com')
+                                ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                                ->setEmailNotificationRecipientType('SHIPPER')
+                        ]
+                    )
                 )
                 ->setLineItems((new Item())
                     ->setItemDescription('lorem Ipsum')
