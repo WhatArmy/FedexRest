@@ -9,7 +9,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 ### Services
 - [ ] Ship API
    - [x] Create Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Shipment))
-   - [ ] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Cancel%20Shipment))
+   - [x] Cancel Shipment ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Cancel%20Shipment))
    - [x] Create Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Tag))
    - [ ] Cancel Tag ([docs](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/CancelTag))
 - [ ] Track API
@@ -439,7 +439,7 @@ $request = (new CreateShipment())
             ->setShippingChargesPayment((new ShippingChargesPayment())
                 ->setPaymentType('SENDER')
             )
-            ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+            ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
             ->setLabel((new Label())
                 ->setLabelStockType(LabelStockType::_STOCK_4X6)
                 ->setImageType(ImageType::_PDF)
@@ -839,6 +839,43 @@ stdClass Object
 ```
 </details>
 
+#### Cancel Shipment
+###### Example
+```php
+$request = (new CancelShipment())
+            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccountNumber(749999999)
+            ->setTrackingNumber(794953555571)
+            ->request();
+```
+###### Sample Response
+<details>
+  <summary>Show Response</summary>
+
+```php
+stdClass Object
+(
+    [transactionId] => 99ba99f9-9999-99f9-a99d-9a9c9e9ac99a
+    [output] => stdClass Object
+        (
+            [alerts] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [code] => VIRTUAL.RESPONSE
+                            [message] => This is a Virtual Response.
+                            [alertType] => NOTE
+                        )
+
+                )
+            [cancelledShipment] => 1
+            [cancelledHistory] => 1
+        )
+
+)
+```
+</details>
+
 #### Create Tag
 ###### Example
 ```php
@@ -848,7 +885,7 @@ $request = (new CreateTagRequest())
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
                 ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
-                ->setShipDatestamp(Carbon::now()->addDays(3)->format('Y-m-d'))
+                ->setShipDatestamp((new \DateTime())->add(new \DateInterval('P3D'))->format('Y-m-d'))
                 ->setShipper(
                     (new Person)
                         ->setPersonName('SHIPPER NAME')
