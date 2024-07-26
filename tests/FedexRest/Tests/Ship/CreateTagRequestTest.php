@@ -16,6 +16,7 @@ use FedexRest\Services\Ship\CreateTagRequest;
 use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
 use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Services\Ship\Type\ImageType;
+use FedexRest\Services\Ship\Type\LabelFormatType;
 use FedexRest\Services\Ship\Type\LabelStockType;
 use FedexRest\Services\Ship\Type\PackagingType;
 use FedexRest\Services\Ship\Type\PickupType;
@@ -39,7 +40,7 @@ class CreateTagRequestTest extends TestCase
     {
         try {
             (new CreateTagRequest)
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->request();
 
         } catch (MissingAccountNumberException $e) {
@@ -51,7 +52,7 @@ class CreateTagRequestTest extends TestCase
     public function testRequiredData()
     {
         $request = (new CreateTagRequest)
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipients(
@@ -70,6 +71,7 @@ class CreateTagRequestTest extends TestCase
                 (new Label())
                     ->setLabelStockType(LabelStockType::_PAPER_4X6)
                     ->setImageType(ImageType::_PNG)
+                    ->setLabelFormatType(LabelFormatType::_COMMON2D)
             );
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasProperty('personName', $request->getShipper());
@@ -79,7 +81,7 @@ class CreateTagRequestTest extends TestCase
     public function testPrepare()
     {
         $request = (new CreateTagRequest)
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -106,6 +108,7 @@ class CreateTagRequestTest extends TestCase
                 (new Label())
                     ->setLabelStockType(LabelStockType::_PAPER_4X6)
                     ->setImageType(ImageType::_PNG)
+                    ->setLabelFormatType(LabelFormatType::_COMMON2D)
             )
             ->setEmailNotificationDetail((new EmailNotificationDetail)
                 ->setPersonalMessage('hello world')
@@ -130,7 +133,7 @@ class CreateTagRequestTest extends TestCase
 
         $this->assertEquals('Boston', $prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
         $this->assertEquals(LabelStockType::_PAPER_4X6, $prepared['json']['requestedShipment']['labelSpecification']['labelStockType']);
-        $this->assertEquals(LabelStockType::_PAPER_4X6, $prepared['json']['requestedShipment']['emailNotificationDetail']['emailNotificationRecipients'][0]['emailAddress'] === 'john@doe.com');
+        $this->assertEquals('john@doe.com', $prepared['json']['requestedShipment']['emailNotificationDetail']['emailNotificationRecipients'][0]['emailAddress']);
     }
 
     public function testRequest()
@@ -138,7 +141,7 @@ class CreateTagRequestTest extends TestCase
         try {
             $request = (new CreateTagRequest())
                 ->asRaw()
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -195,7 +198,7 @@ class CreateTagRequestTest extends TestCase
                             ->setUnit('LB')
                     ))
                 ->request();
-        } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
+        } catch (MissingAccountNumberException|MissingAuthCredentialsException|GuzzleException $e) {
             $this->assertEmpty($e, sprintf('The request failed with message %s', $e->getMessage()));
         }
 
