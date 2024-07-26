@@ -4,6 +4,7 @@ namespace FedexRest\Tests\Ship;
 
 use FedexRest\Authorization\Authorize;
 use FedexRest\Entity\Address;
+use FedexRest\Entity\EmailNotificationRecipient;
 use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
 use FedexRest\Entity\Weight;
@@ -12,6 +13,11 @@ use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingAuthCredentialsException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\Ship\CreateTagRequest;
+use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
+use FedexRest\Services\Ship\Entity\Label;
+use FedexRest\Services\Ship\Type\ImageType;
+use FedexRest\Services\Ship\Type\LabelFormatType;
+use FedexRest\Services\Ship\Type\LabelStockType;
 use FedexRest\Services\Ship\Type\PackagingType;
 use FedexRest\Services\Ship\Type\PickupType;
 use FedexRest\Services\Ship\Type\ServiceType;
@@ -34,7 +40,7 @@ class CreateTagRequestTest extends TestCase
     {
         try {
             (new CreateTagRequest)
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->request();
 
         } catch (MissingAccountNumberException $e) {
@@ -45,9 +51,8 @@ class CreateTagRequestTest extends TestCase
 
     public function testRequiredData()
     {
-
         $request = (new CreateTagRequest)
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipients(
@@ -61,6 +66,12 @@ class CreateTagRequestTest extends TestCase
             )
             ->setShipper(
                 (new Person)->setPersonName('Ipsum')
+            )
+            ->setLabel(
+                (new Label())
+                    ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                    ->setImageType(ImageType::_PNG)
+                    ->setLabelFormatType(LabelFormatType::_COMMON2D)
             );
         $this->assertCount(2, $request->getRecipients());
         $this->assertObjectHasProperty('personName', $request->getShipper());
@@ -70,7 +81,7 @@ class CreateTagRequestTest extends TestCase
     public function testPrepare()
     {
         $request = (new CreateTagRequest)
-            ->setAccessToken((string) $this->auth->authorize()->access_token)
+            ->setAccessToken((string)$this->auth->authorize()->access_token)
             ->setAccountNumber(740561073)
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -93,6 +104,24 @@ class CreateTagRequestTest extends TestCase
                     ->setPersonName('Ipsum')
                     ->setPhoneNumber('1234567890')
             )
+            ->setLabel(
+                (new Label())
+                    ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                    ->setImageType(ImageType::_PNG)
+                    ->setLabelFormatType(LabelFormatType::_COMMON2D)
+            )
+            ->setEmailNotificationDetail((new EmailNotificationDetail)
+                ->setPersonalMessage('hello world')
+                ->setAggregationType('PER_PACKAGE')
+                ->setEmailNotificationRecipients([
+                        (new EmailNotificationRecipient())
+                            ->setName('John Doe')
+                            ->setEmailAddress('john@doe.com')
+                            ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                            ->setEmailNotificationRecipientType('SHIPPER')
+                    ]
+                )
+            )
             ->setLineItems((new Item())
                 ->setItemDescription('lorem Ipsum')
                 ->setWeight(
@@ -101,7 +130,10 @@ class CreateTagRequestTest extends TestCase
                         ->setUnit('LB')
                 ));
         $prepared = $request->prepare();
+
         $this->assertEquals('Boston', $prepared['json']['requestedShipment']['recipients'][0]['address']['city']);
+        $this->assertEquals(LabelStockType::_PAPER_4X6, $prepared['json']['requestedShipment']['labelSpecification']['labelStockType']);
+        $this->assertEquals('john@doe.com', $prepared['json']['requestedShipment']['emailNotificationDetail']['emailNotificationRecipients'][0]['emailAddress']);
     }
 
     public function testRequest()
@@ -109,7 +141,7 @@ class CreateTagRequestTest extends TestCase
         try {
             $request = (new CreateTagRequest())
                 ->asRaw()
-                ->setAccessToken((string) $this->auth->authorize()->access_token)
+                ->setAccessToken((string)$this->auth->authorize()->access_token)
                 ->setAccountNumber(740561073)
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -141,6 +173,23 @@ class CreateTagRequestTest extends TestCase
                                 ->setPostalCode('75063')
                         )
                 )
+                ->setLabel(
+                    (new Label())
+                        ->setLabelStockType(LabelStockType::_PAPER_4X6)
+                        ->setImageType(ImageType::_PNG)
+                )
+                ->setEmailNotificationDetail((new EmailNotificationDetail)
+                    ->setPersonalMessage('hello world')
+                    ->setAggregationType('PER_PACKAGE')
+                    ->setEmailNotificationRecipients([
+                            (new EmailNotificationRecipient())
+                                ->setName('John Doe')
+                                ->setEmailAddress('john@doe.com')
+                                ->setNotificationEventType('ON_DELIVERY', 'ON_PICKUP_DRIVER_EN_ROUTE')
+                                ->setEmailNotificationRecipientType('SHIPPER')
+                        ]
+                    )
+                )
                 ->setLineItems((new Item())
                     ->setItemDescription('lorem Ipsum')
                     ->setWeight(
@@ -149,7 +198,7 @@ class CreateTagRequestTest extends TestCase
                             ->setUnit('LB')
                     ))
                 ->request();
-        } catch (MissingAccountNumberException | MissingAuthCredentialsException | GuzzleException $e) {
+        } catch (MissingAccountNumberException|MissingAuthCredentialsException|GuzzleException $e) {
             $this->assertEmpty($e, sprintf('The request failed with message %s', $e->getMessage()));
         }
 

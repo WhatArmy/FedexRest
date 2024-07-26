@@ -4,9 +4,14 @@ namespace FedexRest\Services\Ship;
 
 use FedexRest\Entity\Item;
 use FedexRest\Entity\Person;
+use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Exceptions\MissingAccountNumberException;
 use FedexRest\Exceptions\MissingLineItemException;
 use FedexRest\Services\AbstractRequest;
+use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
+use FedexRest\Services\Ship\Entity\Label;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class CreateTagRequest extends AbstractRequest
 {
@@ -18,6 +23,8 @@ class CreateTagRequest extends AbstractRequest
     protected string $packaging_type;
     protected string $pickup_type;
     protected string $ship_datestamp = '';
+    protected Label $label;
+    protected EmailNotificationDetail $emailNotificationDetail;
 
     /**
      * @inheritDoc
@@ -36,7 +43,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  string  $pickup_type
+     * @param string $pickup_type
      * @return CreateTagRequest
      */
     public function setPickupType(string $pickup_type): CreateTagRequest
@@ -54,7 +61,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  string  $packaging_type
+     * @param string $packaging_type
      * @return CreateTagRequest
      */
     public function setPackagingType(string $packaging_type): CreateTagRequest
@@ -72,7 +79,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  Item  $line_items
+     * @param Item $line_items
      * @return $this
      */
     public function setLineItems(Item $line_items): CreateTagRequest
@@ -82,7 +89,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  string  $ship_datestamp
+     * @param string $ship_datestamp
      * @return CreateTagRequest
      */
     public function setShipDatestamp(string $ship_datestamp): CreateTagRequest
@@ -92,7 +99,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  mixed  $service_type
+     * @param mixed $service_type
      * @return CreateTagRequest
      */
     public function setServiceType(string $service_type): CreateTagRequest
@@ -126,7 +133,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  Person  $shipper
+     * @param Person $shipper
      * @return $this
      */
     public function setShipper(Person $shipper): CreateTagRequest
@@ -136,7 +143,37 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  Person  ...$recipients
+     * @return Label
+     */
+    public function getLabel(): Label
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param Label $label
+     * @return $this
+     */
+    public function setLabel(Label $label): CreateTagRequest
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    public function getEmailNotificationDetail(): EmailNotificationDetail
+    {
+        return $this->emailNotificationDetail;
+    }
+
+    public function setEmailNotificationDetail(EmailNotificationDetail $emailNotificationDetail): CreateTagRequest
+    {
+        $this->emailNotificationDetail = $emailNotificationDetail;
+
+        return $this;
+    }
+
+    /**
+     * @param Person ...$recipients
      * @return $this
      */
     public function setRecipients(Person ...$recipients): CreateTagRequest
@@ -146,7 +183,7 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param  int  $account_number
+     * @param int $account_number
      * @return $this
      */
     public function setAccountNumber(int $account_number): CreateTagRequest
@@ -160,7 +197,7 @@ class CreateTagRequest extends AbstractRequest
      */
     public function prepare(): array
     {
-        return [
+        $data = [
             'json' => [
                 'labelResponseOptions' => 'LABEL',
                 'requestedShipment' => [
@@ -189,11 +226,6 @@ class CreateTagRequest extends AbstractRequest
                             'returnType' => 'PRINT_RETURN_LABEL',
                         ],
                     ],
-                    'labelSpecification' => [
-                        'labelFormatType' => 'COMMON2D',
-                        'imageType' => 'PNG',
-                        'labelStockType' => 'PAPER_7X475',
-                    ],
                     'requestedPackageLineItems' => [$this->getLineItems()->prepare()],
                 ],
                 'accountNumber' => [
@@ -201,13 +233,23 @@ class CreateTagRequest extends AbstractRequest
                 ],
             ],
         ];
+
+        if (!empty($this->label)) {
+            $data['json']['requestedShipment']['labelSpecification'] = $this->label->prepare();
+        }
+
+        if (!empty($this->emailNotificationDetail)) {
+            $data['json']['requestedShipment']['emailNotificationDetail'] = $this->emailNotificationDetail->prepare();
+        }
+
+        return $data;
     }
 
     /**
-     * @return mixed|\Psr\Http\Message\ResponseInterface|void
+     * @return mixed|ResponseInterface|void
      * @throws MissingAccountNumberException
      * @throws MissingLineItemException
-     * @throws \FedexRest\Exceptions\MissingAccessTokenException
+     * @throws MissingAccessTokenException|GuzzleException
      */
     public function request()
     {
