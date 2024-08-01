@@ -7,7 +7,6 @@ class ImageDocument
     public string $referenceId;
     public string $name;
     public string $contentType;
-    public Rule $rules;
     public ImageMeta $meta;
 
     public function setReferenceId(string $referenceId): ImageDocument
@@ -33,22 +32,13 @@ class ImageDocument
         return $this;
     }
 
-    public function setRules(Rule $rule): ImageDocument
-    {
-        $this->rules = $rule;
-        return $this;
-    }
-
     public function prepare(): array
     {
         return [
-            'document' => [
-                'referenceId' => $this->referenceId,
-                'name' => $this->name,
-                'contentType' => $this->contentType,
-                'meta' => $this->meta->prepare(),
-            ],
-            'rules' => $this->rules->prepare(),
+            'referenceId' => $this->referenceId,
+            'name' => $this->name,
+            'contentType' => $this->contentType,
+            'meta' => $this->meta->prepare(),
         ];
     }
 }

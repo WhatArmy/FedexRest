@@ -5,6 +5,7 @@ namespace FedexRest\Services\TradeDocument;
 use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Services\AbstractRequest;
 use FedexRest\Services\TradeDocument\Entity\ImageDocument;
+use FedexRest\Services\TradeDocument\Entity\Rule;
 use GuzzleHttp\Exception\GuzzleException;
 
 class UploadImages extends AbstractRequest
@@ -15,6 +16,8 @@ class UploadImages extends AbstractRequest
     protected string $content_type = 'multipart/form-data';
     public string $attachment;
     public ImageDocument $document;
+
+    public Rule $rules;
 
     public function setAttachment(string $attachment): UploadImages
     {
@@ -28,8 +31,23 @@ class UploadImages extends AbstractRequest
         return $this;
     }
 
+    public function setRules(Rule $rules): UploadImages
+    {
+        $this->rules = $rules;
+        return $this;
+    }
+
     public function prepare(): array {
+        $document = [
+            'document' => $this->document->prepare(),
+            'rules' => $this->rules->prepare(),
+        ];
+        // The order of the parameters in the request is fixed. You have to put the "document" param before the "attachment" param.
         return [
+            [
+                'name' => 'document',
+                'contents' => json_encode($document)
+            ],
             [
                 'name' => 'attachment',
                 'contents' => $this->attachment,
@@ -37,10 +55,6 @@ class UploadImages extends AbstractRequest
                 'headers' => [
                     'Content-Type' => $this->document->contentType
                 ]
-            ],
-            [
-                'name' => 'document',
-                'contents' => json_encode($this->document->prepare())
             ]
         ];
     }
