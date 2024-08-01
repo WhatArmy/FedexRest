@@ -24,6 +24,9 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
    - [x] [Location Search API](#find-locations) ([docs](https://developer.fedex.com/api/en-us/catalog/locations/v1/docs.html))
 - [ ] Ground End of Day Close API
 - [ ] Pickup Request API
+  - [x] Create Pickup
+  - [x] Cancel Pickup
+  - [ ] Check Pickup Availability
 - [ ] Postal Code Validation API
 - [x] Rate Quotes API
 - [ ] Service Availability API
