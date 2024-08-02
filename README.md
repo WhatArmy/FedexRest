@@ -27,6 +27,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Postal Code Validation API
 - [x] Rate Quotes API
 - [ ] Service Availability API
+- [ ] Trade Documents Upload API
 
 ### Other
 - [x] [oAuth authorization](#authorization)
