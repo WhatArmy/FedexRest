@@ -16,8 +16,6 @@ abstract class AbstractRequest implements RequestInterface
 
     public string $api_endpoint = '';
     protected string $access_token;
-
-    protected string $content_type = 'application/json';
     protected Client $http_client;
 
     /**
@@ -67,7 +65,7 @@ abstract class AbstractRequest implements RequestInterface
         $this->http_client = new Client([
             'headers' => [
                 'Authorization' => "Bearer {$this->access_token}",
-                'Content-Type' => $this->content_type
+                'Content-Type' => 'application/json'
             ],
         ]);
     }

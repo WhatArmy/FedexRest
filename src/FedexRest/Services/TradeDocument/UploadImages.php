@@ -13,7 +13,6 @@ class UploadImages extends AbstractRequest
 
     protected string $production_url = 'https://documentapi.prod.fedex.com';
     protected string $testing_url = 'https://documentapitest.prod.fedex.com/sandbox';
-    protected string $content_type = 'multipart/form-data';
     public string $attachment;
     public ImageDocument $document;
 
