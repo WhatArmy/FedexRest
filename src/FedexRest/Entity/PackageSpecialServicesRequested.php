@@ -2,12 +2,16 @@
 
 namespace FedexRest\Entity;
 
+use FedexRest\Services\Ship\Type\PackageSpecialServiceType;
+
 class PackageSpecialServicesRequested
 {
 
   public array $specialServiceTypes;
   public ?DangerousGoodsDetail $dangerousGoodsDetail;
   public ?Weight $dryIceWeight;
+  public ?$signatureOptionType;
+  public ?PackageSpecialServiceType $dangerousGoods;
 
   /**
    * @param array $specialServiceTypes
@@ -38,6 +42,16 @@ class PackageSpecialServicesRequested
     $this->dangerousGoodsDetail = $dangerousGoodsDetail;
     return $this;
   }
+  
+  /**
+   * @param ?DangerousGoods $dangerousGoods
+   * @return $this
+   */
+  public function setDangerousGoods(?PackageSpecialServiceType $dangerousGoods): PackageSpecialServicesRequested
+  {
+    $this->dangerousGoods = $dangerousGoods;
+    return $this;
+  }
 
   /**
    * @param ?Weight $dryIceWeight
@@ -48,12 +62,26 @@ class PackageSpecialServicesRequested
     $this->dryIceWeight = $dryIceWeight;
     return $this;
   }
-
+  
+  /**
+   * @param ?PackageSpecialServiceType $signatureOptionType
+   * @return $this
+   */
+  public function setSignatureOptionType(?PackageSpecialServiceType $signatureOptionType): PackageSpecialServicesRequested {
+    $this->signatureOptionType = $signatureOptionType;
+    return $this;
+  
+  }
+  
   public function prepare(): array {
     $data = [];
 
-    if (!empty($this->setSpecialServiceTypes)) {
-      $data['specialServiceTypes'] = $this->setSpecialServiceTypes;
+    if (!empty($this->specialServiceTypes)) {
+      $data['specialServiceTypes'] = $this->specialServiceTypes;
+    }
+    
+    if (!empty($this->dangerousGoods)) {
+      $data['dangerousGoods'] = $this->dangerousGoods;
     }
 
     if (!empty($this->dangerousGoodsDetail)) {
@@ -63,7 +91,10 @@ class PackageSpecialServicesRequested
     if (!empty($this->dryIceWeight)) {
       $data['dryIceWeight'] = $this->dryIceWeight->prepare();
     }
-
+    
+    if (!empty($this->signatureOptionType)) {
+      $data['signatureOptionType'] = $this->signatureOptionType;
+    }
     return $data;
   }
 
