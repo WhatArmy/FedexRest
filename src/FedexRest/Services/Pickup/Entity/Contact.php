@@ -2,30 +2,11 @@
 
 namespace FedexRest\Services\Pickup\Entity;
 
-class Contact
+use FedexRest\Entity\Person;
+
+class Contact extends Person
 {
-    protected ?string $personName = null;
-    protected ?string $phoneNumber = null;
-    protected ?string $companyName = null;
     protected ?string $phoneExtension = null;
-
-    public function setPersonName(string $personName): Contact
-    {
-        $this->personName = $personName;
-        return $this;
-    }
-
-    public function setPhoneNumber(string $phoneNumber): Contact
-    {
-        $this->phoneNumber = $phoneNumber;
-        return $this;
-    }
-
-    public function setCompanyName(string $companyName): Contact
-    {
-        $this->companyName = $companyName;
-        return $this;
-    }
 
     /**
      * @return string|null
