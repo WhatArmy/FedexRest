@@ -13,7 +13,6 @@ class CancelPickup extends AbstractRequest
     protected ?string $remarks = null;
     protected ?string $carrierCode = null;
     protected ?AccountAddressOfRecord $accountAddressOfRecord = null;
-    /** 2019-10-15 */
     protected string $scheduledDate;
     protected ?string $location = null;
 
