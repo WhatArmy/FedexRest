@@ -6,7 +6,6 @@ class OriginDetail
 {
     protected ?string $pickupAddressType = null;
     protected PickupLocation $pickupLocation;
-    /** 2015-03-25T09:30:00  */
     protected string $readyDateTimestamp;
     protected string $customerCloseTime;
     protected ?string $pickupDateType = null;
