@@ -2,7 +2,7 @@
 
 namespace FedexRest\Services\Pickup\Entity;
 
-class EmailDetail
+class EmailAddress
 {
     protected string $address;
     protected ?string $locale = null;
@@ -12,7 +12,7 @@ class EmailDetail
         return $this->address;
     }
 
-    public function setAddress(string $address): EmailDetail
+    public function setAddress(string $address): EmailAddress
     {
         $this->address = $address;
         return $this;
@@ -23,7 +23,7 @@ class EmailDetail
         return $this->locale;
     }
 
-    public function setLocale(?string $locale): EmailDetail
+    public function setLocale(?string $locale): EmailAddress
     {
         $this->locale = $locale;
         return $this;

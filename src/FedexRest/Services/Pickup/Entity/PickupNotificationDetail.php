@@ -6,27 +6,27 @@ class PickupNotificationDetail
 {
 
     /**
-     * @var EmailDetail[]
+     * @var EmailAddress[]
      */
-    protected array $emailDetails = [];
+    protected array $emailAddresses = [];
     protected ?string $format = null;
     protected ?string $userMessage = null;
 
     /**
-     * @return array
+     * @return EmailAddress[]
      */
-    public function getEmailDetails(): array
+    public function getEmailAddresses(): array
     {
-        return $this->emailDetails;
+        return $this->emailAddresses;
     }
 
     /**
-     * @param array $emailDetails
+     * @param EmailAddress[] $emailAddresses
      * @return PickupNotificationDetail
      */
-    public function setEmailDetails(array $emailDetails): PickupNotificationDetail
+    public function setEmailAddresses(array $emailAddresses): PickupNotificationDetail
     {
-        $this->emailDetails = $emailDetails;
+        $this->emailAddresses = $emailAddresses;
         return $this;
     }
 
@@ -71,8 +71,8 @@ class PickupNotificationDetail
         $data = [
             'emailDetails' => [],
         ];
-        foreach ($this->emailDetails as $detail) {
-            $data['emailDetails'][] = $detail->prepare();
+        foreach ($this->emailAddresses as $emailAddress) {
+            $data['emailDetails'][] = $emailAddress->prepare();
         }
         if (!empty($this->format)) {
             $data['format'] = $this->format;
