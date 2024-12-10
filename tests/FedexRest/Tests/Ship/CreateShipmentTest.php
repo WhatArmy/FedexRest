@@ -65,7 +65,7 @@ class CreateShipmentTest extends TestCase
         try {
             $request = (new CreateShipment())
                 ->setAccessToken((string)$this->auth->authorize()->access_token)
-                ->setAccountNumber(740561073)
+                ->setAccountNumber('740561073')
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
                 ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
@@ -130,7 +130,7 @@ class CreateShipmentTest extends TestCase
         try {
             $request = (new CreateShipment())
                 ->setAccessToken((string)$this->auth->authorize()->access_token)
-                ->setAccountNumber(740561073)
+                ->setAccountNumber('740561073')
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
                 ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
@@ -192,7 +192,7 @@ class CreateShipmentTest extends TestCase
         try {
             $request = (new CreateShipment)
                 ->setAccessToken((string)$this->auth->authorize()->access_token)
-                ->setAccountNumber(740561073)
+                ->setAccountNumber('740561073')
                 ->setServiceType(ServiceType::_FEDEX_GROUND)
                 ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
                 ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -241,7 +241,7 @@ class CreateShipmentTest extends TestCase
     {
         $shipment = (new CreateShipment())
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
             ->setShippingChargesPayment((new ShippingChargesPayment())
@@ -275,7 +275,7 @@ class CreateShipmentTest extends TestCase
     {
         $request = (new CreateShipment)
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
             ->setPackagingType(PackagingType::_YOUR_PACKAGING)
@@ -362,7 +362,7 @@ class CreateShipmentTest extends TestCase
     {
         $shipment = (new CreateShipment())
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setLabelResponseOptions(LabelResponseOptionsType::_URL_ONLY)
             ->setPackagingType(PackagingType::_YOUR_PACKAGING)

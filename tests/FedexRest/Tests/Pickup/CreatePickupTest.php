@@ -44,7 +44,7 @@ class CreatePickupTest extends TestCase
     {
         $pickup = (new CreatePickup())
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAssociatedAccountNumber(740561073)
+            ->setAssociatedAccountNumber('740561073')
             ->setOriginDetail(
                 (new OriginDetail())->setPickupLocation(
                     (new PickupLocation())->setContact(

@@ -8,7 +8,7 @@ use FedexRest\Services\Pickup\Entity\AccountAddressOfRecord;
 class CancelPickup extends AbstractRequest
 {
 
-    protected int $associatedAccountNumber;
+    protected ?string $associatedAccountNumber = null;
     protected string $pickupConfirmationCode;
     protected ?string $remarks = null;
     protected ?string $carrierCode = null;
@@ -17,18 +17,18 @@ class CancelPickup extends AbstractRequest
     protected ?string $location = null;
 
     /**
-     * @return int
+     * @return ?string
      */
-    public function getAssociatedAccountNumber(): int
+    public function getAssociatedAccountNumber(): ?string
     {
         return $this->associatedAccountNumber;
     }
 
     /**
-     * @param int $associatedAccountNumber
+     * @param string|null $associatedAccountNumber
      * @return CancelPickup
      */
-    public function setAssociatedAccountNumber(int $associatedAccountNumber): CancelPickup
+    public function setAssociatedAccountNumber(?string $associatedAccountNumber): CancelPickup
     {
         $this->associatedAccountNumber = $associatedAccountNumber;
         return $this;

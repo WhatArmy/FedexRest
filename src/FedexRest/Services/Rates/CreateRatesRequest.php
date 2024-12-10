@@ -24,7 +24,7 @@ class CreateRatesRequest extends AbstractRequest
     protected array $rateRequestTypes;
     protected string $packagingType = '';
     protected string $pickupType = '';
-    protected int $accountNumber;
+    protected ?string $accountNumber = null;
     protected array $lineItems = [];
     protected ShipmentSpecialServices $shipmentSpecialServices;
     protected ShippingChargesPayment $shippingChargesPayment;
@@ -155,10 +155,10 @@ class CreateRatesRequest extends AbstractRequest
     }
 
     /**
-     * @param int $accountNumber
+     * @param string|null $accountNumber
      * @return $this
      */
-    public function setAccountNumber(int $accountNumber): CreateRatesRequest
+    public function setAccountNumber(?string $accountNumber): CreateRatesRequest
     {
         $this->accountNumber = $accountNumber;
         return $this;
