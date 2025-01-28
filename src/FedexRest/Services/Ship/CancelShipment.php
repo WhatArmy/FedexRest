@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class CancelShipment extends AbstractRequest
 {
-    protected int $accountNumber;
+    protected ?string $accountNumber = null;
     protected string $trackingNumber;
 
     public function setApiEndpoint(): string
@@ -19,10 +19,10 @@ class CancelShipment extends AbstractRequest
     }
 
     /**
-     * @param int $accountNumber
+     * @param string|null $accountNumber
      * @return $this
      */
-    public function setAccountNumber(int $accountNumber): CancelShipment
+    public function setAccountNumber(?string $accountNumber): CancelShipment
     {
         $this->accountNumber = $accountNumber;
         return $this;

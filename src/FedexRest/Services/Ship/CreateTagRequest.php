@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class CreateTagRequest extends AbstractRequest
 {
-    protected int $account_number;
+    protected ?string $account_number = null;
     protected Person $shipper;
     protected array $recipients;
     protected ?Item $line_items;
@@ -183,10 +183,10 @@ class CreateTagRequest extends AbstractRequest
     }
 
     /**
-     * @param int $account_number
+     * @param string|null $account_number
      * @return $this
      */
-    public function setAccountNumber(int $account_number): CreateTagRequest
+    public function setAccountNumber(?string $account_number): CreateTagRequest
     {
         $this->account_number = $account_number;
         return $this;
