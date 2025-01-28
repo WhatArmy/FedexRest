@@ -2,6 +2,7 @@
 
 namespace FedexRest\Entity;
 
+use FedexRest\Entity\CustomerReference;
 use FedexRest\Services\Ship\Entity\Value;
 
 class Item
@@ -14,6 +15,7 @@ class Item
     public ?string $subPackagingType;
     public ?Value $declaredValue;
     public ?PackageSpecialServicesRequested $packageSpecialServices;
+    public array $customerReferences = [];
 
     /**
      * @param  string  $itemDescription
@@ -95,6 +97,26 @@ class Item
     return $this;
   }
 
+  /**
+   * @param  CustomerReference[]  $customerReferences
+   * @return Item
+   */
+  public function setCustomerReferences(array $customerReferences): Item
+  {
+      $this->customerReferences = $customerReferences;
+      return $this;
+  }
+
+  /**
+   * @param  CustomerReference  $customerReference
+   * @return Item
+   */
+  public function addCustomerReference(CustomerReference $customerReference): Item
+  {
+      $this->customerReferences[] = $customerReference;
+      return $this;
+  }
+
     public function prepare(): array
     {
         $data = [];
@@ -129,6 +151,14 @@ class Item
 
         if (!empty($this->packageSpecialServices)) {
             $data['packageSpecialServices'] = $this->packageSpecialServices->prepare();
+        }
+
+        if (!empty($this->customerReferences)) {
+            $customerReferences = [];
+            foreach ($this->customerReferences as $customerReference) {
+                $customerReferences[] = $customerReference->prepare();
+            }
+            $data['customerReferences'] = $customerReferences;
         }
 
         return $data;
