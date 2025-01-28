@@ -2,35 +2,37 @@
 
 namespace FedexRest\Tests\Ship;
 
-use FedexRest\Authorization\Authorize;
-use FedexRest\Entity\Address;
-use FedexRest\Entity\Dimensions;
-use FedexRest\Entity\EmailNotificationRecipient;
 use FedexRest\Entity\Item;
-use FedexRest\Exceptions\MissingAccessTokenException;
-use FedexRest\Exceptions\MissingAuthCredentialsException;
-use FedexRest\Exceptions\MissingLineItemException;
-use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
-use FedexRest\Services\Ship\Entity\Label;
 use FedexRest\Entity\Person;
-use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
 use FedexRest\Entity\Weight;
+use FedexRest\Entity\Address;
+use PHPUnit\Framework\TestCase;
+use FedexRest\Entity\Dimensions;
+use FedexRest\Authorization\Authorize;
+use FedexRest\Entity\CustomerReference;
+use FedexRest\Services\Ship\Entity\Label;
+use GuzzleHttp\Exception\GuzzleException;
+use FedexRest\Services\Ship\CreateShipment;
+use FedexRest\Services\Ship\Type\ImageType;
+use FedexRest\Services\Ship\Type\PickupType;
+use FedexRest\Services\Ship\Type\LinearUnits;
+use FedexRest\Services\Ship\Type\ServiceType;
+use FedexRest\Services\Ship\Type\WeightUnits;
+use FedexRest\Services\Ship\Type\PackagingType;
+use FedexRest\Entity\EmailNotificationRecipient;
+use FedexRest\Services\Ship\Type\LabelStockType;
+use FedexRest\Exceptions\MissingLineItemException;
+use FedexRest\Services\Ship\Type\LabelDocOptionType;
+use FedexRest\Exceptions\MissingAccessTokenException;
 use FedexRest\Exceptions\MissingAccountNumberException;
+use FedexRest\Exceptions\MissingAuthCredentialsException;
+use FedexRest\Services\Ship\Entity\ShippingChargesPayment;
+use FedexRest\Services\Ship\Type\LabelResponseOptionsType;
+use FedexRest\Services\Ship\Entity\EmailNotificationDetail;
 use FedexRest\Services\Ship\Exceptions\MissingLabelException;
 use FedexRest\Services\Ship\Exceptions\MissingLabelResponseOptionsException;
 use FedexRest\Services\Ship\Exceptions\MissingShippingChargesPaymentException;
-use FedexRest\Services\Ship\CreateShipment;
-use FedexRest\Services\Ship\Type\ImageType;
-use FedexRest\Services\Ship\Type\LabelDocOptionType;
-use FedexRest\Services\Ship\Type\LabelResponseOptionsType;
-use FedexRest\Services\Ship\Type\LabelStockType;
-use FedexRest\Services\Ship\Type\LinearUnits;
-use FedexRest\Services\Ship\Type\PackagingType;
-use FedexRest\Services\Ship\Type\PickupType;
-use FedexRest\Services\Ship\Type\ServiceType;
-use FedexRest\Services\Ship\Type\WeightUnits;
-use GuzzleHttp\Exception\GuzzleException;
-use PHPUnit\Framework\TestCase;
+use FedexRest\Services\Ship\Type\CustomerReferenceType;
 
 class CreateShipmentTest extends TestCase
 {
@@ -413,6 +415,14 @@ class CreateShipmentTest extends TestCase
                     ->setLength(12)
                     ->setHeight(12)
                     ->setUnits(LinearUnits::_INCH)
+                )->addCustomerReference(
+                    (new CustomerReference())
+                        ->setType(CustomerReferenceType::_CUSTOMER_REFERENCE)
+                        ->setValue('123456')
+                )->addCustomerReference(
+                    (new CustomerReference())
+                        ->setType(CustomerReferenceType::_INVOICE_NUMBER)
+                        ->setValue('INVOICE')
                 )
             )
             ->setEmailNotificationDetail((new EmailNotificationDetail)
@@ -441,6 +451,8 @@ class CreateShipmentTest extends TestCase
         $this->assertNotEmpty($new_shipment->pieceResponses);
         $this->assertNotEmpty($new_shipment->completedShipmentDetail);
         $this->assertEquals('GROUND', $new_shipment->serviceCategory);
+        $this->assertNotEmpty($new_shipment->pieceResponses[0]->customerReferences);
+
     }
 
 }
