@@ -12,10 +12,10 @@ class CancelFreightLTLPickup extends AbstractRequest
 {
     protected string $associatedAccountNumber = '';
     protected string $pickupConfirmationCode = '';
-    protected string $remarks = '';
+    protected ?string $remarks = null;
     protected string $reason = '';
     protected string $contactName = '';
-    protected string $scheduledDate = '';
+    protected ?string $scheduledDate = null;
 
 	public function setApiEndpoint(): string
 	{
@@ -84,17 +84,25 @@ class CancelFreightLTLPickup extends AbstractRequest
 
     public function prepare(): array
     {
-        return [
-            'associatedAccountNumber' => 
-            [
-                'value' => $this->associatedAccountNumber
-            ],
-            'pickupConfirmationCode' => $this->pickupConfirmationCode,
-            'remarks' => $this->remarks,
-            'reason' => $this->reason,
-            'contactName' => $this->contactName,
-            'scheduledDate' => $this->scheduledDate,
+        $data = [
+                'associatedAccountNumber' => 
+                    [
+                        'value' => $this->associatedAccountNumber
+                    ],
+                'pickupConfirmationCode' => $this->pickupConfirmationCode,
+                'reason' => $this->reason,
+                'contactName' => $this->contactName,
         ];
+
+        if(!empty($this->remarks)){
+            $data['remarks'] = $this->remarks;
+        }
+
+        if(!empty($this->scheduledDate)){
+            $data['scheduledDate'] = $this->scheduledDate;
+        }
+
+        return $data;
     }
 
     /**

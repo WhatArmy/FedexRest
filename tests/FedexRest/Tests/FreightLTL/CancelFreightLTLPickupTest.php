@@ -129,7 +129,7 @@ class CancelFreightLTLPickupTest extends TestCase
             ->setContactName('John Doe')
             ->setScheduledDate('2020-10-07')
             ->request();
-        var_dump($request);
+        //var_dump($request);
 
         $this->assertObjectHasProperty('transactionId', $request);
         //As per FedEx Rep, Can Freight LTL Pickup will ALWAYS return in an error due to virtulizaed. They may change that in the future.
