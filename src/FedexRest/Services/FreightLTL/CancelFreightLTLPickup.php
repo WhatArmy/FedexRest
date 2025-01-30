@@ -97,6 +97,13 @@ class CancelFreightLTLPickup extends AbstractRequest
         ];
     }
 
+    /**
+     * @throws MissingAssociatedAccountNumberException
+     * @throws MissingPickupConfirmationCodeException
+     * @throws MissingReasonException
+     * @throws MissingContactNameException
+     * @throws GuzzleException
+     */
     public function request()
     {
         parent::request();
