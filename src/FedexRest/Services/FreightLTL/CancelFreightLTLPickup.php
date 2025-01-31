@@ -85,10 +85,9 @@ class CancelFreightLTLPickup extends AbstractRequest
     public function prepare(): array
     {
         $data = [
-                'associatedAccountNumber' => 
-                    [
-                        'value' => $this->associatedAccountNumber
-                    ],
+                'associatedAccountNumber' => [
+                    'value' => $this->associatedAccountNumber
+                ],
                 'pickupConfirmationCode' => $this->pickupConfirmationCode,
                 'reason' => $this->reason,
                 'contactName' => $this->contactName,
