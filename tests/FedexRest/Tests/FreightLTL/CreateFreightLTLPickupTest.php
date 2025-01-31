@@ -193,7 +193,7 @@ class CreateFreightLTLPickupTest extends TestCase
 
     public function testRequest()
     {
-        $nextDayforPickup = date('Y-m-d', strtotime('+1 day')) . 'T08:00:00Z';
+        $nextDayforPickup = date('Y-m-d', strtotime('+2 weekdays')) . 'T08:00:00Z';
         $request = (new CreateFreightLTLPickup())
             ->setAccessToken((string) $this->auth->authorize()->access_token)
             ->setAssociatedAccountNumber('740561073')
