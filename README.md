@@ -33,7 +33,7 @@ FedEx Rest API documentation https://developer.fedex.com/api/en-us/get-started.h
 - [ ] Freight LTL API
    - [ ] Rate Freight LTL ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Freight%20RateQuote))
    - [ ] Ship Freight LTL ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Freight%20Shipment))
-   - [ ] Check Freight LTL Pickup Availability ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Check%20Freight%20Pickup%20Availability))
+   - [X] Check Freight LTL Pickup Availability ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Check%20Freight%20Pickup%20Availability))
    - [X] Create Freight LTL Pickup ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Create%20Freight%20Pickup))
    - [x] Cancel Freight LTL Pickup ([docs](https://developer.fedex.com/api/en-us/catalog/ltl-freight/v1/docs.html#operation/Cancel%20Freight%20Pickup))
 
