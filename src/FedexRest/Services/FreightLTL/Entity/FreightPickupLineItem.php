@@ -197,7 +197,7 @@ class FreightPickupLineItem
         return $this;
     }
 
-    public function prepare()
+    public function prepare(): array
     {
         $data = [];
 

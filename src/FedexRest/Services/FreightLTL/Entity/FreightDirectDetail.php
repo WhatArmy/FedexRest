@@ -16,7 +16,7 @@ class FreightDirectDetail
         return $this;
     }
 
-    public function prepare()
+    public function prepare(): array
     {
         $data = [
             'freightDirectDataDetails' => [],
