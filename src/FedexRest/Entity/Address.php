@@ -81,7 +81,8 @@ class Address
             $address['city'] = $this->city;
         }
         if (!empty($this->state_or_province)) {
-            $address['stateOrProvinceCode'] = $this->state_or_province;
+            // Truncate the state/provice code to work around a limitation in FedEx's API.
+            $address['stateOrProvinceCode'] = substr($this->state_or_province, 0, 2);
         }
         if (!empty($this->postal_code)) {
             $address['postalCode'] = $this->postal_code;
