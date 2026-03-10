@@ -25,7 +25,7 @@ class CancelPickupTest extends TestCase
     {
         $request = (new CancelPickup())
             ->setAccessToken((string) $this->auth->authorize()->access_token)
-            ->setAssociatedAccountNumber(740561073)
+            ->setAssociatedAccountNumber('740561073')
             ->setPickupConfirmationCode('1')
             ->setCarrierCode('FDXE')
             ->setScheduledDate('2020-07-03')

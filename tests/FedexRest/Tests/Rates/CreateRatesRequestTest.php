@@ -55,7 +55,7 @@ class CreateRatesRequestTest extends TestCase
     {
         $createRatesRequest = (new CreateRatesRequest())
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setRecipient(
                 (new Person)
@@ -89,7 +89,7 @@ class CreateRatesRequestTest extends TestCase
     {
         $request = (new CreateRatesRequest)
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setServiceType(ServiceType::_FEDEX_GROUND)
             ->setPackagingType(PackagingType::_YOUR_PACKAGING)
             ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
@@ -150,7 +150,7 @@ class CreateRatesRequestTest extends TestCase
     {
         $request = (new CreateRatesRequest)
             ->setAccessToken((string)$this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setRateRequestTypes('ACCOUNT', 'LIST')
             ->setPickupType(PickupType::_DROPOFF_AT_FEDEX_LOCATION)
             ->setShipper(

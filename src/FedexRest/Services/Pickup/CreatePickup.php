@@ -11,7 +11,7 @@ use FedexRest\Services\AbstractRequest;
 
 class CreatePickup extends AbstractRequest
 {
-    protected int $associatedAccountNumber;
+    protected ?string $associatedAccountNumber = null;
     protected OriginDetail $originDetail;
     protected ?string $associatedAccountNumberType = null;
     protected ?Weight $totalWeight = null;
@@ -28,18 +28,18 @@ class CreatePickup extends AbstractRequest
     protected ?PickupNotificationDetail $pickupNotificationDetail = null;
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getAssociatedAccountNumber(): int
+    public function getAssociatedAccountNumber(): ?string
     {
         return $this->associatedAccountNumber;
     }
 
     /**
-     * @param int $associatedAccountNumber
+     * @param string|null $associatedAccountNumber
      * @return CreatePickup
      */
-    public function setAssociatedAccountNumber(int $associatedAccountNumber): CreatePickup
+    public function setAssociatedAccountNumber(?string $associatedAccountNumber): CreatePickup
     {
         $this->associatedAccountNumber = $associatedAccountNumber;
         return $this;

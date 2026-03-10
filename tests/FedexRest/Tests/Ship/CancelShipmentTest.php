@@ -40,7 +40,7 @@ class CancelShipmentTest extends TestCase
         try {
             $request = (new CancelShipment())
                 ->setAccessToken((string) $this->auth->authorize()->access_token)
-                ->setAccountNumber(740561073)
+                ->setAccountNumber('740561073')
                 ->request();
 
         } catch (MissingTrackingNumberException $e) {
@@ -53,7 +53,7 @@ class CancelShipmentTest extends TestCase
     {
         $request = (new CancelShipment)
             ->setAccessToken((string) $this->auth->authorize()->access_token)
-            ->setAccountNumber($accountNumber = 740561073)
+            ->setAccountNumber($accountNumber = '740561073')
             ->setTrackingNumber($trackingNumber = 794953555571);
 
         $this->assertEquals($accountNumber, $request->prepare()['accountNumber']['value']);
@@ -64,7 +64,7 @@ class CancelShipmentTest extends TestCase
     {
         $cancelShipment = (new CancelShipment)
             ->setAccessToken((string) $this->auth->authorize()->access_token)
-            ->setAccountNumber(740561073)
+            ->setAccountNumber('740561073')
             ->setTrackingNumber(794953555571);
 
         $request = $cancelShipment->request();
